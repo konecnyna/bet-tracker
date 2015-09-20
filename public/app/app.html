@@ -1,0 +1,30 @@
+<div ng-controller="cardsCtrl">
+	<div ng-repeat="card in cards">
+		<div class="col-md-6">
+	  		<div class="card text-center" style="background-color:{{card.card_background}}">
+	  			<div class="col-md-12" style="padding:15px;">
+	  				<div class="col-md-4">
+	  				</div>
+	  				<div class="col-md-4">
+	  					{{card.hnn}}
+	  				</div>
+					<div class="col-md-4">
+	  					{{card.vnn}}									
+	  				</div>
+  				</div>
+	  			<div class="col-md-12" style="padding:15px;">
+	  				<div class="col-md-4">
+	  					{{card.d}} at {{card.t}}
+	  				</div>
+	  				<div class="col-md-4">
+	  					{{card.hs}}
+	  				</div>
+					<div class="col-md-4">
+	  					{{card.vs}}									
+	  				</div>
+  				</div>
+
+			</div>  
+		</div>
+	</div>
+</div>
