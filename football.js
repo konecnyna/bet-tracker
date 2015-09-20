@@ -1,5 +1,8 @@
 var utils = require('./utils.js');
 var SCORE_URL = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
+fs = require('fs');
+var PICKS_FILE_NAME = "picks.json";
+var path = require('path');
 
 var picks = {};
 picks.texans = {spread : "4"};
@@ -13,16 +16,28 @@ picks.packers = {spread : "4"};
 module.exports = {
   getScores: function (callback) {
   	getScores(callback);
+  },
+  getPicks: function (callback) {
+  	getPicks(callback);
   }
 };
 
 function getScores(callback) {
-	utils.downloadFile(SCORE_URL, function(data){
-		var games = JSON.parse(data);
-		callback(getRelevantTeams(games.gms));
-		//callback(games);
+	// fs.writeFile(PICKS_FILE_NAME, JSON.stringify(picks), function (err) {
+	//   if (err) return console.log(err);
+	//   console.log('wrote picks to disk');
+	// });
+	getPicks(function(loadedPicks){
+		picks = loadedPicks;
 
-	});
+		
+		if(picks){
+			utils.downloadFile(SCORE_URL, function(data){
+				var games = JSON.parse(data);
+				callback(getRelevantTeams(games.gms));
+			});
+		}
+	});	
 }
 
 function getRelevantTeams(data){
@@ -64,6 +79,7 @@ function addSpreadData(games){
 		//Add extras
 		if(games[i].q === 'P'){
 			games[i].covering_text = "Not in progress";
+			games[i].time_text = games[i].d + " at " + games[i].t;
 		}else{
 			games[i].bet_team = betTeam;
 			covering = (betTeamScore + parseInt(picks[betTeam].spread)) - otherTeamScore;
@@ -75,6 +91,21 @@ function addSpreadData(games){
 				games[i].covering_text = "Losing!";
 				games[i].card_background = "#ff0000";
 			}
-		}		
+
+			games[i].time_text = games[i].q + ": " + games[i].k;
+ 		}		
 	}
+}
+
+
+function getPicks(callback){
+   var filePath = path.join(__dirname, PICKS_FILE_NAME);
+   fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+       if (!err){
+			callback(JSON.parse(data));        
+       }else{
+           console.log(err);           
+       }
+
+   });
 }

@@ -6,18 +6,42 @@
         <script type='text/javascript' src="lib/angular.min.js" charset="UTF-8"></script>       
         <script type='text/javascript' src="app.js" charset="UTF-8"></script>
         <script type='text/javascript' src="app/cardController.js" charset="UTF-8"></script>
-    
+        <script type='text/javascript' src="app/picksController.js" charset="UTF-8"></script>    
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
     </head>
     <body>
         <div class="container">
-              <div ng-include="'app/app.html'"></div> 
+            <div ng-include="'app/app.html'"></div> 
+            <!-- <div ng-include="'app/picks.html'"></div>             -->
+            
+            <div class="row center">
+                <button data-target="modal1" class="btn modal-trigger">Edit Picks</button>
+            </div>
+            
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal modal-fixed-footer" ng-controller="picksCtrl">
+                 <div class="modal-content">
+                    <textarea>{{picks}}</textarea>                    
+                 </div>
+                 <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
+                 </div>
+            </div>
+
         </div>
     </body>
+
+    <script>
+       $(document).ready(function() {
+         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+         $('.modal-trigger').leanModal();
+       });
+    </script>
 </html>
  
