@@ -15,10 +15,10 @@ app.get('/api/v1/nfl', function(req, res) {
 });
 
 app.get('/api/v1/get_picks', function(req, res) {
-	res.json({"sort":"date"});
- // football.getPicks(function(callback){
- //      res.json(callback);
- //   });
+//	res.json({"sort":"date"});
+ football.getPicks(function(callback){
+      res.json(callback);
+   });
 });
 
 app.get('/api/v1/predictions', function(req, res) {

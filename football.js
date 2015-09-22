@@ -99,11 +99,15 @@ function addSpreadData(games){
 
 
 function getPicks(callback){
+	//console.log(picks);
+	callback(picks);
+	return;
    var filePath = path.join(__dirname, PICKS_FILE_NAME);
    fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
        if (!err){
 			callback(JSON.parse(data));        
        }else{
+       		callback(JSON.parse(picks));
            console.log(err);           
        }
 
