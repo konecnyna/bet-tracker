@@ -15,9 +15,10 @@ app.get('/api/v1/nfl', function(req, res) {
 });
 
 app.get('/api/v1/get_picks', function(req, res) {
- football.getPicks(function(callback){
-      res.json(callback);
-   });
+	res.json({"sort":"date"});
+ // football.getPicks(function(callback){
+ //      res.json(callback);
+ //   });
 });
 
 app.get('/api/v1/predictions', function(req, res) {
@@ -27,14 +28,17 @@ app.get('/api/v1/predictions', function(req, res) {
 });
 
 app.get('/api/v1/update_picks', function(req, res) {
-	//if(JSON.parse(req.query.picks)){
+	console.log(req.query.picks);
+	if(JSON.parse(req.query.picks)){
 		fs.writeFile(PICKS_FILE_NAME, JSON.stringify(req.query.picks), function (err) {
 		  if (err) return console.log(err);
 
 	  	  res.send('Success!');
 		  console.log('wrote picks to disk');
 		});
-	//}
+	}else{
+		res.send("fail!");
+	}
 
 });
 

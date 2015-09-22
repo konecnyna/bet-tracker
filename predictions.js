@@ -3,8 +3,8 @@ var util = require('util');
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
-var positions = ["QB", "RB", "WR", "TE", "K"];
-var base_url = "http://www.fantasyfootballnerd.com/service/weekly-projections/json/test/%s/2/"
+var positions = ["QB", "RB", "WR", "K"]; //, "TE"
+var base_url = "http://www.fantasyfootballnerd.com/service/weekly-projections/json/test/%s/3/"
 module.exports = {
   getScores: function (callback) {
   	getScores(callback);

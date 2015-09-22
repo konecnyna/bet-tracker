@@ -27,7 +27,7 @@
             <!-- Modal Structure -->
             <div id="modal1" class="modal modal-fixed-footer" ng-controller="picksCtrl">
                  <div class="modal-content">
-                    <textarea>{{picks}}</textarea>                    
+                    <textarea id="json-picks">{{picks}}</textarea>                    
                  </div>
                  <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
@@ -40,8 +40,26 @@
     <script>
        $(document).ready(function() {
          // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-         $('.modal-trigger').leanModal();
+        //$('.modal-trigger').leanModal();
+        $('.modal-trigger').leanModal({
+              dismissible: true, // Modal can be dismissed by clicking outside of the modal
+              opacity: .5, // Opacity of modal background
+              in_duration: 300, // Transition in duration
+              out_duration: 200, // Transition out duration
+              ready: function() {}, // Callback for Modal open
+              complete: function() {                
+                //var jsonObj = JSON.parse();
+                var jsonData = encodeURIComponent($('#json-picks').text());
+                $.get("api/v1/update_picks?picks="+jsonData, function( data ) {});              
+              }        
        });
+
+
+       });
+
+
+
+       //encodeURIComponent(
     </script>
 </html>
  
