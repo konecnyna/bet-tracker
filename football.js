@@ -5,12 +5,16 @@ var PICKS_FILE_NAME = "picks.json";
 var path = require('path');
 
 var picks = {};
-picks.texans = {spread : "4"};
-picks.bears = {spread : "3"};
-picks.browns = {spread : "-2"};
-picks.rams = {spread : "4"};
-picks.dolphins = {spread : "7"};
-picks.packers = {spread : "4"};
+// picks.texans = {spread : "4"};
+// picks.bears = {spread : "3"};
+// picks.browns = {spread : "-2"};
+// picks.rams = {spread : "4"};
+// picks.dolphins = {spread : "7"};
+// picks.packers = {spread : "4"};
+
+var blankPicks = {}
+blankPicks.game1 = { spread : "-4"};
+blankPicks.game2 = { spread : "7"};
 
 
 module.exports = {
@@ -29,8 +33,6 @@ function getScores(callback) {
 	// });
 	getPicks(function(loadedPicks){
 		picks = loadedPicks;
-
-		
 		if(picks){
 			utils.downloadFile(SCORE_URL, function(data){
 				var games = JSON.parse(data);
@@ -98,17 +100,14 @@ function addSpreadData(games){
 }
 
 
-function getPicks(callback){
-	//console.log(picks);
-	callback(picks);
-	return;
+function getPicks(callback){	
    var filePath = path.join(__dirname, PICKS_FILE_NAME);
    fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
        if (!err){
-			callback(JSON.parse(data));        
+			callback(JSON.parse(picks));        
        }else{
-       		callback(JSON.parse(picks));
-           console.log(err);           
+        	console.log(err);           	
+   			callback(blankPicks);
        }
 
    });
