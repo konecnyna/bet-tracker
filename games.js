@@ -1,7 +1,14 @@
 var utils = require('./utils.js');
+var util = require('util');
 var SCORE_URL = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
 var PICKS_FILE_NAME = "picks.json";
 var jsonfile = require('jsonfile');
+
+var COLOR_LOSING = "#FF5722";
+//var COLOR_WINNING = "#00C853";
+
+var COLOR_WINNING = "#FFF";
+var ICON_URL = "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/%s.png&h=100";	
 
 
 module.exports = {  
@@ -40,12 +47,15 @@ function addSpreadData(games, picks){
 		//Setup team vars.
 		var betTeam = "";
 		var betTeamScore = 0;
+		var isBetTeamHome = false;
 	
 		var otherTeam = "";
 		var otherTeamScore = 0;
 		if(picks[games[i].hnn.toLowerCase()]){
 			betTeam = games[i].hnn.toLowerCase();
 			betTeamScore = games[i].hs;
+			
+			isBetTeamHome = true;
 
 			otherTeam = games[i].vnn.toLowerCase();
 			otherTeamScore = games[i].vs;			
@@ -57,23 +67,37 @@ function addSpreadData(games, picks){
 			otherTeamScore = games[i].hs;
 		}
 
+
 		//Add extras
-		if(games[i].q === 'P'){
+		if(games[i].q !== 'P'){
 			games[i].covering_text = "Not in progress";
 			games[i].time_text = games[i].d + " at " + games[i].t;
 		}else{
-			games[i].bet_team = betTeam;
-			covering = (betTeamScore + parseInt(picks[betTeam].spread)) - otherTeamScore;
+			var spread = parseInt(picks[betTeam].spread);
+
+	 		if(isBetTeamHome){
+	 			games[i].hnn = games[i].hnn + " ("+spread+")";
+	 		}else{
+				games[i].vnn = games[i].vnn + " ("+spread+")";
+	 		}
+
+			games[i].bet_team = betTeam; 
+			covering = (betTeamScore + spread) - otherTeamScore;
 			games[i].covering = covering;
 			if(covering > 0){
 				games[i].covering_text = "Covering!";
-				games[i].card_background = "#00FF00";
+				games[i].card_background = COLOR_WINNING;
 			}else{
 				games[i].covering_text = "Losing!";
-				games[i].card_background = "#ff0000";
+				games[i].card_background = COLOR_LOSING;
 			}
 
 			games[i].time_text = games[i].q + ": " + games[i].k;
- 		}		
+
+
+			games[i].away_team_icon = util.format(ICON_URL, games[i].h);          
+         	games[i].home_team_icon = util.format(ICON_URL, games[i].v);
+ 		}	
+
 	}
 }

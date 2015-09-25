@@ -1,5 +1,4 @@
 var express = require('express');
-var football = require('./football.js');
 var games = require('./games.js');
 var predictions = require('./predictions.js');
 var app = express();

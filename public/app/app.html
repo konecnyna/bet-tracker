@@ -2,28 +2,21 @@
 	<div ng-repeat="card in cards">
 		<div class="col-md-6">
 	  		<div class="card text-center" style="background-color:{{card.card_background}}">
-	  			<div class="col-md-12" style="padding:15px;">
-	  				<div class="col-md-4">
-	  				</div>
-	  				<div class="col-md-4">
-	  					{{card.hnn}}
-	  				</div>
-					<div class="col-md-4">
-	  					{{card.vnn}}									
-	  				</div>
-  				</div>
-	  			<div class="col-md-12" style="padding:15px;">
-	  				<div class="col-md-4">
+	  			<div class="col-xs-12" style="padding:55px;">
+	  				<div class="col-xs-4">
 	  					{{card.time_text}}
 	  				</div>
-	  				<div class="col-md-4">
+	  				<div class="col-xs-4">
+	  					<img src="{{card.home_team_icon}}"/>
+	  					<h6>{{card.hnn}}</h6>
 	  					{{card.hs}}
 	  				</div>
-					<div class="col-md-4">
-	  					{{card.vs}}									
+					<div class="col-xs-4">
+						<img src="{{card.away_team_icon}}"/>
+	  					<h6>{{card.vnn}}</h6>
+	  					{{card.vs}}
 	  				</div>
   				</div>
-
 			</div>  
 		</div>
 	</div>
