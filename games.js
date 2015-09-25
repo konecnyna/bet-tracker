@@ -69,21 +69,19 @@ function addSpreadData(games, picks){
 
 
 		//Add extras
+
+		var spread = parseInt(picks[betTeam].spread);
+
+ 		if(isBetTeamHome){
+ 			games[i].hnn = games[i].hnn + " ("+spread+")";
+ 		}else{
+			games[i].vnn = games[i].vnn + " ("+spread+")";
+ 		}
+
+		games[i].bet_team = betTeam; 
+		covering = (betTeamScore + spread) - otherTeamScore;
+		games[i].covering = covering;
 		if(games[i].q !== 'P'){
-			games[i].covering_text = "Not in progress";
-			games[i].time_text = games[i].d + " at " + games[i].t;
-		}else{
-			var spread = parseInt(picks[betTeam].spread);
-
-	 		if(isBetTeamHome){
-	 			games[i].hnn = games[i].hnn + " ("+spread+")";
-	 		}else{
-				games[i].vnn = games[i].vnn + " ("+spread+")";
-	 		}
-
-			games[i].bet_team = betTeam; 
-			covering = (betTeamScore + spread) - otherTeamScore;
-			games[i].covering = covering;
 			if(covering > 0){
 				games[i].covering_text = "Covering!";
 				games[i].card_background = COLOR_WINNING;
@@ -91,13 +89,17 @@ function addSpreadData(games, picks){
 				games[i].covering_text = "Losing!";
 				games[i].card_background = COLOR_LOSING;
 			}
-
+		}
+		if(games[i].k){
 			games[i].time_text = games[i].q + ": " + games[i].k;
+		}else{
+			games[i].time_text = "Not in progress";
+		}
+		
 
-
-			games[i].away_team_icon = util.format(ICON_URL, games[i].h);          
-         	games[i].home_team_icon = util.format(ICON_URL, games[i].v);
- 		}	
+		games[i].away_team_icon = util.format(ICON_URL, games[i].h);          
+     	games[i].home_team_icon = util.format(ICON_URL, games[i].v);
+ 		
 
 	}
 }
