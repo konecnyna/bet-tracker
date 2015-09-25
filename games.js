@@ -1,44 +1,25 @@
 var utils = require('./utils.js');
 var SCORE_URL = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
-var fs = require('fs');
-var jsonfile = require('jsonfile');
 var PICKS_FILE_NAME = "picks.json";
-var path = require('path');
-
-// var picks = {};
-// picks.texans = {spread : "4"};
-// picks.bears = {spread : "3"};
-// picks.browns = {spread : "-2"};
-// picks.rams = {spread : "4"};
-// picks.dolphins = {spread : "7"};
-// picks.packers = {spread : "4"};
-
-var blankPicks = {};
-blankPicks.patriots = { spread : "-4"};
-blankPicks.game2 = { spread : "7"};
+var jsonfile = require('jsonfile');
 
 
-module.exports = {
-  getScores: function (callback) {
-  	getScores(callback);
-  },
-  getPicks: function (callback) {
-  	getPicks(callback);
-  },
+module.exports = {  
   getUIData: function (callback){
   	getUIData(callback);
   }
 };
 
-function getScores(callback) {
-	getPicks(function(loadedPicks){		
+function getUIData(callback) {
+	var picks = jsonfile.readFileSync(PICKS_FILE_NAME);
+	if(picks){
 		utils.downloadFile(SCORE_URL, function(data){
 			var games = JSON.parse(data);
-			callback(getRelevantTeams(games.gms, loadedPicks));
-		});
-
-	});	
+			callback(getRelevantTeams(games.gms, picks));
+		});	
+	}	
 }
+
 
 function getRelevantTeams(data, picks){
 	games = [];
@@ -95,9 +76,4 @@ function addSpreadData(games, picks){
 			games[i].time_text = games[i].q + ": " + games[i].k;
  		}		
 	}
-}
-
-
-function getPicks(callback){	
-	callback(jsonfile.readFileSync(PICKS_FILE_NAME));
 }

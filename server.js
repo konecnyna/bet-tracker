@@ -1,5 +1,6 @@
 var express = require('express');
 var football = require('./football.js');
+var games = require('./games.js');
 var predictions = require('./predictions.js');
 var app = express();
 var fs = require('fs');
@@ -9,16 +10,14 @@ var jsonfile = require('jsonfile');
 app.use(express.static(__dirname + '/public'));
 
 
-app.get('/api/v1/nfl', function(req, res) {    
- football.getScores(function(callback){
+app.get('/api/v1/scores', function(req, res) {    
+ 	games.getUIData(function(callback){
       res.json(callback);
-   });
+   	});
 });
 
-app.get('/api/v1/get_picks', function(req, res) {
- football.getPicks(function(callback){
-      res.json(callback);
-   });
+app.get('/api/v1/picks', function(req, res) {
+	res.json(jsonfile.readFileSync(PICKS_FILE_NAME));	
 });
 
 app.get('/api/v1/predictions', function(req, res) {
