@@ -1,10 +1,11 @@
 var utils = require('./utils.js');
 var SCORE_URL = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
-fs = require('fs');
+var fs = require('fs');
+var jsonfile = require('jsonfile');
 var PICKS_FILE_NAME = "picks.json";
 var path = require('path');
 
-var picks = {};
+// var picks = {};
 // picks.texans = {spread : "4"};
 // picks.bears = {spread : "3"};
 // picks.browns = {spread : "-2"};
@@ -12,8 +13,8 @@ var picks = {};
 // picks.dolphins = {spread : "7"};
 // picks.packers = {spread : "4"};
 
-var blankPicks = {}
-blankPicks.game1 = { spread : "-4"};
+var blankPicks = {};
+blankPicks.patriots = { spread : "-4"};
 blankPicks.game2 = { spread : "7"};
 
 
@@ -23,26 +24,23 @@ module.exports = {
   },
   getPicks: function (callback) {
   	getPicks(callback);
+  },
+  getUIData: function (callback){
+  	getUIData(callback);
   }
 };
 
 function getScores(callback) {
-	// fs.writeFile(PICKS_FILE_NAME, JSON.stringify(picks), function (err) {
-	//   if (err) return console.log(err);
-	//   console.log('wrote picks to disk');
-	// });
-	getPicks(function(loadedPicks){
-		picks = loadedPicks;
-		if(picks){
-			utils.downloadFile(SCORE_URL, function(data){
-				var games = JSON.parse(data);
-				callback(getRelevantTeams(games.gms));
-			});
-		}
+	getPicks(function(loadedPicks){		
+		utils.downloadFile(SCORE_URL, function(data){
+			var games = JSON.parse(data);
+			callback(getRelevantTeams(games.gms, loadedPicks));
+		});
+
 	});	
 }
 
-function getRelevantTeams(data){
+function getRelevantTeams(data, picks){
 	games = [];
 	for(var i=0; i<data.length; i++){
 		if( picks[data[i].vnn.toLowerCase()] || picks[data[i].hnn.toLowerCase()]){
@@ -50,13 +48,13 @@ function getRelevantTeams(data){
 		}
 	}
 
-	addSpreadData(games);
+	addSpreadData(games, picks);
 	
 	return games;
 }
 
 
-function addSpreadData(games){
+function addSpreadData(games, picks){
 	for(var i=0; i<games.length; i++){
 		//Setup team vars.
 		var betTeam = "";
@@ -101,14 +99,5 @@ function addSpreadData(games){
 
 
 function getPicks(callback){	
-   var filePath = path.join(__dirname, PICKS_FILE_NAME);
-   fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
-       if (!err){
-			callback(JSON.parse(picks));        
-       }else{
-        	console.log(err);           	
-   			callback(blankPicks);
-       }
-
-   });
+	callback(jsonfile.readFileSync(PICKS_FILE_NAME));
 }

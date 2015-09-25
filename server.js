@@ -5,6 +5,7 @@ var app = express();
 var fs = require('fs');
 var path = require('path');
 var PICKS_FILE_NAME = "picks.json";
+var jsonfile = require('jsonfile');
 app.use(express.static(__dirname + '/public'));
 
 
@@ -27,19 +28,25 @@ app.get('/api/v1/predictions', function(req, res) {
 });
 
 app.get('/api/v1/update_picks', function(req, res) {
-	console.log(req.query.picks);
-	if(JSON.parse(req.query.picks)){
-		fs.writeFile(PICKS_FILE_NAME, JSON.stringify(req.query.picks), function (err) {
-		  if (err) return console.log(err);
 
-	  	  res.send('Success!');
-		  console.log('wrote picks to disk');
+	try{
+		messageObject = JSON.parse(req.query.picks);
+		jsonfile.writeFile(PICKS_FILE_NAME, messageObject, function (err) {
+			if(err){
+				console.error("error: " + err);
+				res.send("got error");	
+			}else{
+				res.send("good");	
+			}				
 		});
-	}else{
+
+	}catch(e){		
+		console.log("Bad json: " + e);
 		res.send("fail!");
 	}
-
 });
+
+
 
 app.get('/', function(req, res){
   res.redirect('/index.html');

@@ -5,7 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "async": "^1.4.2",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "jsonfile": "^2.2.2"
   },
   "devDependencies": {},
   "scripts": {
