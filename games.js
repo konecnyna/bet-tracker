@@ -8,7 +8,7 @@ var COLOR_LOSING = "#FF5722";
 //var COLOR_WINNING = "#00C853";
 
 var COLOR_WINNING = "#FFF";
-var ICON_URL = "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/%s.png&h=75";	
+var ICON_URL = "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/%s.png&h=200";	
 
 
 module.exports = {  

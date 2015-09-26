@@ -6,7 +6,7 @@ var path = require('path');
 var positions = ["QB", "RB", "WR", "K", "TE"]; //, "TE"
 var base_url = "http://www.fantasyfootballnerd.com/service/weekly-projections/json/test/%s/3/";
 var schedule_url = "http://www.fantasyfootballnerd.com/service/schedule/json/ejwqdwezs7xi/";
-var DEBUG = true;
+var DEBUG = false;
 module.exports = {
   getScores: function (callback) {
   	getScores(callback);
@@ -27,7 +27,7 @@ function getScores(callback){
 		});
 
 	}, function done() {
-		//callback(gameScores);
+		
 	  	utils.downloadFile("http://www.fantasyfootballnerd.com/service/weekly-projections/json/ejwqdwezs7xi/def/3/", function(data){
 			var games = JSON.parse(data);
 			generateScores(games.Projections, gameScores);
@@ -43,7 +43,7 @@ function getScheduleAndApplyScores(callback, gameScores){
 		var games = JSON.parse(data);
 		var currentWeek = DEBUG ? '2' : games.currentWeek;
 
-		var currentWeekGames = []
+		var currentWeekGames = [];
 		for(var i=0; i<games.Schedule.length; i++){
 			var currentGame = games.Schedule[i];
 			if(currentGame.gameWeek === currentWeek){
