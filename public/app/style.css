@@ -23,7 +23,11 @@ img {
 }
 
 .football-card-header {
-	background: #3F51B5;
-	color: white;
-	padding: 10px;
+	background: #364C88;
+	color: white;	
+	padding: 16px;
+}
+
+.football-card-content {
+	padding-bottom: 16px;
 }
