@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app ="myApp">
     <head>
-        <title>AngularJS Basic Example</title>
+        <title>Bet Tracker</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <script type='text/javascript' src="lib/angular.min.js" charset="UTF-8"></script>       
         <script type='text/javascript' src="app.js" charset="UTF-8"></script>
@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+        <link rel="stylesheet" href="app/style.css">
     </head>
     <body>
         <div class="container">
@@ -25,7 +26,7 @@
             </div>
             
             <!-- Modal Structure -->
-            <div id="modal1" class="modal modal-fixed-footer" ng-controller="picksCtrl">
+            <div id="modal1" class="modal" ng-controller="picksCtrl">
                  <div class="modal-content">
                     <textarea id="json-picks">{{picks}}</textarea>                    
                  </div>

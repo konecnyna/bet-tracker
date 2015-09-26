@@ -1,0 +1,29 @@
+body {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+textarea {
+	height:100%;
+}
+
+img {
+	height: 100%;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.football-card {
+	max-width: 100%;
+	min-height: 175px;
+}
+
+.football-card-header {
+	background: #3F51B5;
+	color: white;
+	padding: 10px;
+}

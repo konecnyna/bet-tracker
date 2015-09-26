@@ -8,7 +8,7 @@ app.controller('cardsCtrl', function($scope, $timeout, $http){
             
             $scope.cards = data;
             //15 sex
-            $timeout(tick, 1000*15);
+            $timeout(tick, 1000*15*60);
 
           }).
           error(function(data, status, headers, config) {});

@@ -8,7 +8,7 @@ var COLOR_LOSING = "#FF5722";
 //var COLOR_WINNING = "#00C853";
 
 var COLOR_WINNING = "#FFF";
-var ICON_URL = "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/%s.png&h=100";	
+var ICON_URL = "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/%s.png&h=75";	
 
 
 module.exports = {  
@@ -93,12 +93,14 @@ function addSpreadData(games, picks){
 		if(games[i].k){
 			games[i].time_text = games[i].q + ": " + games[i].k;
 		}else{
-			games[i].time_text = "Not in progress";
+			games[i].covering_text = "Not in progress";
+			games[i].time_text = games[i].d + " at " + games[i].t;
+			
 		}
 		
 
-		games[i].away_team_icon = util.format(ICON_URL, games[i].h);          
-     	games[i].home_team_icon = util.format(ICON_URL, games[i].v);
+		games[i].away_team_icon = util.format(ICON_URL, games[i].v);          
+     	games[i].home_team_icon = util.format(ICON_URL, games[i].h);
  		
 
 	}
