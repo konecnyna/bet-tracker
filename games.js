@@ -1,8 +1,10 @@
 var utils = require('./utils.js');
 var util = require('util');
-var SCORE_URL = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
+var SCORE_URL = "http://www.nfl.com/liveupdate/scorestrip/ss.xml";
 var PICKS_FILE_NAME = "picks.json";
 var jsonfile = require('jsonfile');
+var parseString = require('xml2js').parseString;
+
 
 var COLOR_LOSING = "#FF5722";
 //var COLOR_WINNING = "#00C853";
@@ -20,9 +22,12 @@ module.exports = {
 function getUIData(callback) {
 	var picks = jsonfile.readFileSync(PICKS_FILE_NAME);
 	if(picks){
-		utils.downloadFile(SCORE_URL, function(data){
-			var games = JSON.parse(data);
-			callback(getRelevantTeams(games.gms, picks));
+		utils.downloadFile(SCORE_URL, function(xml){
+			//convert to JSON.
+			parseString(xml, function (err, result) {
+			    var games = result.ss.gms[0].g;
+			    callback(getRelevantTeams(games, picks));
+			});				
 		});	
 	}	
 }
@@ -31,8 +36,10 @@ function getUIData(callback) {
 function getRelevantTeams(data, picks){
 	games = [];
 	for(var i=0; i<data.length; i++){
-		if( picks[data[i].vnn.toLowerCase()] || picks[data[i].hnn.toLowerCase()]){
-			games.push(data[i]);
+		var currentGame = data[i].$;
+
+		if( picks[currentGame.vnn.toLowerCase()] || picks[currentGame.hnn.toLowerCase()]){
+			games.push(currentGame);
 		}
 	}
 
@@ -42,8 +49,11 @@ function getRelevantTeams(data, picks){
 }
 
 
-function addSpreadData(games, picks){
+function addSpreadData(games, picks){	
+	console.log(picks);
 	for(var i=0; i<games.length; i++){
+		var currentGame = games[i];
+
 		//Setup team vars.
 		var betTeam = "";
 		var betTeamScore = 0;
@@ -51,57 +61,54 @@ function addSpreadData(games, picks){
 	
 		var otherTeam = "";
 		var otherTeamScore = 0;
-		if(picks[games[i].hnn.toLowerCase()]){
-			betTeam = games[i].hnn.toLowerCase();
-			betTeamScore = games[i].hs;
+		if(picks[currentGame.hnn.toLowerCase()]){
+			betTeam = currentGame.hnn.toLowerCase();
+			betTeamScore = currentGame.hs;
 			
 			isBetTeamHome = true;
 
-			otherTeam = games[i].vnn.toLowerCase();
-			otherTeamScore = games[i].vs;			
+			otherTeam = currentGame.vnn.toLowerCase();
+			otherTeamScore = currentGame.vs;			
 		}else{
-			betTeam = games[i].vnn.toLowerCase();
-			betTeamScore = games[i].vs;
+			betTeam = currentGame.vnn.toLowerCase();
+			betTeamScore = currentGame.vs;
 			
-			otherTeam = games[i].hnn.toLowerCase();				
-			otherTeamScore = games[i].hs;
+			otherTeam = currentGame.hnn.toLowerCase();				
+			otherTeamScore = currentGame.hs;
 		}
 
 
 		//Add extras
-
 		var spread = parseInt(picks[betTeam].spread);
-
- 		if(isBetTeamHome){
- 			games[i].hnn = games[i].hnn + " ("+spread+")";
- 		}else{
-			games[i].vnn = games[i].vnn + " ("+spread+")";
- 		}
-
-		games[i].bet_team = betTeam; 
-		covering = (betTeamScore + spread) - otherTeamScore;
-		games[i].covering = covering;
-		if(games[i].q !== 'P'){
-			if(covering > 0){
-				games[i].covering_text = "Covering!";
-				games[i].card_background = COLOR_WINNING;
-			}else{
-				games[i].covering_text = "Losing!";
-				games[i].card_background = COLOR_LOSING;
-			}
-		}
-		if(games[i].k){
-			games[i].time_text = games[i].q + ": " + games[i].k;
-		}else{
-			games[i].covering_text = "Not in progress";
-			games[i].time_text = games[i].d + " at " + games[i].t;
-			
-		}
 		
 
-		games[i].away_team_icon = util.format(ICON_URL, games[i].v);          
-     	games[i].home_team_icon = util.format(ICON_URL, games[i].h);
- 		
+ 		if(isBetTeamHome){
+ 			currentGame.hnn = currentGame.hnn + " ("+spread+")";
+ 		}else{
+			currentGame.vnn = currentGame.vnn + " ("+spread+")";
+ 		}
 
+		currentGame.bet_team = betTeam; 
+		covering = (betTeamScore + spread) - otherTeamScore;
+		currentGame.covering = covering;
+		if(currentGame.q !== 'P'){
+			if(covering > 0){
+				currentGame.covering_text = "Covering!";
+				currentGame.card_background = COLOR_WINNING;
+			}else{
+				currentGame.covering_text = "Losing!";
+				currentGame.card_background = COLOR_LOSING;
+			}
+		}
+
+		if(currentGame.k){
+			currentGame.time_text = "Q"+currentGame.q + ": " + currentGame.k;
+		}else{
+			currentGame.covering_text = "Not in progress";
+			currentGame.time_text = currentGame.d + " at " + currentGame.t;
+		}
+		
+		currentGame.away_team_icon = util.format(ICON_URL, currentGame.v);          
+     	currentGame.home_team_icon = util.format(ICON_URL, currentGame.h);
 	}
 }
