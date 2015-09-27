@@ -50,7 +50,6 @@ function getRelevantTeams(data, picks){
 
 
 function addSpreadData(games, picks){	
-	console.log(picks);
 	for(var i=0; i<games.length; i++){
 		var currentGame = games[i];
 
@@ -103,6 +102,8 @@ function addSpreadData(games, picks){
 
 		if(currentGame.k){
 			currentGame.time_text = "Q"+currentGame.q + ": " + currentGame.k;
+		}else if(currentGame.q === "H"){
+				currentGame.time_text = "Half time";		
 		}else{
 			currentGame.covering_text = "Not in progress";
 			currentGame.time_text = currentGame.d + " at " + currentGame.t;
