@@ -88,7 +88,8 @@ function addSpreadData(games, picks){
  		}
 
 		currentGame.bet_team = betTeam; 
-		covering = (betTeamScore + spread) - otherTeamScore;
+		covering = (parseInt(betTeamScore) + spread) - parseInt(otherTeamScore);
+
 		currentGame.covering = covering;
 		if(currentGame.q !== 'P'){
 			if(covering > 0){
