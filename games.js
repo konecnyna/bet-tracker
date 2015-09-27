@@ -6,10 +6,8 @@ var jsonfile = require('jsonfile');
 var parseString = require('xml2js').parseString;
 
 
-var COLOR_LOSING = "#FF5722";
-//var COLOR_WINNING = "#00C853";
-
-var COLOR_WINNING = "#FFF";
+var COLOR_LOSING = "#F44336";
+var COLOR_WINNING = "#00C853";
 var ICON_URL = "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/%s.png&h=200";	
 
 
@@ -104,7 +102,9 @@ function addSpreadData(games, picks){
 		if(currentGame.k){
 			currentGame.time_text = "Q"+currentGame.q + ": " + currentGame.k;
 		}else if(currentGame.q === "H"){
-				currentGame.time_text = "Half time";		
+			currentGame.time_text = "Half time";			
+		}else if(currentGame.q === "F"){
+			currentGame.time_text = "Final";
 		}else{
 			currentGame.covering_text = "Not in progress";
 			currentGame.time_text = currentGame.d + " at " + currentGame.t;
