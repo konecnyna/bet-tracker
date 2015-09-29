@@ -6,6 +6,12 @@ var fs = require('fs');
 var path = require('path');
 var PICKS_FILE_NAME = "picks.json";
 var jsonfile = require('jsonfile');
+
+var serverPort = 8080;
+
+// sets port 8080 to default or unless otherwise specified in the environment
+app.set('port', process.env.PORT || serverPort);
+
 app.use(express.static(__dirname + '/public'));
 
 
@@ -50,5 +56,5 @@ app.get('/', function(req, res){
   res.redirect('/index.html');
 });
 
-app.listen(8080);
+app.listen(serverPort);
 
