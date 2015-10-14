@@ -110,7 +110,7 @@ function addSpreadData(games, picks){
 			currentGame.time_text = currentGame.d + " at " + currentGame.t;
 		}
 		
-		currentGame.away_team_icon = util.format(ICON_URL, currentGame.v);          
-     	currentGame.home_team_icon = util.format(ICON_URL, currentGame.h);
+		currentGame.away_team_icon = util.format(ICON_URL, (currentGame.v == 'WAS') ? 'wsh' : currentGame.v);          
+     	currentGame.home_team_icon = util.format(ICON_URL, (currentGame.h == 'WAS') ? 'wsh' : currentGame.h);
 	}
 }
