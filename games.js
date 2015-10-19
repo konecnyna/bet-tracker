@@ -87,14 +87,13 @@ function addSpreadData(games, picks){
 
 		currentGame.bet_team = betTeam; 
 		covering = (parseInt(betTeamScore) + spread) - parseInt(otherTeamScore);
-
 		currentGame.covering = covering;
 		if(currentGame.q !== 'P'){
 			if(covering > 0){
-				currentGame.covering_text = "Covering!";
+				currentGame.covering_text = (currentGame.q === "F" ? "Covered" : "Covering!");
 				currentGame.card_background = COLOR_WINNING;
 			}else{
-				currentGame.covering_text = "Losing!";
+				currentGame.covering_text = ( (currentGame.q == "F") ? "Lost" : "Losing!");
 				currentGame.card_background = COLOR_LOSING;
 			}
 		}
