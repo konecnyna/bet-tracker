@@ -18,7 +18,8 @@ app.get('/api/v1/scores', function(req, res) {
 });
 
 app.get('/api/v1/picks', function(req, res) {
-	res.json(jsonfile.readFileSync(PICKS_FILE_NAME));	
+	var prettyJson = JSON.stringify(jsonfile.readFileSync(PICKS_FILE_NAME), null, 4);
+	res.json(prettyJson);	
 });
 
 app.get('/api/v1/predictions', function(req, res) {
