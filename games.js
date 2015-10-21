@@ -18,7 +18,7 @@ module.exports = {
 };
 
 function getUIData(callback) {
-	var picks = jsonfile.readFileSync(PICKS_FILE_NAME);
+	var picks = jsonfile.readFileSync(PICKS_FILE_NAME);	
 	if(picks){
 		utils.downloadFile(SCORE_URL, function(xml){
 			//convert to JSON.
@@ -32,18 +32,27 @@ function getUIData(callback) {
 
 
 function getRelevantTeams(data, picks){
-	games = [];
-	for(var i=0; i<data.length; i++){
-		var currentGame = data[i].$;
-
-		if( picks[currentGame.vnn.toLowerCase()] || picks[currentGame.hnn.toLowerCase()]){
-			games.push(currentGame);
-		}
-	}
-
-	addSpreadData(games, picks);
+	var allGames = [];
+	for(var j=0; j<picks.length; j++){
+		var games = [];
+		var currentPicks = picks[j];
+		console.log(currentPicks);
+		console.log("----------------");
 	
-	return games;
+		for(var i=0; i<data.length; i++){
+			var currentGame = JSON.parse(JSON.stringify(data[i].$));			
+			if( currentPicks[currentGame.vnn.toLowerCase()] || currentPicks[currentGame.hnn.toLowerCase()]){
+				if(j==1){
+					console.log(currentGame);
+				}
+				games.push(currentGame);				
+			}			
+		}
+		addSpreadData(games, currentPicks);
+		allGames.push(games);
+	}	
+	
+	return allGames;
 }
 
 
