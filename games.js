@@ -36,15 +36,10 @@ function getRelevantTeams(data, picks){
 	for(var j=0; j<picks.length; j++){
 		var games = [];
 		var currentPicks = picks[j];
-		console.log(currentPicks);
-		console.log("----------------");
-	
+		
 		for(var i=0; i<data.length; i++){
 			var currentGame = JSON.parse(JSON.stringify(data[i].$));			
 			if( currentPicks[currentGame.vnn.toLowerCase()] || currentPicks[currentGame.hnn.toLowerCase()]){
-				if(j==1){
-					console.log(currentGame);
-				}
 				games.push(currentGame);				
 			}			
 		}

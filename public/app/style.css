@@ -31,3 +31,7 @@ img {
 .football-card-content {
 	padding-bottom: 16px;
 }
+
+.modal-content {
+	height: 75%;
+}
