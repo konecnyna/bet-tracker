@@ -46,7 +46,6 @@ function getRelevantTeams(data, picks){
 		addSpreadData(games, currentPicks);
 		allGames.push(games);
 	}	
-	
 	return allGames;
 }
 
@@ -99,6 +98,9 @@ function addSpreadData(games, picks){
 			}else{
 				currentGame.covering_text = ( (currentGame.q == "F") ? "Lost" : "Losing!");
 				currentGame.card_background = COLOR_LOSING;
+				if(currentGame.q == "F"){
+					currentGame.panel_class = "panel-lost";
+				}
 			}
 		}
 

@@ -45,3 +45,7 @@ img {
 	background: #EEE;
 	padding-left: 25px;
 }
+
+.panel-lost {
+	background: #F00;	
+}
