@@ -27,8 +27,7 @@ function getStreams(callback){
 				games.push(currentPost);
 			}
 		}
-		runAsync(callback, games, startTime);
-		//runParallel(callback,games, startTime);
+		runParallel(callback,games, startTime);
 	});	
 }
 
@@ -83,9 +82,7 @@ function runParallel(webCallback, items, startTime){
 	});
 	 
 	asyncTasks.push(function(callback){
-		setTimeout( function(){
-			callback();
-		}, 3000);
+		callback();	
 	});
 	 
 	async.parallel(asyncTasks, function(){
