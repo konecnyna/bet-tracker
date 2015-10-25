@@ -29,6 +29,9 @@ app.get('/api/v1/streams', function(req, res) {
       res.json(callback);
    });
 });
+app.get('/streams', function(req, res) {
+	res.redirect('/streams.html');
+});
 
 app.get('/api/v1/predictions', function(req, res) {
  predictions.getScores(function(callback){

@@ -18,6 +18,7 @@ module.exports = {
 function getStreams(callback){
 	var games = [];
 	var result = [];
+	var startTime = new Date().getTime();
 	utils.downloadFile(base_url + ".json", function(json){
 		posts = JSON.parse(json);
 		for(var i=0; i<posts.data.children.length; i++){
@@ -26,23 +27,8 @@ function getStreams(callback){
 				games.push(currentPost);
 			}
 		}
-
-		async.eachSeries(games, function iterator(item, callback) {		  
-		  	var post_url = item.data.url;
-		  	var json_url = post_url.slice(0, item.data.url.length-1) + ".json";
-
-		  	utils.downloadFileSSL(json_url, function(data){
-				var post = JSON.parse(data);
-				var info = {
-					game : item.data.title,
-					links : getVLCLinksFromPost(post)
-				};
-				result.push(info);
-				callback();
-			});
-		}, function done() {			
-		  	callback(result);
-		});		
+		runAsync(callback, games, startTime);
+		//runParallel(callback,games, startTime);
 	});	
 }
 
@@ -53,8 +39,7 @@ function getVLCLinksFromPost(post){
 
 	for(var i=0; i<post.length; i++){
 		for(var j=0; j<post[i].data.children.length; j++){
-			var comment = post[i].data.children[j].data;
-			
+			var comment = post[i].data.children[j].data;			
 			if(regex.test(comment.body)){
 				matches = comment.body.match(linkRegex);
 				for(var matchIndex =0; matchIndex<matches.length; matchIndex++){
@@ -68,4 +53,64 @@ function getVLCLinksFromPost(post){
 		}
 	}
 	return links;
+}
+
+function runParallel(webCallback, items, startTime){
+	// Array to hold async tasks
+	var asyncTasks = [];
+	var result = [];
+
+	// Loop through some items
+	items.forEach(function(item){
+		// We don't actually execute the async action here
+		// We add a function containing it to an array of "tasks"
+		asyncTasks.push(function(callback){
+			// Call an async function, often a save() to DB
+			var post_url = item.data.url;
+			var json_url = post_url.slice(0, item.data.url.length-1) + ".json";
+			console.log("Starting download for : " + item.data.title);
+			utils.downloadFileSSL(json_url, function(data){
+				var post = JSON.parse(data);
+				var info = {
+					game : item.data.title,
+					links : getVLCLinksFromPost(post)
+				};
+				result.push(info);
+				console.log("Finished download for : " + item.data.title);	  	
+				callback();
+			});
+		});
+	});
+	 
+	asyncTasks.push(function(callback){
+		setTimeout( function(){
+			callback();
+		}, 3000);
+	});
+	 
+	async.parallel(asyncTasks, function(){
+		console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));			
+	  	webCallback(result);	  
+	});
+}
+
+function runAsync(callback, games, startTime){	
+	var result = [];
+	async.eachSeries(games, function iterator(item, callback) {		  
+	  	var post_url = item.data.url;
+	  	var json_url = post_url.slice(0, item.data.url.length-1) + ".json";
+
+	  	utils.downloadFileSSL(json_url, function(data){
+			var post = JSON.parse(data);
+			var info = {
+				game : item.data.title,
+				links : getVLCLinksFromPost(post)
+			};
+			result.push(info);
+			callback();
+		});
+	}, function done() {
+		console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));			
+	  	callback(result);
+	});	
 }
