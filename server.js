@@ -1,6 +1,8 @@
 var express = require('express');
 var games = require('./games.js');
 var predictions = require('./predictions.js');
+var streams = require('./streams.js');
+
 var app = express();
 var fs = require('fs');
 var path = require('path');
@@ -20,6 +22,12 @@ app.get('/api/v1/scores', function(req, res) {
 app.get('/api/v1/picks', function(req, res) {
 	var prettyJson = JSON.stringify(jsonfile.readFileSync(PICKS_FILE_NAME), null, 4);
 	res.json(prettyJson);	
+});
+
+app.get('/api/v1/streams', function(req, res) {
+	 streams.getStreams(function(callback){
+      res.json(callback);
+   });
 });
 
 app.get('/api/v1/predictions', function(req, res) {
