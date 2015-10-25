@@ -6,6 +6,6 @@ app.controller('streamCtrl', function($scope, $http){
         $scope.steams = data;        
       }).
       error(function(data, status, headers, config) {
-        $scope.picks = "Error: Couldn't get picks!";
+        $scope.error_msg = "Error: Couldn't get streams!!!!";
       });
 });
