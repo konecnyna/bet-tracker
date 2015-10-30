@@ -1,7 +1,16 @@
-<div ng-repeat="stream in steams">
-	<p>{{stream.game}}<p>
-	<div ng-repeat="link in stream.links track by $index">
-		<a href="{{link}}">{{link}}</a>
+<select class="form-control" ng-model="type" ng-change="update(type)" >
+  <option value="nfl">NFL</option>
+  <option value="nhl">NHL</option>
+  <option value="mlb">MLB</option>
+  <option value="nba">NBA</option>
+</select>
+
+<div ng-repeat="stream in streams">
+	<div class="card">
+		<p>{{stream.game}}<p>
+		<div ng-repeat="link in stream.links track by $index">
+			<a href="{{link}}">{{link}}</a>
+		</div>
 	</div>
 </div>
 <h1 class="center">{{error_msg}}</h1>

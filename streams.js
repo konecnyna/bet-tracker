@@ -3,27 +3,30 @@ var util = require('util');
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
-var base_url = "https://www.reddit.com/r/nflstreams";
+var base_url = "";
 var schedule_url = "http://www.fantasyfootballnerd.com/service/schedule/json/ejwqdwezs7xi/";
 var DEBUG = false;
 
 
 module.exports = {
-  getStreams: function (callback) {
-  	getStreams(callback);
+  getStreams: function (callback, type) {
+  	getStreams(callback, type);
   }
 };
 
 
-function getStreams(callback){
+function getStreams(callback, type){
 	var games = [];
 	var result = [];
+	var gameRegex = /Game Thread/;
+	resolveTypeUrl(type);
+
 	var startTime = new Date().getTime();
 	utils.downloadFileSSL(base_url + ".json", function(json){
 		posts = JSON.parse(json);
 		for(var i=0; i<posts.data.children.length; i++){
 			var currentPost = posts.data.children[i];
-			if(currentPost.data.link_flair_text == "Game Thread"){
+			if(gameRegex.test(currentPost.data.title)){
 				games.push(currentPost);
 			}
 		}
@@ -110,4 +113,18 @@ function runAsync(callback, games, startTime){
 		console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));			
 	  	callback(result);
 	});	
+}
+
+function resolveTypeUrl(type){
+	if(type === "nfl"){
+		base_url = "https://www.reddit.com/r/nflstreams";
+	}else if(type === "mlb"){
+		base_url = "https://www.reddit.com/r/mlbstreams";
+	}else if(type === "nhl"){
+		base_url = "https://www.reddit.com/r/nhlstreams"
+	}else if(type === "nba"){
+		base_url = "https://www.reddit.com/r/nbastreams"
+	}else{
+		base_url = "https://www.reddit.com/r/nflstreams";
+	}
 }

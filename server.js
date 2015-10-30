@@ -25,9 +25,9 @@ app.get('/api/v1/picks', function(req, res) {
 });
 
 app.get('/api/v1/streams', function(req, res) {
-	 streams.getStreams(function(callback){
-      res.json(callback);
-   });
+	streams.getStreams(function(callback){
+		res.json(callback);
+	}, req.query.type);
 });
 app.get('/streams', function(req, res) {
 	res.redirect('/streams.html');
@@ -40,7 +40,6 @@ app.get('/api/v1/predictions', function(req, res) {
 });
 
 app.get('/api/v1/update_picks', function(req, res) {
-
 	try{
 		messageObject = JSON.parse(req.query.picks);
 		jsonfile.writeFile(PICKS_FILE_NAME, messageObject, function (err) {
