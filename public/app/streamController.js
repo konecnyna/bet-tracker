@@ -18,6 +18,8 @@ app.controller('streamCtrl', function($scope, $http){
 
     $scope.update = function(item) {
       $scope.state  = "";
+      $scope.error_msg = "";
+       
       $http.get('api/v1/streams?type='+item).success(function(data, status, headers, config) {        
         console.log("got picks!");
         if(data.length > 0){
