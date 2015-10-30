@@ -3,7 +3,7 @@ var util = require('util');
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
-var base_url = "http://www.reddit.com/r/nflstreams";
+var base_url = "https://www.reddit.com/r/nflstreams";
 var schedule_url = "http://www.fantasyfootballnerd.com/service/schedule/json/ejwqdwezs7xi/";
 var DEBUG = false;
 
@@ -19,7 +19,7 @@ function getStreams(callback){
 	var games = [];
 	var result = [];
 	var startTime = new Date().getTime();
-	utils.downloadFile(base_url + ".json", function(json){
+	utils.downloadFileSSL(base_url + ".json", function(json){
 		posts = JSON.parse(json);
 		for(var i=0; i<posts.data.children.length; i++){
 			var currentPost = posts.data.children[i];
@@ -34,20 +34,20 @@ function getStreams(callback){
 function getVLCLinksFromPost(post){
 	var links = [];
 	var regex = /m3u8/;
-	var linkRegex = /(http:\/\/[\w-]+\.[\w-]+[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;
+	//var linkRegex = /(http:\/\/[\w-]+\.[\w-]+[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])/g;
+	var linkRegex = /(http:\/\/.*m3u8)/g;
+	
 
 	for(var i=0; i<post.length; i++){
 		for(var j=0; j<post[i].data.children.length; j++){
-			var comment = post[i].data.children[j].data;			
+			var comment = post[i].data.children[j].data;
 			if(regex.test(comment.body)){
 				matches = comment.body.match(linkRegex);
 				for(var matchIndex =0; matchIndex<matches.length; matchIndex++){
 					if(matches[matchIndex].length > 0){
 						links.push(matches[matchIndex]);		
-					}
-					
-				}
-				
+					}			
+				}				
 			}
 		}
 	}

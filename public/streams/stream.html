@@ -1,6 +1,6 @@
 <div ng-repeat="stream in steams">
 	<p>{{stream.game}}<p>
-	<div ng-repeat="link in stream.links">
+	<div ng-repeat="link in stream.links track by $index">
 		<a href="{{link}}">{{link}}</a>
 	</div>
 </div>
