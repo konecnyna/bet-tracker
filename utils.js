@@ -1,6 +1,8 @@
 var http = require('http');
 var https = require('https');
 
+var DEBUG = false;
+
 module.exports = {
   downloadFile: function (url, callback) { downloadFile(url, callback);},
   downloadFileSSL: function (url, callback) { downloadFileSSL(url, callback);},
@@ -25,6 +27,9 @@ function downloadFile(url, callback){
 }
 
 function downloadFileSSL(url, callback){
+    if(DEBUG){console.log("Downloading: " + url);}
+
+    var startTime = new Date().getTime();
     https.get(url, function(res) {
         var body = '';
         res.on('data', function(chunk) {
@@ -32,6 +37,7 @@ function downloadFileSSL(url, callback){
 
         });
         res.on('end', function() {
+            if(DEBUG){console.log(( (new Date().getTime() - startTime)/1000) + " for : " + url);} 
             callback(body);
         });
     }).on('error', function(e) {
