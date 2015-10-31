@@ -73,9 +73,11 @@ function runParallel(webCallback, items, startTime){
 			console.log("Starting download for : " + item.data.title);
 			utils.downloadFileSSL(json_url, function(data){
 				var post = JSON.parse(data);
+				var streamLinks = getVLCLinksFromPost(post);
 				var info = {
 					game : item.data.title,
-					links : getVLCLinksFromPost(post)
+					links : streamLinks,
+					err_msg : ((streamLinks.length == 0) ? "No streams" : "")
 				};
 				result.push(info);
 				console.log("Finished download for : " + item.data.title);	  	

@@ -7,14 +7,19 @@
 
 <div ng-repeat="stream in streams">
 	<div class="card">
-		<p>{{stream.game}}<p>
-		<div ng-repeat="link in stream.links track by $index">
-			<a href="{{link}}">{{link}}</a>
+		<div class="col-xs-12 football-card-header">
+			<p>{{stream.game}}</p>
+		</div>
+		<div class="col-xs-12 football-card-content">
+			<div ng-repeat="link in stream.links track by $index">
+				<a href="{{link}}">{{link}}</a>
+			</div>
+			<p>{{stream.err_msg}}</p>
 		</div>
 	</div>
 </div>
 
 <div class="center">
 	<h1>{{error_msg}}</h1>
-	<img  src="gears.gif" width="96px" height="96px" style="visibility:{{state}}"/>
+	<img  src="gears.gif" style="visibility:{{state}}; width:100px;"/>
 </div>
