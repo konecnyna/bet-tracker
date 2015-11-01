@@ -1,6 +1,8 @@
 app.controller('streamCtrl', function($scope, $http){
   $scope.type = "nfl";
   $scope.message = ""; 
+  getStreams($scope.type);
+
 
   $scope.update = function(item) {
     getStreams(item);

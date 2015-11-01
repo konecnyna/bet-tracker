@@ -18,7 +18,7 @@ module.exports = {
 function getStreams(callback, type){
 	var games = [];
 	var result = [];
-	var gameRegex = /Game Thread/;
+	var gameRegex = /Game Threa.*.d/;
 	resolveTypeUrl(type);
 
 	var startTime = new Date().getTime();
