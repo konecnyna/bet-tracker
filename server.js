@@ -2,6 +2,8 @@ var express = require('express');
 var games = require('./games.js');
 var predictions = require('./predictions.js');
 var streams = require('./streams.js');
+var rss = require('./football_rss.js');
+
 
 var app = express();
 var fs = require('fs');
@@ -55,6 +57,15 @@ app.get('/api/v1/update_picks', function(req, res) {
 		console.log("Bad json: " + e);
 		res.send("fail!");
 	}
+});
+
+
+app.get('/api/v1/rss', function(req, res) {
+	rss.getFootballRss( function(xml){
+		res.set('Content-Type', 'text/xml');
+		res.send(xml);	
+	});
+
 });
 
 
