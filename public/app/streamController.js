@@ -25,6 +25,7 @@ app.controller('streamCtrl', function($scope, $http){
     }).
     error(function(data, status, headers, config) {
       $scope.error_msg = "Error: Couldn't get streams!!!!";
+      $scope.state  = "hidden";
     });
   }
 

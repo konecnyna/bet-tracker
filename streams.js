@@ -18,7 +18,7 @@ module.exports = {
 function getStreams(callback, type){
 	var games = [];
 	var result = [];
-	var gameRegex = /Game Threa.*.d/;
+	var gameRegex = /Game Thread/;
 	resolveTypeUrl(type);
 
 	var startTime = new Date().getTime();
@@ -26,6 +26,7 @@ function getStreams(callback, type){
 		posts = JSON.parse(json);
 		for(var i=0; i<posts.data.children.length; i++){
 			var currentPost = posts.data.children[i];
+			console.log(currentPost.data.title);
 			if(gameRegex.test(currentPost.data.title)){
 				games.push(currentPost);
 			}
@@ -69,7 +70,7 @@ function runParallel(webCallback, items, startTime){
 		asyncTasks.push(function(callback){
 			// Call an async function, often a save() to DB
 			var post_url = item.data.url;
-			var json_url = post_url.slice(0, item.data.url.length-1) + ".json";
+			var json_url = post_url.slice(0, item.data.url.length-1) + ".json?limit=30";
 			console.log("Starting download for : " + item.data.title);
 			utils.downloadFileSSL(json_url, function(data){
 				var post = JSON.parse(data);
@@ -123,9 +124,9 @@ function resolveTypeUrl(type){
 	}else if(type === "mlb"){
 		base_url = "https://www.reddit.com/r/mlbstreams";
 	}else if(type === "nhl"){
-		base_url = "https://www.reddit.com/r/nhlstreams"
+		base_url = "https://www.reddit.com/r/nhlstreams";
 	}else if(type === "nba"){
-		base_url = "https://www.reddit.com/r/nbastreams"
+		base_url = "https://www.reddit.com/r/nbastreams";
 	}else{
 		base_url = "https://www.reddit.com/r/nflstreams";
 	}
