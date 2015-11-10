@@ -93,10 +93,10 @@ function addSpreadData(games, picks){
 		currentGame.covering = covering;
 		if(currentGame.q !== 'P'){
 			if(covering > 0){
-				currentGame.covering_text = (currentGame.q === "F" ? "Covered" : "Covering!");
+				currentGame.covering_text = (currentGame.q.match(/F/) ? "Covered" : "Covering!");
 				currentGame.card_background = COLOR_WINNING;
 			}else{
-				currentGame.covering_text = ( (currentGame.q == "F") ? "Lost" : "Losing!");
+				currentGame.covering_text = (currentGame.q.match(/F/) ? "Lost" : "Losing!");
 				currentGame.card_background = COLOR_LOSING;
 				if(currentGame.q == "F"){
 					currentGame.panel_class = "panel-lost";
@@ -108,7 +108,7 @@ function addSpreadData(games, picks){
 			currentGame.time_text = "Q"+currentGame.q + ": " + currentGame.k;
 		}else if(currentGame.q === "H"){
 			currentGame.time_text = "Half time";			
-		}else if(currentGame.q === "F"){
+		}else if(currentGame.q === "F" || currentGame.q === "FO"){
 			currentGame.time_text = "Final";
 		}else{
 			currentGame.covering_text = "Not in progress";
