@@ -39,10 +39,9 @@ textarea {
 
 .panel {
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.5);
-	background: #EEE;
-	padding-left: 25px;
+	background: #EEE;	
 }
 
 .panel-lost {
-	background: #F00;	
+	background: #F44336;	
 }
