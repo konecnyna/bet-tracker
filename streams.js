@@ -25,8 +25,7 @@ function getStreams(callback, type){
 	utils.downloadFileSSL(base_url + ".json", function(json){
 		posts = JSON.parse(json);
 		for(var i=0; i<posts.data.children.length; i++){
-			var currentPost = posts.data.children[i];
-			console.log(currentPost.data.title);
+			var currentPost = posts.data.children[i];			
 			if(gameRegex.test(currentPost.data.title)){
 				games.push(currentPost);
 			}
@@ -38,10 +37,9 @@ function getStreams(callback, type){
 function getVLCLinksFromPost(post){
 	var links = [];
 	var regex = /m3u8/;
-	//var linkRegex = /(http:\/\/[\w-]+\.[\w-]+[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])/g;
+	var youTubeRegex = /http?s:\/\/youtu?.be.*/;
 	var linkRegex = /(http:\/\/.*m3u8)/g;
 	
-
 	for(var i=0; i<post.length; i++){
 		for(var j=0; j<post[i].data.children.length; j++){
 			var comment = post[i].data.children[j].data;
@@ -52,6 +50,15 @@ function getVLCLinksFromPost(post){
 						links.push(matches[matchIndex]);		
 					}			
 				}				
+			}else if(youTubeRegex.test(comment.body)){
+				var comment = post[i].data.children[j].data;
+				if(youTubeRegex.test(comment.body)){
+					for(var matchIndex =0; matchIndex<matches.length; matchIndex++){
+						if(matches[matchIndex].length > 0){
+							links.push(matches[matchIndex]);		
+						}			
+					}
+				}
 			}
 		}
 	}
