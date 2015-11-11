@@ -45,3 +45,7 @@ textarea {
 .panel-lost {
 	background: #F44336;	
 }
+
+.card-container {
+	padding-top:16px;
+}
