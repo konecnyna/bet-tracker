@@ -21,9 +21,11 @@ function getStreams(callback, type){
 	var gameRegex = /Game Thread/;
 	resolveTypeUrl(type);
 
-	var startTime = new Date().getTime();
+	var startTime = new Date().getTime();	
 	utils.downloadFileSSL(base_url + ".json", function(json){
 		posts = JSON.parse(json);
+		//console.log("Total Time Subreddit download: " + ( (new Date().getTime() - startTime)/1000));	
+		
 		for(var i=0; i<posts.data.children.length; i++){
 			var currentPost = posts.data.children[i];			
 			if(gameRegex.test(currentPost.data.title)){
@@ -37,31 +39,41 @@ function getStreams(callback, type){
 function getVLCLinksFromPost(post){
 	var links = [];
 	var regex = /m3u8/;
-	var youTubeRegex = /http?s:\/\/youtu?.be.*/;
+	var youTubeRegex = /https:\/\/.*youtu?.*/;
 	var linkRegex = /(http:\/\/.*m3u8)/g;
-	
+	var startTime = new Date().getTime();
+
 	for(var i=0; i<post.length; i++){
 		for(var j=0; j<post[i].data.children.length; j++){
 			var comment = post[i].data.children[j].data;
+
 			if(regex.test(comment.body)){
 				matches = comment.body.match(linkRegex);
-				for(var matchIndex =0; matchIndex<matches.length; matchIndex++){
+				if(!matches){
+					continue;
+				}
+
+				for(var matchIndex =0; matchIndex < matches.length; matchIndex++){
 					if(matches[matchIndex].length > 0){
 						links.push(matches[matchIndex]);		
 					}			
 				}				
 			}else if(youTubeRegex.test(comment.body)){
-				var comment = post[i].data.children[j].data;
-				if(youTubeRegex.test(comment.body)){
-					for(var matchIndex =0; matchIndex<matches.length; matchIndex++){
-						if(matches[matchIndex].length > 0){
-							links.push(matches[matchIndex]);		
-						}			
-					}
+				matches = comment.body.match(youTubeRegex);
+				if(!matches){
+					continue;
 				}
+
+				for(var youtubeIndex = 0; youtubeIndex < matches.length; youtubeIndex++){
+					if(matches[youtubeIndex].length > 0){
+						links.push(matches[youtubeIndex]);		
+					}			
+				}				
 			}
 		}
 	}
+
+	//console.log("Total Time for VLC LINKS: " + ( (new Date().getTime() - startTime)/1000));	
 	return links;
 }
 
@@ -78,17 +90,15 @@ function runParallel(webCallback, items, startTime){
 			// Call an async function, often a save() to DB
 			var post_url = item.data.url;
 			var json_url = post_url.slice(0, item.data.url.length-1) + ".json?limit=30";
-			console.log("Starting download for : " + item.data.title);
 			utils.downloadFileSSL(json_url, function(data){
 				var post = JSON.parse(data);
 				var streamLinks = getVLCLinksFromPost(post);
 				var info = {
 					game : item.data.title,
 					links : streamLinks,
-					err_msg : ((streamLinks.length == 0) ? "No streams" : "")
+					err_msg : ((streamLinks.length === 0) ? "No streams" : "")
 				};
 				result.push(info);
-				console.log("Finished download for : " + item.data.title);	  	
 				callback();
 			});
 		});
@@ -112,9 +122,11 @@ function runAsync(callback, games, startTime){
 
 	  	utils.downloadFileSSL(json_url, function(data){
 			var post = JSON.parse(data);
+			var streamLinks = getVLCLinksFromPost(post);
 			var info = {
 				game : item.data.title,
-				links : getVLCLinksFromPost(post)
+				links : streamLinks,
+				err_msg : ((streamLinks.length === 0) ? "No streams" : "")
 			};
 			result.push(info);
 			callback();
