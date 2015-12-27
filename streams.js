@@ -96,6 +96,7 @@ function runParallel(webCallback, items, startTime){
 				var info = {
 					game : item.data.title,
 					links : streamLinks,
+					reddit_url : post_url,
 					err_msg : ((streamLinks.length === 0) ? "No streams" : "")
 				};
 				result.push(info);

@@ -10,7 +10,16 @@
 <div ng-repeat="stream in streams">
 	<div class="card">
 		<div class="col-xs-12 football-card-header">
-			<p>{{stream.game}}</p>
+			<p>
+				<div class="col-xs-10">
+					{{stream.game}} 	
+				</div>
+				<div class="col-xs-2">
+					<a href="{{stream.reddit_url}}" type="button" class="btn btn-default">
+	  					<span class="glyphicon glyphicon-globe" aria-hidden="true">Reddit</span>
+					</a>
+				</div>				
+			</p>
 		</div>
 		<div class="col-xs-12 football-card-content">
 			<div ng-repeat="link in stream.links track by $index">
