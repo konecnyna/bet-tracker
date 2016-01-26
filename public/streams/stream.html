@@ -15,7 +15,7 @@
 					{{stream.game}} 	
 				</div>
 				<div class="col-xs-2">
-					<a href="{{stream.reddit_url}}" type="button" class="btn btn-default">
+					<a href="{{stream.reddit_url}}" type="button" class="btn btn-default" target="_blank">
 	  					<span class="glyphicon glyphicon-globe" aria-hidden="true">Reddit</span>
 					</a>
 				</div>				
@@ -23,7 +23,7 @@
 		</div>
 		<div class="col-xs-12 football-card-content">
 			<div ng-repeat="link in stream.links track by $index">
-				<a href="{{link}}">{{link}}</a>
+				<a href="{{link}}" target="_blank">{{link}}</a>
 			</div>
 			<p>{{stream.err_msg}}</p>
 		</div>
