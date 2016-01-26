@@ -39,7 +39,7 @@ function getStreams(callback, type){
 function getVLCLinksFromPost(post){
 	var links = [];
 	var regex = /m3u8/;
-	var youTubeRegex = /https:\/\/.*youtu?.*/;
+	var youTubeRegex = /https:\/\/.*youtu?.[^\s]+/;
 	var linkRegex = /(http:\/\/.*m3u8)/g;
 	var startTime = new Date().getTime();
 
