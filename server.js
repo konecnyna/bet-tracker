@@ -42,7 +42,7 @@ app.get('/api/v1/predictions', function(req, res) {
 });
 
 app.get('/api/v1/banking', function(req, res) {	
-	var prettyBalance = JSON.stringify(jsonfile.readFileSync("result.json"), null, 4);
+	var prettyBalance = JSON.stringify(jsonfile.readFileSync("result.json"));
 	res.json(prettyBalance);		 
 });
 
