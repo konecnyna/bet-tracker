@@ -42,8 +42,8 @@ app.get('/api/v1/predictions', function(req, res) {
 });
 
 app.get('/api/v1/banking', function(req, res) {	
-	var prettyBalance = JSON.stringify(jsonfile.readFileSync("result.json"));
-	res.json(prettyBalance);		 
+	var prettyBalance = JSON.stringify(jsonfile.readFileSync("result.json")	);
+	res.json(JSON.parse(prettyBalance));		 
 });
 
 app.get('/api/v1/update_picks', function(req, res) {
