@@ -41,6 +41,11 @@ app.get('/api/v1/predictions', function(req, res) {
    });
 });
 
+app.get('/api/v1/banking', function(req, res) {	
+	var prettyBalance = JSON.stringify(jsonfile.readFileSync("results.json"), null, 4);
+	res.json(prettyBalance);		 
+});
+
 app.get('/api/v1/update_picks', function(req, res) {
 	try{
 		messageObject = JSON.parse(req.query.picks);
