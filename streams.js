@@ -21,60 +21,57 @@ function getStreams(callback, type){
 	var gameRegex = /Game Thread/;
 	resolveTypeUrl(type);
 
-	var startTime = new Date().getTime();	
+	var startTime = new Date().getTime();
 	utils.downloadFileSSL(base_url + ".json", function(json){
 		posts = JSON.parse(json);
-		//console.log("Total Time Subreddit download: " + ( (new Date().getTime() - startTime)/1000));	
-		
+		//console.log("Total Time Subreddit download: " + ( (new Date().getTime() - startTime)/1000));
+
 		for(var i=0; i<posts.data.children.length; i++){
-			var currentPost = posts.data.children[i];			
+			var currentPost = posts.data.children[i];
 			if(gameRegex.test(currentPost.data.title)){
 				games.push(currentPost);
 			}
 		}
 		runParallel(callback,games, startTime);
-	});	
+	});
 }
 
 function getVLCLinksFromPost(post){
-	var links = [];
+  var links = [];
+  var m3u8_links = [];
 	var regex = /m3u8/;
 	var youTubeRegex = /https:\/\/.*youtu?.[^\s]+/;
 	var linkRegex = /(http:\/\/.*m3u8)/g;
+  var all_links = /(?:http[^\s]+)/g;
 	var startTime = new Date().getTime();
 
 	for(var i=0; i<post.length; i++){
 		for(var j=0; j<post[i].data.children.length; j++){
 			var comment = post[i].data.children[j].data;
-
-			if(regex.test(comment.body)){
-				matches = comment.body.match(linkRegex);
+      if(all_links.test(comment.body)){
+				matches = comment.body.match(all_links);
 				if(!matches){
 					continue;
 				}
 
-				for(var matchIndex =0; matchIndex < matches.length; matchIndex++){
+				for(var matchIndex = 0; matchIndex < matches.length; matchIndex++){
 					if(matches[matchIndex].length > 0){
-						links.push(matches[matchIndex]);		
-					}			
-				}				
-			}else if(youTubeRegex.test(comment.body)){
-				matches = comment.body.match(youTubeRegex);
-				if(!matches){
-					continue;
-				}
+            if(youTubeRegex.test(comment.body) || youTubeRegex.test(comment.body)){
+              m3u8_links.push(matches[matchIndex]);
+            }else{
+              links.push(matches[matchIndex].replace(")","").replace(/\*/g,''));
+            }
 
-				for(var youtubeIndex = 0; youtubeIndex < matches.length; youtubeIndex++){
-					if(matches[youtubeIndex].length > 0){
-						links.push(matches[youtubeIndex]);		
-					}			
-				}				
+					}
+				}
 			}
 		}
 	}
 
-	//console.log("Total Time for VLC LINKS: " + ( (new Date().getTime() - startTime)/1000));	
-	return links;
+	return {
+    all_links: links,
+    kodi_links: m3u8_links
+  }
 }
 
 function runParallel(webCallback, items, startTime){
@@ -104,20 +101,20 @@ function runParallel(webCallback, items, startTime){
 			});
 		});
 	});
-	 
+
 	asyncTasks.push(function(callback){
-		callback();	
+		callback();
 	});
-	 
+
 	async.parallel(asyncTasks, function(){
-		console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));			
-	  	webCallback(result);	  
+		console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));
+	  	webCallback(result);
 	});
 }
 
-function runAsync(callback, games, startTime){	
+function runAsync(callback, games, startTime){
 	var result = [];
-	async.eachSeries(games, function iterator(item, callback) {		  
+	async.eachSeries(games, function iterator(item, callback) {
 	  	var post_url = item.data.url;
 	  	var json_url = post_url.slice(0, item.data.url.length-1) + ".json";
 
@@ -133,9 +130,9 @@ function runAsync(callback, games, startTime){
 			callback();
 		});
 	}, function done() {
-		console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));			
+		//console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));
 	  	callback(result);
-	});	
+	});
 }
 
 function resolveTypeUrl(type){

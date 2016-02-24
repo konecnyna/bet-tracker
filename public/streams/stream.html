@@ -12,19 +12,26 @@
 		<div class="col-xs-12 football-card-header">
 			<p>
 				<div class="col-xs-10">
-					{{stream.game}} 	
+					{{stream.game}}
 				</div>
 				<div class="col-xs-2">
 					<a href="{{stream.reddit_url}}" type="button" class="btn btn-default" target="_blank">
 	  					<span class="glyphicon glyphicon-globe" aria-hidden="true">Reddit</span>
 					</a>
-				</div>				
+				</div>
 			</p>
 		</div>
 		<div class="col-xs-12 football-card-content">
-			<div ng-repeat="link in stream.links track by $index">
-				<a href="{{link}}" target="_blank">{{link}}</a>
+			<div ng-repeat="all_link in stream.links.all_links track by $index">
+				<a href="{{all_link}}" target="_blank">{{all_link}}</a>
 			</div>
+      <div ng-show="stream.links.kodi_links.length">
+        <hr/>
+        <b>Kodi Links:</b>
+        <div ng-repeat="link in stream.links.kodi_links track by $index">
+  				<a href="{{link}}" target="_blank">{{link}}</a>
+  			</div>
+      </div>
 			<p>{{stream.err_msg}}</p>
 		</div>
 	</div>
