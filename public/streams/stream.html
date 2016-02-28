@@ -23,13 +23,13 @@
 		</div>
 		<div class="col-xs-12 football-card-content">
 			<div ng-repeat="all_link in stream.links.all_links track by $index">
-				<a href="{{all_link}}" target="_blank">{{all_link}}</a>
+				<a href="{{all_link.link}}" target="_blank">{{all_link.desc}}</a>
 			</div>
       <div ng-show="stream.links.kodi_links.length">
         <hr/>
         <b>Kodi Links:</b>
         <div ng-repeat="link in stream.links.kodi_links track by $index">
-  				<a href="{{link}}" target="_blank">{{link}}</a>
+  				<a href="{{link.link}}" target="_blank">{{link.desc}}</a>
   			</div>
       </div>
 			<p>{{stream.err_msg}}</p>

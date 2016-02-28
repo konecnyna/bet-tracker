@@ -24,7 +24,6 @@ function getStreams(callback, type){
 	var startTime = new Date().getTime();
 	utils.downloadFileSSL(base_url + ".json", function(json){
 		posts = JSON.parse(json);
-		//console.log("Total Time Subreddit download: " + ( (new Date().getTime() - startTime)/1000));
 
 		for(var i=0; i<posts.data.children.length; i++){
 			var currentPost = posts.data.children[i];
@@ -42,6 +41,7 @@ function getVLCLinksFromPost(post){
 	var regex = /m3u8/;
 	var youTubeRegex = /https:\/\/.*youtu?.[^\s]+/;
 	var linkRegex = /(http:\/\/.*m3u8)/g;
+  var linkDescRegex = /(\[([^\]]+)\])(\(([^\)]+)\))/;
   var all_links = /(?:http[^\s]+)/g;
 	var startTime = new Date().getTime();
 
@@ -57,11 +57,28 @@ function getVLCLinksFromPost(post){
 				for(var matchIndex = 0; matchIndex < matches.length; matchIndex++){
 					if(matches[matchIndex].length > 0){
             if(youTubeRegex.test(comment.body) || youTubeRegex.test(comment.body)){
-              m3u8_links.push(matches[matchIndex]);
+              m3u8_links.push({
+                link: matches[matchIndex],
+                desc: matches[matchIndex]
+              });
             }else{
-              links.push(matches[matchIndex].replace(")","").replace(/\*/g,''));
-            }
+              if(linkDescRegex.test(comment.body)){
+                var linkDescMatch  = comment.body.match(linkDescRegex);
+                if(linkDescMatch.length > 4){
+                  links.push({
+                    link: linkDescMatch[4],
+                    desc: linkDescMatch[2].replace(")","").replace(/\*/g,'')
+                  });
+                }
 
+              }else{
+                var linkMatch = matches[matchIndex].replace(")","").replace(/\*/g,'');
+                links.push({
+                  link: linkMatch,
+                  desc: linkMatch
+                });
+              }
+            }
 					}
 				}
 			}
@@ -69,7 +86,7 @@ function getVLCLinksFromPost(post){
 	}
 
 	return {
-    all_links: links,
+    all_links: links.sort(),
     kodi_links: m3u8_links
   }
 }
@@ -130,8 +147,7 @@ function runAsync(callback, games, startTime){
 			callback();
 		});
 	}, function done() {
-		//console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));
-	  	callback(result);
+			callback(result);
 	});
 }
 
