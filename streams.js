@@ -88,7 +88,7 @@ function getVLCLinksFromPost(post){
 	return {
     all_links: links.sort(),
     kodi_links: m3u8_links
-  }
+  };
 }
 
 function runParallel(webCallback, items, startTime){
@@ -111,7 +111,8 @@ function runParallel(webCallback, items, startTime){
 					game : item.data.title,
 					links : streamLinks,
 					reddit_url : post_url,
-					err_msg : ((streamLinks.length === 0) ? "No streams" : "")
+					err_msg : ((streamLinks.length === 0) ? "No streams" : ""),
+					err_link : ((streamLinks.length === 0) ? base_url : "")
 				};
 				result.push(info);
 				callback();
@@ -125,7 +126,14 @@ function runParallel(webCallback, items, startTime){
 
 	async.parallel(asyncTasks, function(){
 		console.log("Total Time: " + ( (new Date().getTime() - startTime)/1000));
-	  	webCallback(result);
+		if (result.length === 0) {
+			webCallback({
+				err_link: base_url
+			});
+		} else {
+			webCallback(result);	
+		}
+	  	
 	});
 }
 
@@ -160,6 +168,8 @@ function resolveTypeUrl(type){
 		base_url = "https://www.reddit.com/r/nhlstreams";
 	}else if(type === "nba"){
 		base_url = "https://www.reddit.com/r/nbastreams";
+	}else if(type === "mma"){
+		base_url = "https://www.reddit.com/r/MMAStreams";
 	}else{
 		base_url = "https://www.reddit.com/r/nflstreams";
 	}

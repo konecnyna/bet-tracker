@@ -3,6 +3,7 @@
   <option value="nhl">NHL</option>
   <option value="mlb">MLB</option>
   <option value="nba">NBA</option>
+  <option value="mma">MMA</option>
 </select>
 
 <hr/>
@@ -32,12 +33,15 @@
   				<a href="{{link.link}}" target="_blank">{{link.desc}}</a>
   			</div>
       </div>
-			<p>{{stream.err_msg}}</p>
+			<p>{{stream.err_msg}}</p>						
 		</div>
 	</div>
 </div>
 
 <div class="center">
-	<h1>{{error_msg}}</h1>
+	<div ng-show="error_msg.length">
+		<h1>{{error_msg}}</h1>
+		<a href="{{error_link}}" target="_blank">Check Reddit for more</a>
+	</div>
 	<img  src="gears.gif" style="visibility:{{state}}; width:100px;"/>
 </div>
