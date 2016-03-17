@@ -58,7 +58,8 @@ app.get('/api/v1/banking', function(req, res) {
 				res.json({
 					error: err
 				});		
-			}else if(req.query.date && req.query.credit && req.query.cash){
+			}else if(req.query.credit && req.query.cash){
+		    	req.query.date = new Date();
 		    	obj.push(req.query);		    	
 				jsonfile.writeFile(BANKING_DATA_FILE, obj, function (err) {
 					if(err) {
