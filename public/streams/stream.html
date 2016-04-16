@@ -10,19 +10,19 @@
 
 <div ng-repeat="stream in streams">
 	<div class="card">
-		<div class="col-xs-12 football-card-header">
+		<div class="col s12 football-card-header">
 			<p>
-				<div class="col-sm-8">
+				<div class="col s8">
 					{{stream.game}}
 				</div>
-				<div class="col-sm-4" style="padding:5px;">
+				<div class="col s4" style="padding:5px;">
 					<a href="{{stream.reddit_url}}" type="button" class="btn btn-default" target="_blank"  style="float: right;">
 	  					<span class="glyphicon glyphicon-globe" aria-hidden="true">Reddit</span>
 					</a>
 				</div>
 			</p>
 		</div>
-		<div class="col-xs-12 football-card-content">
+		<div class="col s12 football-card-content">
 			<div ng-repeat="all_link in stream.links.all_links track by $index">
 				<a href="{{all_link.link}}" target="_blank">{{all_link.desc}}</a>
 			</div>
