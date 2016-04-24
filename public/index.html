@@ -9,7 +9,6 @@
         <script type='text/javascript' src="app.js" charset="UTF-8"></script>
         <script type='text/javascript' src="app/cardController.js" charset="UTF-8"></script>
         <script type='text/javascript' src="app/picksController.js" charset="UTF-8"></script>    
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <!-- Compiled and minified CSS -->
@@ -20,10 +19,11 @@
     </head>
     <body>
         <div class="container">
-            <div ng-include="'app/app.html'"></div> 
-            <!-- <div ng-include="'app/picks.html'"></div>             -->
+            <div class="row">
+              <div ng-include="'app/app.html'"></div>             
+            </div>
             
-            <div class="row center">
+            <div class="row">
                 <button data-target="modal1" class="btn modal-trigger">Edit Picks</button>
             </div>
             
