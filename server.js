@@ -12,8 +12,12 @@ var PICKS_FILE_NAME = "picks.json";
 var jsonfile = require('jsonfile');
 var serverPort = 9000;
 
-app.use(express.static(__dirname + '/public'));
+//Shared.
+var credsFile = '/home/pi/Github/rpi_ac_outlet_control/web/creds.dat';
 
+if(false){   
+   credsFile = 'creds.dat';   
+}
 
 app.get('/api/v1/scores', function(req, res) {    
  	games.getUIData(function(callback){
@@ -74,10 +78,29 @@ app.get('/api/v1/rss', function(req, res) {
 });
 
 
+// Authenticator
+fs.readFile(credsFile, 'utf8', function (err,password) {
+	if (err) {
+	  console.log("Error - no creds.dat file so no auth!");
+	} else {
+	  console.log("asking for auth!");
+	  app.use(function(req, res, next) {
+	     var auth;
+	     if (req.headers.authorization) {
+	        auth = new Buffer(req.headers.authorization.substring(6), 'base64').toString().split(':');
+	      }
+	      if (!auth || auth[0] !== 'admin' || auth[1] !== password.trim()) {
+	          res.statusCode = 401;
+	          res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
+	          res.end('Unauthorized');
+	      } else {
+	          next();
+	      }
+	  });
+	}
+	app.use('/', express.static(path.join(__dirname, 'public')));
+  	app.listen(serverPort);
 
-app.get('/', function(req, res){
-  res.redirect('/index.html');
 });
 
-app.listen(serverPort);
 
