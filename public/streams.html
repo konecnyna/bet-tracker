@@ -19,11 +19,18 @@
     <body>
         <div class="container">
           <div ng-controller="streamCtrl" class="stream-container">
-            <h4>Sport Streams: Play via VLC or Kodi</h4>            
-            <div ng-include="'streams/stream.html'"></div> 
+            <h4>Sport Streams: Play via VLC or Kodi</h4>
+                <label>Select sport:</label>
+                <select class="browser-default" ng-model="type" ng-change="update(type)" >
+                  <option value="nfl">NFL</option>
+                  <option value="nhl">NHL</option>
+                  <option value="mlb">MLB</option>
+                  <option value="nba">NBA</option>
+                  <option value="mma">MMA</option>
+                </select>            
+                <div ng-include="'streams/stream.html'"></div> 
           </div>
         </div>
     </body>
-
 </html>
  
