@@ -7,12 +7,12 @@ var app = module.exports = express();
 var credsFile = "creds.dat";
 
 
-// Authenticator
 fs.readFile(credsFile, 'utf8', function (err,password) {
 	if (err) {
-	  console.log("Error - no creds.dat file so no auth!");
-	} else {
-	  console.log("asking for auth!");
+	  console.log("Error - no " + credsFile + ". Stopping server");
+	  return;
+
+	} else {	  
 	  app.use(function(req, res, next) {
 	     var auth;
 	     if (req.headers.authorization) {
@@ -27,7 +27,6 @@ fs.readFile(credsFile, 'utf8', function (err,password) {
 	      }
 	  });
 	}
-
 
 	//Modules.
 	var sport = new SportsStream(app);
