@@ -1,42 +1,110 @@
 var express = require('express');
+var path = require('path');
+var games = require('./lib/games.js');
+var predictions = require('./lib/predictions.js');
+var rss = require('./lib/football_rss.js');
+
 var fs = require('fs');
-var SportsStream = require('sport-streams');
-var server = require('./lib/server.js');
-var app = module.exports = express();
-
-var credsFile = "creds.dat";
+var path = require('path');
+var PICKS_FILE_NAME = "picks.json";
+var jsonfile = require('jsonfile');
 
 
-fs.readFile(credsFile, 'utf8', function (err,password) {
-	if (err) {
-	  console.log("Error - no " + credsFile + ". Stopping server");
-	  return;
-
-	} else {	  
-	  app.use(function(req, res, next) {
-	     var auth;
-	     if (req.headers.authorization) {
-	        auth = new Buffer(req.headers.authorization.substring(6), 'base64').toString().split(':');
-	      }
-	      if (!auth || auth[0] !== 'admin' || auth[1] !== password.trim()) {
-	          res.statusCode = 401;
-	          res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
-	          res.end('Unauthorized - Go fuck yourself.');
-	      } else {
-	          next();
-	      }
-	  });
-	}
-
-	//Modules.
-	var sport = new SportsStream(app);
-	var betTracker = new server(app);	
+var method = BetTracker.prototype;
+function BetTracker(app) {
+	app.use('/', express.static(path.join(__dirname, 'public')));
+  	
 	
-	app.listen(9000);
+	app.get('/api/v1/scores', function(req, res) {    
+	 	games.getUIData(function(callback){
+	      res.json(callback);
+	   	});
+	});
 
-});
+	app.get('/api/v1/picks', function(req, res) {
+		var prettyJson = JSON.stringify(jsonfile.readFileSync(PICKS_FILE_NAME), null, 4);
+		res.json(prettyJson);	
+	});
 
 
+	app.get('/api/v1/predictions', function(req, res) {
+	 predictions.getScores(function(callback){
+	      res.json(callback);
+	   });
+	});
+
+	app.get('/api/v1/banking', function(req, res) {
+		var BANKING_DATA_FILE = "result.json";
+		if(!Object.keys(req.query).length) {
+			try {
+				var prettyBalance = JSON.stringify(jsonfile.readFileSync(BANKING_DATA_FILE)	);
+				res.json(JSON.parse(prettyBalance));		 
+			} catch(e) {
+				res.json({
+					error: "No json file to read from"
+				});
+			}
+		} else {
+			jsonfile.readFile(BANKING_DATA_FILE, function(err, obj) {
+				if(err){
+					res.json({
+						error: err
+					});		
+				}else if(req.query.credit && req.query.cash){
+			    	req.query.date = new Date();
+			    	obj.push(req.query);		    	
+					jsonfile.writeFile(BANKING_DATA_FILE, obj, function (err) {
+						if(err) {
+							res.json({
+								error: err
+							});
+					  	} else {
+					  		res.json({status: "success"});
+					  	}
+					});
+			    } else {
+					res.json({
+						error: "All parms not set."
+					});
+			    }		    
+
+			});
+		}
+
+		
+	});
+
+	app.get('/api/v1/update_picks', function(req, res) {
+		try{
+			messageObject = JSON.parse(req.query.picks);
+			jsonfile.writeFile(PICKS_FILE_NAME, messageObject, function (err) {
+				if(err){
+					console.error("error: " + err);
+					res.send("got error");	
+				}else{
+					res.send("good");	
+				}				
+			});
+
+		}catch(e){		
+			console.log("Bad json: " + e);
+			res.send("fail!");
+		}
+	});
+
+
+	app.get('/api/v1/rss', function(req, res) {
+		rss.getFootballRss( function(xml){
+			res.set('Content-Type', 'text/xml');
+			res.send(xml);	
+		});
+
+	});
+
+}
+
+
+module.exports = BetTracker;
 
 
 
