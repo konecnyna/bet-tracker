@@ -6,34 +6,35 @@ var rss = require('./lib/football_rss.js');
 
 var fs = require('fs');
 var path = require('path');
-var PICKS_FILE_NAME = "picks.json";
+var PICKS_FILE_NAME = path.join(__dirname, "/picks.json");
 var jsonfile = require('jsonfile');
-
+var ROOT_NAME = "";
 
 var method = BetTracker.prototype;
 function BetTracker(app) {
-	app.use('/', express.static(path.join(__dirname, 'public')));
-  	
+	ROOT_NAME = "/bet-tracker";
+	app.use(ROOT_NAME, express.static(path.join(__dirname, 'lib/public')));	
 	
-	app.get('/api/v1/scores', function(req, res) {    
+	
+	app.get(ROOT_NAME + '/api/v1/scores', function(req, res) {    
 	 	games.getUIData(function(callback){
 	      res.json(callback);
 	   	});
 	});
 
-	app.get('/api/v1/picks', function(req, res) {
+	app.get(ROOT_NAME + '/api/v1/picks', function(req, res) {
 		var prettyJson = JSON.stringify(jsonfile.readFileSync(PICKS_FILE_NAME), null, 4);
 		res.json(prettyJson);	
 	});
 
 
-	app.get('/api/v1/predictions', function(req, res) {
+	app.get(ROOT_NAME + '/api/v1/predictions', function(req, res) {
 	 predictions.getScores(function(callback){
 	      res.json(callback);
 	   });
 	});
 
-	app.get('/api/v1/banking', function(req, res) {
+	app.get(ROOT_NAME + '/api/v1/banking', function(req, res) {
 		var BANKING_DATA_FILE = "result.json";
 		if(!Object.keys(req.query).length) {
 			try {
@@ -74,7 +75,7 @@ function BetTracker(app) {
 		
 	});
 
-	app.get('/api/v1/update_picks', function(req, res) {
+	app.get(ROOT_NAME + '/api/v1/update_picks', function(req, res) {
 		try{
 			messageObject = JSON.parse(req.query.picks);
 			jsonfile.writeFile(PICKS_FILE_NAME, messageObject, function (err) {
@@ -93,7 +94,7 @@ function BetTracker(app) {
 	});
 
 
-	app.get('/api/v1/rss', function(req, res) {
+	app.get(ROOT_NAME + '/api/v1/rss', function(req, res) {
 		rss.getFootballRss( function(xml){
 			res.set('Content-Type', 'text/xml');
 			res.send(xml);	
