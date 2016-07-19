@@ -21,7 +21,7 @@ fs.readFile(credsFile, 'utf8', function (err,password) {
 	      if (!auth || auth[0] !== 'admin' || auth[1] !== password.trim()) {
 	          res.statusCode = 401;
 	          res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
-	          res.end('Unauthorized');
+	          res.end('Unauthorized - Go fuck yourself.');
 	      } else {
 	          next();
 	      }
