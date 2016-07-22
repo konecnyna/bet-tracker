@@ -8,11 +8,19 @@ var fs = require('fs');
 var path = require('path');
 var PICKS_FILE_NAME = path.join(__dirname, "/picks.json");
 var jsonfile = require('jsonfile');
-var ROOT_NAME = "";
 
 var method = BetTracker.prototype;
-function BetTracker(app) {
-	ROOT_NAME = "/bet-tracker";
+function BetTracker(app, root_name) {
+	
+	if (root_name) {
+		ROOT_NAME = root_name;
+	} else {		
+		ROOT_NAME = "/bet-tracker";
+		console.log("Running as default route:" , ROOT_NAME);
+	}
+
+	
+
 	app.use(ROOT_NAME, express.static(path.join(__dirname, 'lib/public')));	
 	
 	
