@@ -8,18 +8,12 @@ var fs = require('fs');
 var path = require('path');
 var PICKS_FILE_NAME = path.join(__dirname, "/picks.json");
 var jsonfile = require('jsonfile');
-
+var ROOT_NAME = "/bet-tracker";
+	
 var method = BetTracker.prototype;
-function BetTracker(app, root_name) {
-	
-	if (root_name) {
-		ROOT_NAME = root_name;
-	} else {		
-		ROOT_NAME = "/bet-tracker";
-		console.log("Running as default route:" , ROOT_NAME);
-	}
+function BetTracker(app) {	
+	console.log("Running as default route:" , ROOT_NAME);
 
-	
 
 	app.use(ROOT_NAME, express.static(path.join(__dirname, 'lib/public')));	
 	
@@ -42,7 +36,7 @@ function BetTracker(app, root_name) {
 	   });
 	});
 
-	app.get(ROOT_NAME + '/api/v1/banking', function(req, res) {
+	app.get('/api/v1/banking', function(req, res) {
 		var BANKING_DATA_FILE = "result.json";
 		if(!Object.keys(req.query).length) {
 			try {
