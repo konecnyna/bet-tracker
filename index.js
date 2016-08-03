@@ -36,47 +36,6 @@ function BetTracker(app) {
 	   });
 	});
 
-	app.get('/api/v1/banking', function(req, res) {
-		var BANKING_DATA_FILE = "result.json";
-		if(!Object.keys(req.query).length) {
-			try {
-				var prettyBalance = JSON.stringify(jsonfile.readFileSync(BANKING_DATA_FILE)	);
-				res.json(JSON.parse(prettyBalance));		 
-			} catch(e) {
-				res.json({
-					error: "No json file to read from"
-				});
-			}
-		} else {
-			jsonfile.readFile(BANKING_DATA_FILE, function(err, obj) {
-				if(err){
-					res.json({
-						error: err
-					});		
-				}else if(req.query.credit && req.query.cash){
-			    	req.query.date = new Date();
-			    	obj.push(req.query);		    	
-					jsonfile.writeFile(BANKING_DATA_FILE, obj, function (err) {
-						if(err) {
-							res.json({
-								error: err
-							});
-					  	} else {
-					  		res.json({status: "success"});
-					  	}
-					});
-			    } else {
-					res.json({
-						error: "All parms not set."
-					});
-			    }		    
-
-			});
-		}
-
-		
-	});
-
 	app.get(ROOT_NAME + '/api/v1/update_picks', function(req, res) {
 		try{
 			messageObject = JSON.parse(req.query.picks);
