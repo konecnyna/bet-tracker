@@ -21,7 +21,7 @@ function BetTracker(app) {
 	app.get(ROOT_NAME + '/api/v1/scores', function(req, res) {    
 	 	games.getUIData(function(callback){
 	      res.json(callback);
-	   	});
+	   	}, jsonfile.readFileSync(PICKS_FILE_NAME));
 	});
 
 	app.get(ROOT_NAME + '/api/v1/picks', function(req, res) {
