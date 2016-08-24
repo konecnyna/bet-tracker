@@ -8,18 +8,12 @@ var fs = require('fs');
 var path = require('path');
 var PICKS_FILE_NAME = path.join(__dirname, "/lib/picks.json");
 var jsonfile = require('jsonfile');
-
+var ROOT_NAME = "/bet-tracker";
+	
 var method = BetTracker.prototype;
-function BetTracker(app, root_name) {
-	
-	if (root_name) {
-		ROOT_NAME = root_name;
-	} else {		
-		ROOT_NAME = "/bet-tracker";
-		console.log("Running as default route:" , ROOT_NAME);
-	}
+function BetTracker(app) {	
+	console.log("Running as default route:" , ROOT_NAME);
 
-	
 
 	app.use(ROOT_NAME, express.static(path.join(__dirname, 'lib/public')));	
 	
@@ -40,47 +34,6 @@ function BetTracker(app, root_name) {
 	 predictions.getScores(function(callback){
 	      res.json(callback);
 	   });
-	});
-
-	app.get(ROOT_NAME + '/api/v1/banking', function(req, res) {
-		var BANKING_DATA_FILE = "result.json";
-		if(!Object.keys(req.query).length) {
-			try {
-				var prettyBalance = JSON.stringify(jsonfile.readFileSync(BANKING_DATA_FILE)	);
-				res.json(JSON.parse(prettyBalance));		 
-			} catch(e) {
-				res.json({
-					error: "No json file to read from"
-				});
-			}
-		} else {
-			jsonfile.readFile(BANKING_DATA_FILE, function(err, obj) {
-				if(err){
-					res.json({
-						error: err
-					});		
-				}else if(req.query.credit && req.query.cash){
-			    	req.query.date = new Date();
-			    	obj.push(req.query);		    	
-					jsonfile.writeFile(BANKING_DATA_FILE, obj, function (err) {
-						if(err) {
-							res.json({
-								error: err
-							});
-					  	} else {
-					  		res.json({status: "success"});
-					  	}
-					});
-			    } else {
-					res.json({
-						error: "All parms not set."
-					});
-			    }		    
-
-			});
-		}
-
-		
 	});
 
 	app.get(ROOT_NAME + '/api/v1/update_picks', function(req, res) {
