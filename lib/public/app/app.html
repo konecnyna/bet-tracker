@@ -1,12 +1,14 @@
 <div ng-controller="cardsCtrl" class="card-container">
 	<div ng-repeat="pick in picks">
-		<h3 class="panel-title">Group {{$index+1}}</h3>							
-		<div class="{{lost[$index]}}">			
-			<div ng-repeat="card in pick">
-				<div class="col m6 col s12">
-					<div ng-include="'app/card.html'"></div> 
-				</div>
-			</div>		
+	  	<div class="row">
+			<h3 class="panel-title">Group {{$index+1}}</h3>							
+			<div class="{{lost[$index]}}">			
+				<div ng-repeat="card in pick">
+					<div class="col m6 col s12">
+						<div ng-include="'app/card.html'"></div> 
+					</div>
+				</div>		
+			</div>
 		</div>
 	</div>
 </div>

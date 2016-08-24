@@ -6,7 +6,7 @@ var rss = require('./lib/football_rss.js');
 
 var fs = require('fs');
 var path = require('path');
-var PICKS_FILE_NAME = path.join(__dirname, "/picks.json");
+var PICKS_FILE_NAME = path.join(__dirname, "/lib/picks.json");
 var jsonfile = require('jsonfile');
 
 var method = BetTracker.prototype;
