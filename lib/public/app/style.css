@@ -25,6 +25,9 @@ textarea {
 	padding: 16px;
 }
 
+.text-right {
+	text-align: right;
+}
 
 .modal-content {
 	height: 75%;

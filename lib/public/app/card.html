@@ -8,31 +8,27 @@
       </div>
    </div>
    <div class="card-content">
-      <div class="row">
-         <div class="col s12" style="border-bottom:1px #afafaf solid;">
-            <div class="col s3">
-               <img src="{{card.home_team_icon}}"/>
-            </div>
-            <div class="col s6">	  					
-               {{card.hnn}}:
-            </div>
-            <div class="col s3">
-               {{card.hs}}
-            </div>
-         </div>
+      <div class="row" style="border-bottom:1px #afafaf solid;">        
+        <div class="col s3">
+           <img src="{{card.home_team_icon}}"/>
+        </div>
+        <div class="col s6">	  					
+           {{card.hnn}}:
+        </div>
+        <div class="col s3 text-right">
+           {{card.hs}}
+        </div>     
       </div>
       <div class="row">
-         <ul>
-            <div class="col s3">
-               <img src="{{card.away_team_icon}}"/>
-            </div>
-            <div class="col s6">	  					
-               {{card.vnn}}:
-            </div>
-            <div class="col s3">
-               {{card.vs}}
-            </div>
-         </ul>
+         <div class="col s3">
+            <img src="{{card.away_team_icon}}"/>
+         </div>
+         <div class="col s6">	  					
+            {{card.vnn}}:
+         </div>
+         <div class="col s3">
+            {{card.vs}}
+         </div>
       </div>
    </div>
 </div>
