@@ -16,7 +16,7 @@ textarea {
 
 .football-card {
 	max-width: 100%;
-	min-height: 175px;
+	height: 350px;
 }
 
 .football-card-header {
