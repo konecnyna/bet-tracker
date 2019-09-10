@@ -3,33 +3,40 @@ var path = require("path");
 var games = require("./lib/games.js");
 var predictions = require("./lib/predictions.js");
 var rss = require("./lib/football_rss.js");
-
-var fs = require("fs");
+const request = require('request-promise');
 var path = require("path");
 var PICKS_FILE_NAME = path.join(__dirname, "/lib/picks.json");
-var jsonfile = require("jsonfile");
 var ROOT_NAME = "/bet-tracker";
 
-var method = BetTracker.prototype;
 function BetTracker(app) {
   console.log("Running as default route:", ROOT_NAME);
 
   app.use(ROOT_NAME, express.static(path.join(__dirname, "lib/public")));
 
-  app.get(ROOT_NAME + "/api/v1/scores", function(req, res) {
+  app.get(ROOT_NAME + "/api/v1/scores", async (req, res) => {
+    const options = {
+      url:
+        "https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json",
+      json: true,
+    };
+    const body = await request.get(options)
+    
     games.getUIData(function(callback) {
       res.json(callback);
-    }, jsonfile.readFileSync(PICKS_FILE_NAME));
+    }, body);
   });
 
-  app.get(ROOT_NAME + "/api/v1/picks", function(req, res) {
-    var prettyJson = JSON.stringify(
-      jsonfile.readFileSync(PICKS_FILE_NAME),
-      null,
-      4
-    );
-    res.json(prettyJson);
+  app.get(ROOT_NAME + "/api/v1/picks", async (req, res) => {
+    const options = {
+      url:
+        "https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json",
+      json: true,
+    };
+    const body = await request.get(options)
+    var prettyJson = JSON.stringify(body, null, 4);
+    res.json(prettyJson);    
   });
+
 
   app.get(ROOT_NAME + "/api/v1/predictions", function(req, res) {
     predictions.getScores(function(callback) {
@@ -37,17 +44,17 @@ function BetTracker(app) {
     });
   });
 
-  app.get(ROOT_NAME + "/api/v1/update_picks", function(req, res) {
+  app.get(ROOT_NAME + "/api/v1/update_picks", async (req, res) => {
     try {
-      messageObject = JSON.parse(req.query.picks);
-      jsonfile.writeFile(PICKS_FILE_NAME, messageObject, function(err) {
-        if (err) {
-          console.error("error: " + err);
-          res.send("got error");
-        } else {
-          res.send("good");
-        }
-      });
+      const picks = JSON.parse(req.query.picks);
+      const options = {
+        url:
+          "https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json",
+        json: true,
+        body: picks,
+      };
+      const body = await request.put(options);
+      res.json(body);
     } catch (e) {
       console.log("Bad json: " + e);
       res.send("fail!");
