@@ -9,7 +9,9 @@ var ROOT_NAME = "/bet-tracker";
 const URL = `https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json?access_token=${process.env.FIREBASE_TOKEN}`
 
 function BetTracker(app) {
+  console.log("*********************************************************"");
   console.log("Running as default route:", ROOT_NAME);
+  console.log("*********************************************************"");
 
   app.use(ROOT_NAME, express.static(path.join(__dirname, "lib/public")));
 
