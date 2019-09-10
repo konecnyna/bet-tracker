@@ -5,8 +5,8 @@ var predictions = require("./lib/predictions.js");
 var rss = require("./lib/football_rss.js");
 const request = require('request-promise');
 var path = require("path");
-var PICKS_FILE_NAME = path.join(__dirname, "/lib/picks.json");
 var ROOT_NAME = "/bet-tracker";
+const URL = `https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json?access_token=${process.env.FIREBASE_TOKEN}`
 
 function BetTracker(app) {
   console.log("Running as default route:", ROOT_NAME);
@@ -15,31 +15,29 @@ function BetTracker(app) {
 
   app.get(ROOT_NAME + "/api/v1/scores", async (req, res) => {
     const options = {
-      url:
-        "https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json",
+      url: URL,
       json: true,
     };
     const body = await request.get(options)
-    
-    games.getUIData(function(callback) {
+
+    games.getUIData(function (callback) {
       res.json(callback);
     }, body);
   });
 
   app.get(ROOT_NAME + "/api/v1/picks", async (req, res) => {
     const options = {
-      url:
-        "https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json",
+      url: URL,
       json: true,
     };
     const body = await request.get(options)
     var prettyJson = JSON.stringify(body, null, 4);
-    res.json(prettyJson);    
+    res.json(prettyJson);
   });
 
 
-  app.get(ROOT_NAME + "/api/v1/predictions", function(req, res) {
-    predictions.getScores(function(callback) {
+  app.get(ROOT_NAME + "/api/v1/predictions", function (req, res) {
+    predictions.getScores(function (callback) {
       res.json(callback);
     });
   });
@@ -48,8 +46,7 @@ function BetTracker(app) {
     try {
       const picks = JSON.parse(req.query.picks);
       const options = {
-        url:
-          "https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json",
+        url: URL,
         json: true,
         body: picks,
       };
@@ -61,8 +58,8 @@ function BetTracker(app) {
     }
   });
 
-  app.get(ROOT_NAME + "/api/v1/rss", function(req, res) {
-    rss.getFootballRss(function(xml) {
+  app.get(ROOT_NAME + "/api/v1/rss", function (req, res) {
+    rss.getFootballRss(function (xml) {
       res.set("Content-Type", "text/xml");
       res.send(xml);
     });
