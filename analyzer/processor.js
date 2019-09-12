@@ -1,21 +1,19 @@
-const request = require("request-promise");
-const fs = require("fs");
-const cheerio = require("cheerio");
-
-module.exports = class Picks {
+module.exports = class ProcessData {
   analyzeResult(game) {
     this.teamThatCoveredSpread(game);
-    const expertsPicks = this.getExpertRating(game);
+    //const expertsPicks = this.getExpertRating(game);    
   }
 
   teamThatCoveredSpread(game) {
-    const { homeScore, awayScore } = game.result;
+    const { homeScore, awayScore, homeTeam, awayTeam } = game.result;
     const spread = parseInt(game.spread);
     const cover = homeScore - awayScore + spread;
     if (cover > 0) {
       game.result.coveredSpread = true;
+      game.result.coveringTeam = homeTeam
     } else {
       game.result.coveredSpread = false;
+      game.result.coveringTeam = awayTeam
     }
   }
 

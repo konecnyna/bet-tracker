@@ -1,19 +1,17 @@
 const request = require("request-promise");
 const fs = require("fs");
 const cheerio = require("cheerio");
-const analyzer = new (require("./analyzer"))();
+const processor = new (require("./processor"))();
 
 module.exports = class Picks {
   async getPicks() {
     const $ = await this.loadPage();
-    this.parsePicks($);
+    return this.parsePicks($);
   }
 
   parsePicks($) {
-    const $tableRows = $("#oddsTable tr").first();
-    $tableRows.each((i, item) => {
-      this.parseRow($, item);
-    });
+    const $tableRows = $("#oddsTable tr").first();    
+    return this.parseRow($, $tableRows);    
   }
 
   parseRow($, item) {
@@ -23,17 +21,18 @@ module.exports = class Picks {
 
     // 1 game info 8 picks
     let column = 0;
-    const test = [];
+    const games = [];
 
     let game = {
       picks: [],
     };
+
     $('[width="60"]').each((i, item) => {
       if (i > 10 && i < 160) {
         if (column == 0) {
           const result = this.parseGameKey(
             $(item).text().trim().replace(/\s\s+/g, " ")
-          );          
+          );
           game["result"] = result;
         } else if (column == 1) {
           const { spread, team } = this.parseSpread($(item).text().trim());
@@ -46,19 +45,19 @@ module.exports = class Picks {
         if (column > 8) {
           column = 0;
           if (game.result.winner) {
-            analyzer.analyzeResult(game);
+            processor.analyzeResult(game);
           }
-          test.push(game);
+          games.push(game);
           game = {
             picks: [],
-          };          
+          };
         } else {
           column++;
         }
       }
     });
 
-    // console.log(test);
+    return games;
   }
 
   parseSpread(spread) {
