@@ -4,8 +4,8 @@ const cheerio = require("cheerio");
 const processor = new (require("./processor"))();
 
 module.exports = class Picks {
-  async getPicks() {
-    const $ = await this.loadPage();
+  async getPicks(week, override = false) {
+    const $ = await this.loadPage(week, override);
     return this.parsePicks($);
   }
 
@@ -28,7 +28,7 @@ module.exports = class Picks {
     };
 
     $('[width="60"]').each((i, item) => {
-      if (i > 10 && i < 160) {
+      if (i > 10 && i < 172) {
         if (column == 0) {
           const result = this.parseGameKey(
             $(item).text().trim().replace(/\s\s+/g, " ")
@@ -86,15 +86,14 @@ module.exports = class Picks {
     return {};
   }
 
-  async loadPage(override) {
-    const name = "week1.html";
+  async loadPage(override, week) {
+    const name = `week${week}.html`;
     if (fs.existsSync(name) && !override) {
       return cheerio.load(fs.readFileSync(name));
     }
 
     const options = {
-      uri:
-        "https://www.cbssports.com/nfl/features/writers/expert/picks/against-the-spread/1",
+      uri: `https://www.cbssports.com/nfl/features/writers/expert/picks/against-the-spread/${week}`,
       transform: body => {
         fs.writeFileSync(name, body);
         return cheerio.load(body);

@@ -1,22 +1,14 @@
+const Fitness = require('./generic-algo/fitness');
+const Phenotype = require('./generic-algo/phenotype');
 module.exports = class Verify {
-  constructor(data) {
+  constructor(data, verbose) {
     this.data = data;
+    this.verbose = verbose;
   }
 
   verifyModel(model) {
-
-    this.data.map((game, index) => {
-      const { result } = game;
-      let confidence = 0;
-      game.picks.map((pick, i) => {
-        if (model[i] > 0) {
-          confidence += model[i];
-        }
-      });
-
-      console.log("************************************************************");
-      console.log(`Confidence ${result.awayTeam} @ ${result.homeTeam}: ${confidence}`);
-      console.log("************************************************************");
-    })
+    const phenotype = new Phenotype(this.data, .1, model, false)
+    this.fitness = new Fitness(this.verbose);
+    console.log(this.fitness.calcScore(phenotype))
   }
 }
