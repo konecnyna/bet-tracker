@@ -6,7 +6,8 @@ var rss = require("./lib/football_rss.js");
 const request = require('request-promise');
 var path = require("path");
 var ROOT_NAME = "/bet-tracker";
-const URL = `https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json?access_token=${process.env.FIREBASE_TOKEN}`
+
+const URL = `https://project-3654207232474154346.firebaseio.com/bet-tracker/games.json`
 
 function BetTracker(app) {
   console.log("*********************************************************");
