@@ -7,8 +7,17 @@ module.exports = class Verify {
   }
 
   verifyModel(model) {
-    const phenotype = new Phenotype(this.data, .1, model, false)
+    const phenotype = new Phenotype(this.data, .3, model, false)
+    const { analyst_ratings } = phenotype;        
     this.fitness = new Fitness(this.verbose);
-    console.log(this.fitness.calcScore(phenotype))
+    this.fitness.calcScore(phenotype)
+
+    const sorted = this.fitness.resultsArr.sort((a,b) => {
+      if (a.confPts > b.confPts) { return 1};
+      if (a.confPts < b.confPts) { return -1};
+      if (a.confPts == b.confPts) { return 0};
+    });
+
+    console.log(sorted);
   }
 }

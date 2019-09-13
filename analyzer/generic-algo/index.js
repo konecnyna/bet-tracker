@@ -4,9 +4,10 @@ const Fitness = require('./fitness');
 const Phenotype = require('./phenotype');
 
 module.exports = class GenericAlgo {
-  constructor(data, generations, verbose) {
+  constructor(data, generations, mutataionSize, verbose) {
+    
     this.generations = generations;
-    const firstPhenotype = new Phenotype(data, .01, [
+    const firstPhenotype = new Phenotype(data, mutataionSize, [
       .125,
       .125,
       .125,
@@ -28,25 +29,12 @@ module.exports = class GenericAlgo {
 
   mutationFunction(phenotype) {
     const { analyst_ratings, mutationSize } = phenotype;
-
+    const mutation = Math.floor(Math.random() * mutationSize) / 100;
     const gene1_index = Math.floor(Math.random() * analyst_ratings.length)
-    let gene2_index = Math.floor(Math.random() * analyst_ratings.length)
-    analyst_ratings[gene1_index] = analyst_ratings[gene1_index] + mutationSize;
-    analyst_ratings[gene2_index] = analyst_ratings[gene2_index] - mutationSize;
-    // if (analyst_ratings[gene2_index] < 0) {
-    //   analyst_ratings[gene2_index] = 0;
-    //   let sum = 0
-    //   analyst_ratings.map((rating, i) => {
-    //     // if (i !== gene2_index) {
-    //       sum += analyst_ratings[i];
-    //     // }
-    //   })
-    //   analyst_ratings.map((rating, i) => {
-    //     // if (i !== gene2_index) {
-    //       analyst_ratings[i] = analyst_ratings[i] / sum;
-    //     // }
-    //   });
-    // }
+    const gene2_index = Math.floor(Math.random() * analyst_ratings.length)
+    analyst_ratings[gene1_index] = analyst_ratings[gene1_index] + mutation;
+    analyst_ratings[gene2_index] = analyst_ratings[gene2_index] - mutation;
+    
     return phenotype;
   }
 
@@ -63,7 +51,7 @@ module.exports = class GenericAlgo {
 
   start() {
     console.log("Starting...");
-    for (var i = 0; i < this.generations; i++) {      
+    for (var i = 0; i < this.generations; i++) {
       if (i % 100 === 0) {
         console.log(`Evolving ${i} generation || ${this.geneticAlgorithm.bestScore()}`);
       }

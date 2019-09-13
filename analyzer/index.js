@@ -11,27 +11,29 @@ getPicks = async () => {
 
 main = async () => {
   const completed = await getPicks();
-  const ga = new GA(completed, 1000);
-  ga.start();  
+  const ga = new GA(completed, 1000, 50);
+  ga.start();
 }
 
 
 verifyModel = async () => {
-  const completed = await getPicks();
+  // const completed = await getPicks();
+  // const completed = (await picks.getPicks(true, 2)).filter(it => it.result.coveringTeam);
+  const completed = (await picks.getPicks(true, 2));
   const model = [
-    0.2475799912514909,
-    0.030005206049618982,
-    0.1283455113403598,
-    0.20096785701731948,
-    0.019286064667963253,
-    0.3047197663247464,
-    0.05909560334850123,
-    0.01
+    3.1249999999999996,
+    -2.275,
+    3.425,
+    0.42500000000000004,
+    -4.074999999999999,
+    0.4249999999999999,
+    1.025,
+    -1.0749999999999997
   ];
 
   const verify = new Verify(completed, true);
   verify.verifyModel(model);
 }
 
-main();
-// verifyModel();
+// main();
+verifyModel();
