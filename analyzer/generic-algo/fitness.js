@@ -7,7 +7,7 @@ module.exports = class Fitness {
   calcScore(phenotype) {
     const { data, analyst_ratings } = phenotype;
     let won = 0;
-    data.map((game, index) => {
+    data.games.map((game, index) => {
       const { result } = game;
 
       const confidence = {};
@@ -16,9 +16,7 @@ module.exports = class Fitness {
           confidence[pick] = 0;
         }
         
-        const isHome = pick === game.favoredTeam;
         confidence[pick] += analyst_ratings[i];
-        //confidence[pick] += analyst_ratings[i] * isHome ? 100 : -100;
       });
 
       const keys = Object.keys(confidence);
@@ -32,20 +30,20 @@ module.exports = class Fitness {
       }
     });
 
-    return won / data.length;
+    return won / data.games.length;
   }
 
   dumpData(confidence, keys, result) {
     const rez = {};
     const max = Math.max(confidence[keys[0]], confidence[keys[1]]);
     const favor = max === confidence[keys[0]] ? keys[0] : keys[1];
-    const confPts =
-      Math.abs(confidence[keys[0]]) + Math.abs(confidence[keys[1]]);
-    rez["favorite"] = favor;
+    const confPts = Math.abs(confidence[keys[0]]) + Math.abs(confidence[keys[1]]);
+    rez["spreadTeam"] = favor;
     rez["confidence"] = confidence;
     rez["confPts"] = confPts;
+    
     if (result.coveringTeam) {
-      rez["won"] = true;
+      rez["spreadcovered"] = result.coveredSpread;
       if (max !== confidence[result.coveringTeam]) {
         rez["won"] = false;
       }

@@ -1,7 +1,6 @@
 module.exports = class ProcessData {
-  analyzeResult(game) {
+  analyzeGame(game) {
     this.teamThatCoveredSpread(game);
-    //const expertsPicks = this.getExpertRating(game);    
   }
 
   teamThatCoveredSpread(game) {
@@ -10,25 +9,30 @@ module.exports = class ProcessData {
     const cover = homeScore - awayScore + spread;
     if (cover > 0) {
       game.result.coveredSpread = true;
-      game.result.coveringTeam = homeTeam
+      game.result.coveringTeam = homeTeam;
     } else {
       game.result.coveredSpread = false;
-      game.result.coveringTeam = awayTeam
+      game.result.coveringTeam = awayTeam;
     }
   }
 
-  getExpertRating(game) {
-    const { picks } = game;
-    const occurrences = picks.reduce((acc, curr) => {
-      if (typeof acc[curr] == "undefined") {
-        acc[curr] = 1;
-      } else {
-        acc[curr] += 1;
-      }
+  getExpertRating(data) {
+    const { games } = data;
+    const playedGames = games.filter(it => it.result.awayTeam);
+    const weekRating = [];
+    playedGames.map(game => {
+      const winner = game.result.coveringTeam;
+      game.picks.forEach((value, i) => {
+        if (!weekRating[i]) {
+          weekRating[i] = 0;
+        }
 
-      return acc;
-    }, {});
-    const winningTeam = game.result.coveredSpread ? game.result.homeTeam : game.result.awayTeam;
-    console.log(`${(occurrences[winningTeam] / 8) * 100}%`, winningTeam);
+        if (value === winner) {
+          weekRating[i] += 1 / playedGames.length;
+        }
+      });
+    });
+
+    return weekRating;    
   }
 };

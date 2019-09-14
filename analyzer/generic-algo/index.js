@@ -1,6 +1,8 @@
 "use strict";
 const geneticAlgorithm = require("geneticAlgorithm");
 const Fitness = require("./fitness");
+const Crossover = require("./crossover");
+const Mutate = require("./mutate");
 const Phenotype = require("./phenotype");
 
 module.exports = class GenericAlgo {
@@ -24,20 +26,14 @@ module.exports = class GenericAlgo {
   }
 
   mutationFunction(phenotype) {
-    const { analyst_ratings, mutationSize } = phenotype;
-    const mutation = Math.floor(Math.random() * mutationSize) / 100;
-    const gene1_index = Math.floor(Math.random() * analyst_ratings.length);
-    const gene2_index = Math.floor(Math.random() * analyst_ratings.length);
-    analyst_ratings[gene1_index] = analyst_ratings[gene1_index] + mutation;
-    analyst_ratings[gene2_index] = analyst_ratings[gene2_index] - mutation;
-
-    return phenotype;
+    const mutate = new Mutate();
+    return mutate.evolve(phenotype)    
   }
 
   crossoverFunction(phenotypeA, phenotypeB) {
     // move, copy, or append some values from a to b and from b to a
-    // console.log(phenotypeA.analyst_ratings, phenotypeB.analyst_ratings);
-    return [phenotypeA, phenotypeB];
+    const crossover = new Crossover();
+    return crossover.mate(phenotypeA, phenotypeB);    
   }
 
   fitnessFunction(phenotype) {
@@ -73,6 +69,8 @@ module.exports = class GenericAlgo {
     const obj = {
       score: this.geneticAlgorithm.bestScore(),
       model: this.geneticAlgorithm.best().analyst_ratings,
+      mutationSize: this.geneticAlgorithm.best().mutataionSize,
+      generations: this.generations
     };
     
     if (cache.score < obj.score) {

@@ -11,7 +11,9 @@ module.exports = class Picks {
 
   parsePicks($) {
     const $tableRows = $("#oddsTable tr").first();    
-    return this.parseRow($, $tableRows);    
+    const data = this.parseRow($, $tableRows);    
+    data['analysts_historical'] = processor.getExpertRating(data);
+    return data;
   }
 
   parseRow($, item) {
@@ -21,7 +23,9 @@ module.exports = class Picks {
 
     // 1 game info 8 picks
     let column = 0;
-    const games = [];
+    const data = {
+      games: []
+    };
 
     let game = {
       picks: [],
@@ -45,9 +49,9 @@ module.exports = class Picks {
         if (column > 8) {
           column = 0;
           if (game.result.winner) {
-            processor.analyzeResult(game);
+            processor.analyzeGame(game);
           }
-          games.push(game);
+          data.games.push(game);
           game = {
             picks: [],
           };
@@ -57,7 +61,7 @@ module.exports = class Picks {
       }
     });
 
-    return games;
+    return data;
   }
 
   parseSpread(spread) {
