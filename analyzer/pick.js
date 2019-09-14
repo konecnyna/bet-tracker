@@ -10,51 +10,32 @@ module.exports = class Picks {
   }
 
   parsePicks($) {
-    const $tableRows = $("#oddsTable tr").first();    
-    const data = this.parseRow($, $tableRows);    
-    data['analysts_historical'] = processor.getExpertRating(data);
+    const data = this.parseRow($);
+    data["analysts_historical"] = processor.getExpertRating($, data);
+    data["analysts_overall"] = processor.getOverallExpertRating($);
     return data;
   }
 
-  parseRow($, item) {
-    $(".gameLineCtr").each((i, item) => {
-      //console.log($(item).text());
-    });
-
+  parseRow($) {
     // 1 game info 8 picks
     let column = 0;
     const data = {
-      games: []
+      games: [],
     };
 
     let game = {
       picks: [],
     };
-
     $('[width="60"]').each((i, item) => {
       if (i > 10 && i < 172) {
-        if (column == 0) {
-          const result = this.parseGameKey(
-            $(item).text().trim().replace(/\s\s+/g, " ")
-          );
-          game["result"] = result;
-        } else if (column == 1) {
-          const { spread, team } = this.parseSpread($(item).text().trim());
-          game["spread"] = spread;
-          game["spreadTeam"] = team;
-        } else {
-          game.picks.push($(item).text().trim());
-        }
-
+        this.parseGame($, column, item, game);
         if (column > 8) {
           column = 0;
-          if (game.result.winner) {
+          if (game.result && game.result.winner) {
             processor.analyzeGame(game);
           }
           data.games.push(game);
-          game = {
-            picks: [],
-          };
+          game = { picks: [] };
         } else {
           column++;
         }
@@ -64,6 +45,22 @@ module.exports = class Picks {
     return data;
   }
 
+  parseGame($, column, item, game) {
+    if (column == 0) {
+      const result = this.parseGameKey(
+        $(item).text().trim().replace(/\s\s+/g, " ")
+      );
+      game["result"] = result;
+    } else if (column == 1) {
+      const { spread, team } = this.parseSpread($(item).text().trim());
+      game["spread"] = spread;
+      game["spreadTeam"] = team;
+    } else {
+      game.picks.push($(item).text().trim());
+    }
+
+    return game;
+  }
   parseSpread(spread) {
     const expiredExpression = /(?<spread>.*\d?\.?\d)(?<team>.*)/g;
     const match = expiredExpression.exec(spread);
@@ -74,20 +71,17 @@ module.exports = class Picks {
   }
 
   parseGameKey(key) {
+    const result = {};
+    const split = key.split(" ");
+    result.awayTeam = split[0];
+    result.homeTeam = split[2];
     if (key.includes("RECAP")) {
-      const split = key.split(" ");
-      const result = {
-        awayTeam: split[0],
-        homeTeam: split[2],
-        awayScore: parseInt(split[3]),
-        homeScore: parseInt(split[5]),
-      };
-
+      result.awayScore = parseInt(split[3]);
+      result.homeScore = parseInt(split[5]);
       result["winner"] = result.awayScore > result.homeScore ? result.awayTeam : result.homeTeam;
-      return result;
     }
 
-    return {};
+    return result;
   }
 
   async loadPage(override, week) {

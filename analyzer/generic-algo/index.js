@@ -6,11 +6,11 @@ const Mutate = require("./mutate");
 const Phenotype = require("./phenotype");
 
 module.exports = class GenericAlgo {
-  constructor(data, generations, mutataionSize, verbose) {
+  constructor(data, generations, mutationSize, verbose) {
     this.generations = generations;
     const firstPhenotype = new Phenotype(
       data,
-      mutataionSize,
+      mutationSize,
       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
       3,
       false
@@ -20,7 +20,7 @@ module.exports = class GenericAlgo {
       mutationFunction: this.mutationFunction,
       crossoverFunction: this.crossoverFunction,
       fitnessFunction: this.fitnessFunction,
-      doesABeatBFunction: this.doesABeatBFunction,
+      // doesABeatBFunction: this.doesABeatBFunction,
       population: [firstPhenotype],
     });
   }
@@ -42,7 +42,7 @@ module.exports = class GenericAlgo {
   }
 
   start() {
-    console.log("Starting...");
+    console.log(`Starting...(${this.generations} gens)`);
     for (var i = 0; i < this.generations; i++) {
       if (i % 100 === 0) {
         console.log(
@@ -69,7 +69,7 @@ module.exports = class GenericAlgo {
     const obj = {
       score: this.geneticAlgorithm.bestScore(),
       model: this.geneticAlgorithm.best().analyst_ratings,
-      mutationSize: this.geneticAlgorithm.best().mutataionSize,
+      mutationSize: this.geneticAlgorithm.best().mutationSize,
       generations: this.generations
     };
     

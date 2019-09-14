@@ -16,7 +16,7 @@ module.exports = class ProcessData {
     }
   }
 
-  getExpertRating(data) {
+  getExpertRating($, data) {
     const { games } = data;
     const playedGames = games.filter(it => it.result.awayTeam);
     const weekRating = [];
@@ -33,6 +33,25 @@ module.exports = class ProcessData {
       });
     });
 
+  
     return weekRating;    
+  }
+
+  getOverallExpertRating($) {
+    const $overall = $(".LastSeasonRow").first();
+    let picks = [];
+    $overall.each((i, item) => {
+      const split = $(item).text().trim().replace(/\s\s+/g, " ").split(" ");      
+      
+      // some weird thing where space isn't recgonized in split.
+      picks = split[2].split(split[2][9]).map(it => {
+        const recordSplit = it.split("-");  
+        const wins = parseInt(recordSplit[0]);
+        const loses = parseInt(recordSplit[1])
+        return wins / (wins + loses);
+      })
+      
+    });
+    return picks;
   }
 };

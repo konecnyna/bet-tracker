@@ -1,3 +1,4 @@
+const util = new (require("./util"))();
 module.exports = class Fitness {
   constructor(verbose) {
     this.verbose = verbose;
@@ -9,50 +10,51 @@ module.exports = class Fitness {
     let won = 0;
     data.games.map((game, index) => {
       const { result } = game;
-
-      const confidence = {};
-      game.picks.map((pick, i) => {
-        if (!confidence[pick]) {
-          confidence[pick] = 0;
-        }
-
-        confidence[pick] += analyst_ratings[i];
-      });
-
+      const confidence = this.confidence(game, analyst_ratings, result);
       const keys = Object.keys(confidence);
-      const max = Math.max(confidence[keys[0]], confidence[keys[1]]);
-      if (max === confidence[result.coveringTeam]) {
-        won += 1;
-      }
+      won += this.win(confidence, result, keys);
 
       if (this.verbose) {
-        this.dumpData(game, confidence, keys, result);
+        const resultData = util.getResultData(game, confidence, keys, result);
+        this.resultsArr.push(resultData);
       }
     });
 
     return won / data.games.length;
   }
 
-  dumpData(game, confidence, keys, result) {
-    const rez = {};
+  win(confidence, result, keys) {
     const max = Math.max(confidence[keys[0]], confidence[keys[1]]);
-    
-    const confPts = Math.abs(confidence[keys[1]] - confidence[keys[0]]);
-    rez["spreadTeam"] = game.spreadTeam;
-    rez["spread"] = game.spread;
-    rez["confidence"] = confidence;
-    rez["confPts"] = confPts;
-    rez["pickedTeam"] = confidence[0] > confidence[1] ? keys[0] : keys[1];
-    if (result.coveringTeam) {      
-      rez["coveringTeam"] = result.coveringTeam;
-      const { homeScore, homeTeam, awayScore, awayTeam } = game.result;
-      rez["final"] = `${homeTeam}: ${homeScore} - ${awayTeam}: ${awayScore}`;          
-      rez["won"] = true;      
-      if (max !== confidence[result.coveringTeam]) {
-        rez["won"] = false;
-      }      
+    if (max === confidence[result.coveringTeam]) {
+      return 1;
     }
-    this.resultsArr.push(rez);
+
+    return 0;
+  }
+
+  confidence(game, analyst_ratings, result) {
+    const confidence = {};    
+    confidence[game.result.homeTeam] = 0;
+    confidence[game.result.awayTeam] = 0;
+    
+    game.picks.map((pick, i) => {
+      
+      const rating = analyst_ratings[i];
+
+      if (pick === "MIA" || pick === "NO") {
+        confidence[pick] += rating * -1;
+        return;
+      }
+      
+      if (result.homeTeam === pick) {
+        confidence[pick] += rating;
+      } else {
+        confidence[pick] += rating;
+      }
+
+    });
+
+    return confidence;
   }
 
   printConfidence(confidencePoints, favorite) {
