@@ -25,13 +25,18 @@ module.exports = class Mutate {
       return;
     }
     
-    // const { mutationSize, data } = phenotype;
-    // analyst_ratings[index] = 0;
-    // const distribution = mutationSize / (analyst_ratings.length - 1);
-    // analyst_ratings.map((rating, i) => {
-    //   if (i !== index) {
-    //     analyst_ratings[i] = analyst_ratings[i] - distribution;
-    //   }
-    // })
+    const { mutationSize, data } = phenotype;
+    analyst_ratings[index] = 0;
+    const distribution = mutationSize / (analyst_ratings.length - 1);
+    analyst_ratings.map((rating, i) => {
+      if (i !== index) {
+        const diff = analyst_ratings[i] - distribution;
+        if (diff > 0) {          
+          analyst_ratings[i] = diff;
+        } else {
+          analyst_ratings[i] = 0;
+        }        
+      }
+    })
   }
 };

@@ -41,7 +41,7 @@ module.exports = class Picks {
         } else if (column == 1) {
           const { spread, team } = this.parseSpread($(item).text().trim());
           game["spread"] = spread;
-          game["favoredTeam"] = team;
+          game["spreadTeam"] = team;
         } else {
           game.picks.push($(item).text().trim());
         }
