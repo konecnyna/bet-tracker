@@ -42,12 +42,12 @@ module.exports = class Fitness {
       const rating = analyst_ratings[i];
 
       if (pick === "MIA" || pick === "NO") {
-        confidence[pick] += rating * -1;
+        confidence[pick] += rating * -1 * 1/32;
         return;
       }
       
       if (result.homeTeam === pick) {
-        confidence[pick] += rating;
+        confidence[pick] += rating * 1.5;
       } else {
         confidence[pick] += rating;
       }

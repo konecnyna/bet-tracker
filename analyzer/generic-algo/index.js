@@ -49,6 +49,11 @@ module.exports = class GenericAlgo {
           `Evolving ${i} generation || ${this.geneticAlgorithm.bestScore()}`
         );
       }
+
+      if (this.geneticAlgorithm.bestScore() == 1) {
+        console.log("BEST SOLUTION FOUND.");
+        break;
+      }
       this.geneticAlgorithm.evolve();
     }
     const best = this.geneticAlgorithm.best();
