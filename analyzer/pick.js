@@ -12,8 +12,7 @@ module.exports = class Picks {
   parsePicks($) {
     const data = this.parseRow($);
     data["analysts_historical"] = processor.getExpertRating($, data);
-    data["analysts_overall"] = processor.getOverallExpertRating($);
-    console.log(data);
+    data["analysts_overall"] = processor.getOverallExpertRating($);    
     return data;
   }
 
@@ -85,7 +84,7 @@ module.exports = class Picks {
     return result;
   }
 
-  async loadPage(override, week) {
+  async loadPage(week, override) {
     const name = `./data/week_${week}_2019.html`;
     if (fs.existsSync(name) && !override) {
       return cheerio.load(fs.readFileSync(name));
