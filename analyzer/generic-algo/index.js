@@ -11,7 +11,7 @@ module.exports = class GenericAlgo {
     const firstPhenotype = new Phenotype(
       data,
       mutationSize,
-      [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+      Array.from({length: 8}, (x,i) => Math.random()),
       3,
       false
     );
@@ -20,7 +20,6 @@ module.exports = class GenericAlgo {
       mutationFunction: this.mutationFunction,
       crossoverFunction: this.crossoverFunction,
       fitnessFunction: this.fitnessFunction,
-      // doesABeatBFunction: this.doesABeatBFunction,
       population: [firstPhenotype],
     });
   }
@@ -43,10 +42,10 @@ module.exports = class GenericAlgo {
 
   async start() {
     process.on('SIGINT', () => {
-      console.log('You clicked Ctrl+C!');
       this.log();
       process.exit(1);
     });
+    
     console.log(`Starting...(${this.generations} gens)`);
 
     for (var i = 0; i < this.generations; i++) {

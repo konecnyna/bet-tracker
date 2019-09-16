@@ -13,7 +13,7 @@ getPicks = async () => {
 
 main = async () => {
   const completed = await getPicks();
-  const generations = 10;
+  const generations = 1000;
   // This must be < 1 and > 0
   const mutationSize = 0.17;
   const ga = new GA(completed, generations, mutationSize);

@@ -32,7 +32,6 @@ module.exports = class Fitness {
     return 0;
   }
 
-
   confidence(game, analyst_ratings, result) {
     const confidence = {};
     const picks = {};
@@ -40,24 +39,27 @@ module.exports = class Fitness {
     confidence[game.result.awayTeam] = 0;
     picks[game.result.homeTeam] = 0;
     picks[game.result.awayTeam] = 0;
-  
-    game.picks.map((pick, i) => {
 
+    game.picks.map((pick, i) => {
       const rating = analyst_ratings[i];
 
       // if (pick === "MIA") {
       //   confidence[pick] += rating * -1;
       //   return;
       // }
-      
-      confidence[pick] += rating;
-      // psicks[pick] += 1;
 
+      confidence[pick] += rating;
+      picks[pick] += 1;
     });
 
-    // const keys = Object.keys(picks);
-    // confidence[0] = confidence[0] / picks[keys[0]];
-    // confidence[1] = confidence[1] / picks[keys[1]];
+    Object.keys(picks).map(key => {
+      if (picks[key] === 0) {
+        return;
+      }
+
+      confidence[key] = confidence[key] / picks[key];
+    });
+
     return confidence;
   }
 
