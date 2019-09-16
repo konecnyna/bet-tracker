@@ -27,13 +27,13 @@ module.exports = class GenericAlgo {
 
   mutationFunction(phenotype) {
     const mutate = new Mutate();
-    return mutate.evolve(phenotype)    
+    return mutate.evolve(phenotype);
   }
 
   crossoverFunction(phenotypeA, phenotypeB) {
     // move, copy, or append some values from a to b and from b to a
     const crossover = new Crossover();
-    return crossover.mate(phenotypeA, phenotypeB);    
+    return crossover.mate(phenotypeA, phenotypeB);
   }
 
   fitnessFunction(phenotype) {
@@ -43,6 +43,7 @@ module.exports = class GenericAlgo {
 
   start() {
     console.log(`Starting...(${this.generations} gens)`);
+
     for (var i = 0; i < this.generations; i++) {
       if (i % 100 === 0) {
         console.log(
@@ -56,13 +57,18 @@ module.exports = class GenericAlgo {
       }
       this.geneticAlgorithm.evolve();
     }
+
+    this.log();
+    return this.geneticAlgorithm;
+  }
+  
+  log() {
     const best = this.geneticAlgorithm.best();
     const score = this.geneticAlgorithm.bestScore();
     console.log("Finished with:");
     console.log("Model:", best.analyst_ratings);
     console.log(`Final confidence: ${score}`);
     this.save();
-    return this.geneticAlgorithm;
   }
 
   async save() {
@@ -75,9 +81,9 @@ module.exports = class GenericAlgo {
       score: this.geneticAlgorithm.bestScore(),
       model: this.geneticAlgorithm.best().analyst_ratings,
       mutationSize: this.geneticAlgorithm.best().mutationSize,
-      generations: this.generations
+      generations: this.generations,
     };
-    
+
     if (cache.score < obj.score) {
       console.log("*******************************");
       console.log("*******************************");
@@ -87,6 +93,6 @@ module.exports = class GenericAlgo {
       console.log("*******************************");
       console.log("*******************************");
       await jsonfile.writeFile(file, obj);
-    }    
+    }
   }
 };

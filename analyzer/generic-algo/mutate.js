@@ -7,7 +7,6 @@ module.exports = class Mutate {
     analyst_ratings[gene1_index] = analyst_ratings[gene1_index] + mutationSize;
     analyst_ratings[gene2_index] = analyst_ratings[gene2_index] - mutationSize;
 
-
     return phenotype;
   }
 };

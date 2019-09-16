@@ -14,6 +14,7 @@ module.exports = class Util {
       const { homeScore, homeTeam, awayScore, awayTeam } = game.result;
       rez["final"] = `${homeTeam}: ${homeScore} - ${awayTeam}: ${awayScore}`;
       rez["won"] = true;
+      
       if (max !== confidence[result.coveringTeam]) {
         rez["won"] = false;
       }

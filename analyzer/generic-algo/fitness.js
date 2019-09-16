@@ -41,8 +41,8 @@ module.exports = class Fitness {
       
       const rating = analyst_ratings[i];
 
-      if (pick === "MIA" || pick === "NO") {
-        confidence[pick] += rating * -1 * 1/32;
+      if (pick === "MIA") {
+        confidence[pick] += rating * -1;
         return;
       }
       
