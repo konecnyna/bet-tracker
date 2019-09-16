@@ -25,14 +25,14 @@ predictWeek = async week => {
   const test = await picks.getPicks(2);
   test.games = test.games.filter(it => !it.result.coveringTeam);
   const model = [
-    2.005,
-    0.595,
-    1.065,
-    -2.6949999999999994,
-    1.065,
-    4.354999999999999,
-    1.535,
-    -6.924999999999997,
+    15.635000000000007,
+    -76.48499999999987,
+    49.47499999999993,
+    -1.2850000000000006,
+    -52.51499999999992,
+    76.73499999999987,
+    11.405000000000001,
+    -21.964999999999996
   ];
 
   const verify = new Verify(test, true);
