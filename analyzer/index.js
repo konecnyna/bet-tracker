@@ -17,7 +17,7 @@ main = async () => {
   // This must be < 1 and > 0
   const mutationSize = 0.17;
   const ga = new GA(completed, generations, mutationSize);
-  ga.start();
+  const algo = await ga.start();
 };
 
 predictWeek = async week => {
@@ -45,7 +45,7 @@ complete = async () => {
   const completed = await getPicks();
   const generations = 100;
   const ga = new GA(completed, generations, mutationSize);
-  const algo = ga.start();
+  const algo = await ga.start();
   const model = algo.best().analyst_ratings;
   const verify = new Verify(completed, true);
   verify.verifyModel(model);

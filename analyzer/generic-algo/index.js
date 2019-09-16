@@ -41,7 +41,12 @@ module.exports = class GenericAlgo {
     return fitness.calcScore(phenotype);
   }
 
-  start() {
+  async start() {
+    process.on('SIGINT', () => {
+      console.log('You clicked Ctrl+C!');
+      this.log();
+      process.exit(1);
+    });
     console.log(`Starting...(${this.generations} gens)`);
 
     for (var i = 0; i < this.generations; i++) {
@@ -56,12 +61,13 @@ module.exports = class GenericAlgo {
         break;
       }
       this.geneticAlgorithm.evolve();
+      await this.pause();
     }
 
     this.log();
     return this.geneticAlgorithm;
   }
-  
+
   log() {
     const best = this.geneticAlgorithm.best();
     const score = this.geneticAlgorithm.bestScore();
@@ -94,5 +100,9 @@ module.exports = class GenericAlgo {
       console.log("*******************************");
       await jsonfile.writeFile(file, obj);
     }
+  }
+
+  pause() {
+    return new Promise(res => setTimeout(res, 0));
   }
 };
