@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 const processor = new (require("./processor"))();
 
 module.exports = class Picks {
-  async getPicks(week, override = true) {
+  async getPicks(week, override = false) {
     const $ = await this.loadPage(week, override);
     return this.parsePicks($);
   }

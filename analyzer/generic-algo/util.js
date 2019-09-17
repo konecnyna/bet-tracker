@@ -8,7 +8,7 @@ module.exports = class Util {
     rez["spread"] = game.spread;
     rez["confidence"] = confidence;
     rez["confPts"] = Math.abs(confPts);
-    rez["pickedTeam"] = confidence[0] > confidence[1] ? keys[0] : keys[1];
+    rez["pickedTeam"] = confidence[keys[0]] > confidence[keys[1]] ? keys[0] : keys[1];
     if (result.coveringTeam) {
       rez["coveringTeam"] = result.coveringTeam;
       const { homeScore, homeTeam, awayScore, awayTeam } = game.result;

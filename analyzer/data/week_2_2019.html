@@ -677,7 +677,7 @@ var cbsiadGlobal = {
          var w=window,b='BidBarrel',q='queue';w[b]=w[b]?w[b]:{};w[b][q]=w[b][q]?w[b][q]:[];
          a.forEach(function(z){w[b][z]=function(){var c=arguments;w[b][q].push(function(r){w[b][z].apply(w[b],c);r()})}});
          if(d){var p=document,t='script',f=p.getElementsByTagName(t)[0];s=p.createElement(t);s.async=!0;s.id=b.toLowerCase();s.src=d;if(!f)f=p.head;f.parentNode.insertBefore(s,f)};
-    })(["on","auction","initialize","setTargeting","setOutOfPage"],"https://cbssports.cbsi.com/bidbarrel.js?v=206741568681227");
+    })(["on","auction","initialize","setTargeting","setOutOfPage"],"https://cbssports.cbsi.com/bidbarrel.js?v=867001568740445");
 
     BidBarrel.initialize({
         "dfpPath": "/8264/aw-cbssports/nfl/media/expert_picks/expertpicks",
@@ -938,7 +938,7 @@ var skyBoxScroll = function() {
                 <div class="nav-dropdown-top">
                   <div class="nav-dropdown-image"> <a href="https://www.cbssports.com/podcasts/fantasy-football-today-podcast/" om-nope="Global Nav|NFL|Listen|Featured Podcast|Image"><img src="https://sportshub.cbsistatic.com/i/2019/07/25/c42fd0c0-0298-404d-9d39-4d2aeea70272/fantasy-football.jpg" alt="fantasy-football"></a> </div>
                   <div class="nav-dropdown-top-side">
-                    <p class="nav-dropdown-top-title"> <a href="https://www.cbssports.com/podcasts/fantasy-football-today-podcast/" om-nope="Global Nav|NFL|Listen|Featured Podcast|Text"> Mailbag! </a> </p>
+                    <p class="nav-dropdown-top-title"> <a href="https://www.cbssports.com/podcasts/fantasy-football-today-podcast/" om-nope="Global Nav|NFL|Listen|Featured Podcast|Text"> Waiver Wire and Daniel Jones News </a> </p>
                     <time class="nav-dropdown-top-date">  </time>
                   </div>
                 </div>
@@ -948,7 +948,7 @@ var skyBoxScroll = function() {
                   <div class="nav-dropdown-image"> <a href="https://www.cbssports.com/podcasts/off-the-bench-with-kanell-and-bell/" om-nope="Global Nav|NFL|Listen|Featured Podcast|Image"><img src="https://sportshub.cbsistatic.com/i/2019/07/15/c79f451f-72ad-4289-843b-f9ec089dc262/kanell-bell.png" alt="kanell-bell"></a> </div>
                   <div class="nav-dropdown-top-side">
                     <p class="nav-dropdown-top-title"> <a href="https://www.cbssports.com/podcasts/off-the-bench-with-kanell-and-bell/" om-nope="Global Nav|NFL|Listen|Featured Podcast|Text"> Our Takes on the Top Sports Stories </a> </p>
-                    <time class="nav-dropdown-top-date"> 59h ago </time>
+                    <time class="nav-dropdown-top-date"> 1h ago </time>
                   </div>
                 </div>
             <ul><li class="nav-dropdown-item"> <a href="https://www.cbssports.com/podcasts/" om-nope="Global Nav|NFL|Listen|Podcasts Home">Podcasts Home</a> </li><li class="nav-dropdown-item"> <a href="https://www.cbssports.com/podcasts/fantasy-football-today-podcast/" om-nope="Global Nav|NFL|Listen|Fantasy Football Today">Fantasy Football Today</a> </li><li class="nav-dropdown-item"> <a href="https://www.cbssports.com/podcasts/pick-six/" om-nope="Global Nav|NFL|Listen|NFL Pick Six">NFL Pick Six</a> </li><li class="nav-dropdown-item"> <a href="https://www.cbssports.com/podcasts/cover-3-college-football-podcast/" om-nope="Global Nav|NFL|Listen|Cover 3 College Football">Cover 3 College Football</a> </li><li class="nav-dropdown-item"> <a href="https://www.cbssports.com/podcasts/eye-on-college-basketball/" om-nope="Global Nav|NFL|Listen|Eye On College Basketball">Eye On College Basketball</a> </li><li class="nav-dropdown-item"> <a href="https://www.cbssports.com/podcasts/state-of-combat-with-brian-campbell/" om-nope="Global Nav|NFL|Listen|State of Combat with Brian Campbell">State of Combat with Brian Campbell</a> </li><li class="nav-dropdown-item"> <a href="https://www.cbssports.com/podcasts/the-first-cut-with-kyle-porter/" om-nope="Global Nav|NFL|Listen|The First Cut with Kyle Porter">The First Cut with Kyle Porter</a> </li></ul>
@@ -1949,17 +1949,18 @@ $(document).ready(function() {
 					</div>	
 				</div>
 			</td><td class="spacer20"></td><tr class="row2" align="left"><td class="spacer20"></td><td width="60"><div id="gameBoxSpreadCtr">
-                <table id="matchupNameTablePreview"><tr align="left" valign="bottom">
-                <td><span class="teamAbbrPreview fright">CLE</td>
-                <td width="20" class="teamAmp" align="center">at</td>
-                <td width="50"><span class="teamAbbrPreview fleft">NYJ</td>
-                </tr></table>
-                <a href="/nfl/gametracker/preview/NFL_20190916_CLE@NYJ"><b>PREVIEW</b></a>
-                <br>
-    <table role="presentation" cellspacing="0" cellpadding="0"><tr>
-    <td><img src="//sports.cbsimg.net/images/sportsline/promo/sportsline-logo-green.png" alt="SportsLine.com"></td>
-    <td class="splnPromoTextContainer"><a class="splnPromoText fontProximaNovaSemi" href="https://www.sportsline.com/nfl/picksheet/?ttag=SL16_os_lk_cbsexpert_nfl_0901" target="_blank">PICKS</a></td>
-    </tr></table>
+                <table id="matchupNameTable"><tr align="left" valign="bottom">
+                <td width="25" valign="bottom" align="left"><span class="teamAbbrPreview">CLE</span></td>
+                <td width="10" align="center" valign="bottom" class="teamAmp">at</td>
+                <td width="25" align="right"><span class="teamAbbrPreview">NYJ</span></td>
+                </tr>
+				<tr align="center" valign="middle">
+                <td align="left"><span class="teamScore winner">23</span></td>
+                <td align="center"><span class="teamDashBlue">F</span></td>
+                <td align="right"><span class="teamScore">3</span></td>
+                </tr>				
+				</table>
+                <a href="/nfl/gametracker/recap/NFL_20190916_CLE@NYJ"><b>RECAP</b></a>
                 </div></td><td class="spacer20">&nbsp;</td><td width="60" class="gameLine" align="center"><div class="gameLineCtr"><span id="lineNumber">+6.5</span><br><span id="lineTeam">NYJ</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #0A223E;">NYJ</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #999999;">CLE</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #0A223E;">NYJ</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #999999;">CLE</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #0A223E;">NYJ</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #999999;">CLE</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #999999;">CLE</div></td><td class="spacer20">&nbsp;</td><td width="60" align="center"><div class="writerPicksCtr" style="color: #999999;">CLE</div></td><td class="spacer20">&nbsp;</td>
 			<td width="140" align="center">
 				<div id="resultsPicksGameStartCtrNFL_20190916_CLENYJA" class="resultsPicksGameStartCtr">
@@ -1983,7 +1984,7 @@ $(document).ready(function() {
 					</div>	
 				</div>
 			</td><td class="spacer20"></td>
-        <tr class="totalsRow" align="center"><td class="spacer20" rowspan="2"></td><td id="weeklyRecordLabel" width="60" rowspan="2" class="recordLabel" align="left">TOTALS</td><td class="spacer20"></td><td></td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">9-6-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">7-8-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">8-7-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotalsMost">10-5-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">4-11-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">8-7-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">8-7-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotalsMost">10-5-0</td><td class="spacer20">&nbsp;</td><td class="weeklyTotals"><span class="weeklyTotals">WEEKLY</span></td><td class="spacer20"></td></tr><tr class="totalsRow" align="center"><td class="spacer20"></td><td></td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotalsMost">17-13-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">14-16-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">16-14-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">16-14-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">11-19-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">16-14-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">15-15-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">15-15-1</td><td class="spacer20">&nbsp;</td><td class="overallTotals"><span class="overallTotals">OVERALL</span></td><td class="spacer20"></td></tr><tr class="LastSeasonRow"><td class="spacer20">&nbsp;</td><td class="lastSeasonLabel" align="left">2018-19 OVERALL</td><td class="spacer20">&nbsp;</td><td></td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">137-123-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">124-136-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">124-136-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">120-140-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">118-142-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">128-132-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">129-131-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotalsMost">145-115-7</td><td class="spacer20">&nbsp;</td></tr>
+        <tr class="totalsRow" align="center"><td class="spacer20" rowspan="2"></td><td id="weeklyRecordLabel" width="60" rowspan="2" class="recordLabel" align="left">TOTALS</td><td class="spacer20"></td><td></td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">9-7-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">8-8-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">8-8-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotalsMost">11-5-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">4-12-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">9-7-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotals">9-7-0</td><td class="spacer20">&nbsp;</td><td width="60" class="weeklyTotalsMost">11-5-0</td><td class="spacer20">&nbsp;</td><td class="weeklyTotals"><span class="weeklyTotals">WEEKLY</span></td><td class="spacer20"></td></tr><tr class="totalsRow" align="center"><td class="spacer20"></td><td></td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotalsMost">17-14-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">15-16-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">16-15-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotalsMost">17-14-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">11-20-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotalsMost">17-14-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">16-15-1</td><td class="spacer20">&nbsp;</td><td width="60" class="overallTotals">16-15-1</td><td class="spacer20">&nbsp;</td><td class="overallTotals"><span class="overallTotals">OVERALL</span></td><td class="spacer20"></td></tr><tr class="LastSeasonRow"><td class="spacer20">&nbsp;</td><td class="lastSeasonLabel" align="left">2018-19 OVERALL</td><td class="spacer20">&nbsp;</td><td></td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">137-123-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">124-136-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">124-136-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">120-140-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">118-142-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">128-132-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotals">129-131-7</td><td class="spacer20">&nbsp;</td><td class="lastSeasonTotalsMost">145-115-7</td><td class="spacer20">&nbsp;</td></tr>
         </table>
     </td></tbody></table>
     
@@ -2441,4 +2442,4 @@ var utag_data={
 
     
 </body>
-</html><!-- Page build info: XYAtCwoZUPoAAHTIkdo 'ws5117.tm.cbsig.net' 29896 20190916 20:47:07 /spln/local/media/cache/full/spln/819/JPXUavoGGlUomXoQrxo9Ew -->
+</html><!-- Page build info: XYEUXQoZUbIAACJffuA 'ws5223.tm.cbsig.net' 8799 20190917 13:14:05 /spln/local/media/cache/full/spln/819/JPXUavoGGlUomXoQrxo9Ew -->
