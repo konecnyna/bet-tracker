@@ -2,13 +2,14 @@ module.exports = class Util {
   getResultData(game, confidence, keys, result) {
     const rez = {};
     const max = Math.max(confidence[keys[0]], confidence[keys[1]]);
-
     const confPts = Math.abs(confidence[keys[1]] - confidence[keys[0]]);
+
     rez["spreadTeam"] = game.spreadTeam;
     rez["spread"] = game.spread;
     rez["confidence"] = confidence;
     rez["confPts"] = Math.abs(confPts);
     rez["pickedTeam"] = confidence[keys[0]] > confidence[keys[1]] ? keys[0] : keys[1];
+    
     if (result.coveringTeam) {
       rez["coveringTeam"] = result.coveringTeam;
       const { homeScore, homeTeam, awayScore, awayTeam } = game.result;

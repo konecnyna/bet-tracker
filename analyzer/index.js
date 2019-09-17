@@ -1,11 +1,12 @@
 const picks = new (require("./pick"))();
 const Verify = require("./verify");
 const GA = require("./generic-algo");
+const Chromosome = require("./generic-algo/chromosome");
 
 getPicks = async () => {
-  const week1 = await picks.getPicks(1, true);
+  const week1 = await picks.getPicks(1, false);
   // const week1 = { games: [] };
-  const week2 = await picks.getPicks(2, true);
+  const week2 = await picks.getPicks(2, false);
   const allGames = week2.games.concat(week1.games);
   week2.games = allGames.filter(it => it.result.coveringTeam);
   return week2;
@@ -21,7 +22,6 @@ main = async () => {
 };
 
 predictWeek = async week => {
-  console.log(week);
   const test = await picks.getPicks(2);
   test.games = test.games.filter(it => !it.result.coveringTeam);
   const model = [
@@ -36,19 +36,18 @@ predictWeek = async week => {
   ];
 
   const verify = new Verify(test, true);
-  verify.verifyModel(model);
+  verify.verifyModel(new Chromosome(model));
 };
 
 complete = async () => {
   // I think just a prime number.
   let mutationSize = 0.47;
   const completed = await getPicks();
-  const generations = 1000;
+  const generations = 1;
   const ga = new GA(completed, generations, mutationSize);
   const algo = await ga.start();
-  const model = algo.best().analyst_ratings;
   const verify = new Verify(completed, true);
-  verify.verifyModel(model);
+  verify.verifyModel(algo.best().chromosome);
 };
 
 const args = process.argv.slice(2);

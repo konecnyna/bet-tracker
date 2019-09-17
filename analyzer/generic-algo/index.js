@@ -5,6 +5,7 @@ const Crossover = require("./crossover");
 const Mutate = require("./mutate");
 const Phenotype = require("./phenotype");
 const logger = require("./logger");
+const Chromosome = require("./chromosome");
 
 module.exports = class GenericAlgo {
   constructor(data, generations, mutationSize, verbose) {
@@ -12,7 +13,7 @@ module.exports = class GenericAlgo {
     const firstPhenotype = new Phenotype(
       data,
       mutationSize,
-      Array.from({ length: 8 }, (x, i) => Math.random()),
+      new Chromosome(),
       3,
       false
     );
@@ -75,7 +76,7 @@ module.exports = class GenericAlgo {
     const cache = await jsonfile.readFileSync(file);
     const obj = {
       score: this.geneticAlgorithm.bestScore(),
-      model: this.geneticAlgorithm.best().analyst_ratings,
+      model: this.geneticAlgorithm.best().chromosome.genes,
       mutationSize: this.geneticAlgorithm.best().mutationSize,
       generations: this.generations,
     };

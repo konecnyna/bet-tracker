@@ -6,16 +6,16 @@ module.exports = class Verify {
     this.verbose = verbose;
   }
 
-  verifyModel(model) {
-    const phenotype = new Phenotype(this.data, 0.3, model, false);
+  verifyModel(chromosome) {
+    const phenotype = new Phenotype(this.data, 0.3, chromosome, false);
     this.fitness = new Fitness(this.verbose);
     this.fitness.calcScore(phenotype);
     const { resultsArr } = this.fitness;
 
     const sorted = resultsArr
-      .filter(it => {
-        return !it.won;
-      })
+      // .filter(it => {
+      //   return !it.won;
+      // })
       .sort((a, b) => {
         if (a.confPts > b.confPts) {
           return 1;

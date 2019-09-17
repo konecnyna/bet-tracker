@@ -5,9 +5,9 @@
 
 module.exports = class Mutate {
   evolve(phenotype) {
-    const { analyst_ratings } = phenotype;
-    const gene1_index = Math.floor(Math.random() * analyst_ratings.length);
-    analyst_ratings[gene1_index] = this.generateRating();
+    const { genes } = phenotype.chromosome;
+    const gene1_index = Math.floor(Math.random() * genes.length);
+    genes[gene1_index] = this.generateRating();
     return phenotype;
   }
 

@@ -87,9 +87,11 @@ module.exports = class Picks {
   async loadPage(week, override) {
     const name = `./data/week_${week}_2019.html`;
     if (fs.existsSync(name) && !override) {
+      console.log("Loading from cache...");
       return cheerio.load(fs.readFileSync(name));
     }
 
+    console.log("Loading picks from web...");
     const options = {
       uri: `https://www.cbssports.com/nfl/features/writers/expert/picks/against-the-spread/${week}`,
       transform: body => {

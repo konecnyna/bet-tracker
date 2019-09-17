@@ -6,11 +6,12 @@ module.exports = class Fitness {
   }
 
   calcScore(phenotype) {
-    const { data, analyst_ratings } = phenotype;
+    const { data,  chromosome } = phenotype;    
+    
     let won = 0;
-    data.games.map((game, index) => {
+    data.games.map((game) => {
       const { result } = game;
-      const confidence = this.confidence(game, analyst_ratings, result);
+      const confidence = this.confidence(game, chromosome.genes, result);
       const keys = Object.keys(confidence);
       won += this.win(confidence, result, keys);
 
@@ -32,7 +33,7 @@ module.exports = class Fitness {
     return 0;
   }
 
-  confidence(game, analyst_ratings, result) {
+  confidence(game, genes, result) {
     const confidence = {};
     const picks = {};
     confidence[game.result.homeTeam] = 0;
@@ -41,12 +42,12 @@ module.exports = class Fitness {
     picks[game.result.awayTeam] = 0;
 
     game.picks.map((pick, i) => {
-      const rating = analyst_ratings[i];
+      const rating = genes[i];
 
-      // if (pick === "MIA") {
-      //   confidence[pick] += rating * -1;
-      //   return;
-      // }
+      if (pick === "MIA") {
+        confidence[pick] += rating * .1;
+        return;
+      }
 
       confidence[pick] += rating;
       picks[pick] += 1;
