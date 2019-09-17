@@ -43,7 +43,7 @@ complete = async () => {
   // I think just a prime number.
   let mutationSize = 0.47;
   const completed = await getPicks();
-  const generations = 100;
+  const generations = 1000;
   const ga = new GA(completed, generations, mutationSize);
   const algo = await ga.start();
   const model = algo.best().analyst_ratings;

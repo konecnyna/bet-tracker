@@ -4,6 +4,7 @@ const Fitness = require("./fitness");
 const Crossover = require("./crossover");
 const Mutate = require("./mutate");
 const Phenotype = require("./phenotype");
+const logger = require("./logger");
 
 module.exports = class GenericAlgo {
   constructor(data, generations, mutationSize, verbose) {
@@ -11,7 +12,7 @@ module.exports = class GenericAlgo {
     const firstPhenotype = new Phenotype(
       data,
       mutationSize,
-      Array.from({length: 8}, (x,i) => Math.random()),
+      Array.from({ length: 8 }, (x, i) => Math.random()),
       3,
       false
     );
@@ -21,6 +22,12 @@ module.exports = class GenericAlgo {
       crossoverFunction: this.crossoverFunction,
       fitnessFunction: this.fitnessFunction,
       population: [firstPhenotype],
+    });
+
+    process.on("SIGINT", () => {
+      logger.dumpAlogInfo(this.geneticAlgorithm);
+      this.save();
+      process.exit(1);
     });
   }
 
@@ -41,18 +48,10 @@ module.exports = class GenericAlgo {
   }
 
   async start() {
-    process.on('SIGINT', () => {
-      this.log();
-      process.exit(1);
-    });
-    
     console.log(`Starting...(${this.generations} gens)`);
-
     for (var i = 0; i < this.generations; i++) {
       if (i % 100 === 0) {
-        console.log(
-          `Evolving ${i} generation || ${this.geneticAlgorithm.bestScore()}`
-        );
+        console.log(`Evolving ${i} generation || ${this.geneticAlgorithm.bestScore()}`);
       }
 
       if (this.geneticAlgorithm.bestScore() == 1) {
@@ -63,17 +62,9 @@ module.exports = class GenericAlgo {
       await this.pause();
     }
 
-    this.log();
-    return this.geneticAlgorithm;
-  }
-
-  log() {
-    const best = this.geneticAlgorithm.best();
-    const score = this.geneticAlgorithm.bestScore();
-    console.log("Finished with:");
-    console.log("Model:", best.analyst_ratings);
-    console.log(`Final confidence: ${score}`);
+    logger.dumpAlogInfo(this.geneticAlgorithm);
     this.save();
+    return this.geneticAlgorithm;
   }
 
   async save() {
