@@ -49,7 +49,7 @@ module.exports = class Fitness {
 
       const rating = genes[i];
 
-      if (pick === "MIA") {
+      if (pick === "MIA" || pick === "NYG") {
         confidence[pick] += rating * .1;
         return;
       }
@@ -58,7 +58,7 @@ module.exports = class Fitness {
       picks[pick] += 1;
     });
       
-    confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex]
+    confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex] * .1
 
     Object.keys(picks).map(key => {
       if (picks[key] === 0) {
