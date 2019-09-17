@@ -1,7 +1,7 @@
 const picks = new (require("./pick"))();
 const Verify = require("./verify");
 const GA = require("./generic-algo");
-const Chromosome = require("./generic-algo/chromosome");
+const { Builder } = require("./generic-algo/chromosome");
 
 getPicks = async () => {
   const week1 = await picks.getPicks(1, false);
@@ -36,14 +36,14 @@ predictWeek = async week => {
   ];
 
   const verify = new Verify(test, true);
-  verify.verifyModel(new Chromosome(model));
+  verify.verifyModel(new Builder().withGenes(model).build());
 };
 
-complete = async () => {
+complete = async (gens) => {
   // I think just a prime number.
   let mutationSize = 0.47;
   const completed = await getPicks();
-  const generations = 1;
+  const generations = gens;
   const ga = new GA(completed, generations, mutationSize);
   const algo = await ga.start();
   const verify = new Verify(completed, true);
@@ -56,7 +56,7 @@ switch (args[0]) {
     predictWeek(args[1]);
     break;
   case "complete":
-    complete();
+    complete(args[1] || 100);
     break;
   default:
     main();

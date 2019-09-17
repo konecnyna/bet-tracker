@@ -5,7 +5,7 @@ const Crossover = require("./crossover");
 const Mutate = require("./mutate");
 const Phenotype = require("./phenotype");
 const logger = require("./logger");
-const Chromosome = require("./chromosome");
+const { Chromosome, Builder } = require("./chromosome");
 
 module.exports = class GenericAlgo {
   constructor(data, generations, mutationSize, verbose) {
@@ -13,7 +13,7 @@ module.exports = class GenericAlgo {
     const firstPhenotype = new Phenotype(
       data,
       mutationSize,
-      new Chromosome(),
+      new Builder().build(),
       3,
       false
     );

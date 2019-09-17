@@ -1,4 +1,5 @@
 const util = new (require("./util"))();
+const { Chromosome } = require('./chromosome')
 module.exports = class Fitness {
   constructor(verbose) {
     this.verbose = verbose;
@@ -6,8 +7,8 @@ module.exports = class Fitness {
   }
 
   calcScore(phenotype) {
-    const { data,  chromosome } = phenotype;    
-    
+    const { data, chromosome } = phenotype;
+
     let won = 0;
     data.games.map((game) => {
       const { result } = game;
@@ -42,6 +43,10 @@ module.exports = class Fitness {
     picks[game.result.awayTeam] = 0;
 
     game.picks.map((pick, i) => {
+      if (i > Chromosome.analystEndIndex) {
+        return;
+      }
+
       const rating = genes[i];
 
       if (pick === "MIA") {
@@ -52,6 +57,8 @@ module.exports = class Fitness {
       confidence[pick] += rating;
       picks[pick] += 1;
     });
+      
+    confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex]
 
     Object.keys(picks).map(key => {
       if (picks[key] === 0) {
@@ -62,16 +69,5 @@ module.exports = class Fitness {
     });
 
     return confidence;
-  }
-
-  printConfidence(confidencePoints, favorite) {
-    const gameConfidence = confidencePoints;
-    let color = "\x1b[32m";
-    if (gameConfidence < 80 && gameConfidence > 50) {
-      color = "\x1b[34m";
-    } else if (gameConfidence < 50) {
-      color = "\x1b[31m";
-    }
-    console.log(color, `${favorite} - ${gameConfidence}%`, "\x1b[37m");
   }
 };
