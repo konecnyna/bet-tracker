@@ -1,5 +1,5 @@
 const util = new (require("./util"))();
-const { Chromosome } = require('./chromosome')
+const { Chromosome } = require("./chromosome");
 module.exports = class Fitness {
   constructor(verbose) {
     this.verbose = verbose;
@@ -10,9 +10,10 @@ module.exports = class Fitness {
     const { data, chromosome } = phenotype;
 
     let won = 0;
-    data.games.map((game) => {
+    const { analysts_overall } = data;
+    data.games.map(game => {
       const { result } = game;
-      const confidence = this.confidence(game, chromosome.genes, result);
+      const confidence = this.confidence(game, chromosome.genes, result, analysts_overall);
       const keys = Object.keys(confidence);
       won += this.win(confidence, result, keys);
 
@@ -34,7 +35,7 @@ module.exports = class Fitness {
     return 0;
   }
 
-  confidence(game, genes, result) {
+  confidence(game, genes, result, analysts_overall) {
     const confidence = {};
     const picks = {};
     confidence[game.result.homeTeam] = 0;
@@ -50,15 +51,17 @@ module.exports = class Fitness {
       const rating = genes[i];
 
       if (pick === "MIA" || pick === "NYG") {
-        confidence[pick] += rating * .1;
-        return;
+        confidence[pick] += rating * 0.1;
+      } else {
+        confidence[pick] += rating;
       }
-
-      confidence[pick] += rating;
+      
+      confidence[pick] += analysts_overall[i] * .5;
       picks[pick] += 1;
     });
-      
-    confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex] * .1
+
+    confidence[game.result.homeTeam] +=
+      genes[Chromosome.homeFieldAdvantageGeneIndex] * 0.1;
 
     Object.keys(picks).map(key => {
       if (picks[key] === 0) {

@@ -23,6 +23,7 @@ class Builder {
 
   withGenes(genes) {
     this.genes = genes
+    return this;
   }
 
   build() {

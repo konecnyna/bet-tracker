@@ -22,24 +22,25 @@ main = async () => {
 };
 
 predictWeek = async week => {
-  const test = await picks.getPicks(2);
-  test.games = test.games.filter(it => !it.result.coveringTeam);
+  const test = await picks.getPicks(week);
+  // test.games = test.games.filter(it => !it.result.coveringTeam);
   const model = [
-    15.635000000000007,
-    -76.48499999999987,
-    49.47499999999993,
-    -1.2850000000000006,
-    -52.51499999999992,
-    76.73499999999987,
-    11.405000000000001,
-    -21.964999999999996
+    0.1796389035956698,
+    0.061342841637115786,
+    0.5450172011760472,
+    0.3487166427618258,
+    0.3890104515170778,
+    0.8846229543386783,
+    0.866458443046201,
+    0.6189058340588012,
+    0.8480928414481717,
   ];
 
   const verify = new Verify(test, true);
   verify.verifyModel(new Builder().withGenes(model).build());
 };
 
-complete = async (gens) => {
+complete = async gens => {
   // I think just a prime number.
   let mutationSize = 0.47;
   const completed = await getPicks();
@@ -57,6 +58,12 @@ switch (args[0]) {
     break;
   case "complete":
     complete(args[1] || 100);
+    break;
+  case "weather":
+    const weather = async () => {
+      console.log(await new (require('./gene-data/weather'))().getWeatherForWeek(3))
+    }
+    weather();
     break;
   default:
     main();
