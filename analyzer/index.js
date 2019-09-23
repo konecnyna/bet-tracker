@@ -7,9 +7,14 @@ getPicks = async () => {
   const week1 = await picks.getPicks(1, false);
   // const week1 = { games: [] };
   const week2 = await picks.getPicks(2, false);
-  const allGames = week2.games.concat(week1.games);
-  week2.games = allGames.filter(it => it.result.coveringTeam);
-  return week2;
+  const week3 = await picks.getPicks(3, false);
+
+  let allGames = [];
+  allGames = allGames.concat(week1.games);
+  allGames = allGames.concat(week2.games);
+  allGames = allGames.concat(week3.games);
+  week3.games = allGames.filter(it => it.result.coveringTeam);
+  return week3;
 };
 
 main = async () => {
@@ -24,14 +29,14 @@ main = async () => {
 predictWeek = async week => {
   const test = await picks.getPicks(week);
   const model = [
-    0.22795321983834338, 
-    0.08838380734990037, 
-    0.42607730498664953, 
-    0.25860645770494584, 
-    0.26784180782921485, 
-    0.6405194225757649, 
-    0.5677434188741377, 
-    0.3911503691449527, 
+    0.22795321983834338,
+    0.08838380734990037,
+    0.42607730498664953,
+    0.25860645770494584,
+    0.26784180782921485,
+    0.6405194225757649,
+    0.5677434188741377,
+    0.3911503691449527,
     0.27301004489899516
   ];
 

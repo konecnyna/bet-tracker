@@ -10,7 +10,7 @@ module.exports = class Fitness {
     const { data, chromosome } = phenotype;
 
     let won = 0;
-    const { analysts_overall } = data;
+    const { analysts_overall } = data;    
     data.games.map(game => {
       const { result } = game;
       const confidence = this.confidence(game, chromosome.genes, result, analysts_overall);
@@ -39,7 +39,7 @@ module.exports = class Fitness {
     const confidence = {};
     confidence[game.result.homeTeam] = 0;
     confidence[game.result.awayTeam] = 0;
-    this.addAnalystScore(game, genes, confidence)
+    this.addAnalystScore(game, genes, confidence, analysts_overall)
     this.addHomeFieldAdvantage(game, genes, confidence)
     return confidence;
   }
@@ -48,7 +48,7 @@ module.exports = class Fitness {
     confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex] * .1
   }
 
-  addAnalystScore(game, genes, confidence) {
+  addAnalystScore(game, genes, confidence, analysts_overall) {
     const analystPicks = {};
     analystPicks[game.result.homeTeam] = 0;
     analystPicks[game.result.awayTeam] = 0;
@@ -66,7 +66,7 @@ module.exports = class Fitness {
       }
       confidence[pick] += analysts_overall[i] * .5;
       confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex] * 0.1;
-      picks[pick] += 1;
+      analystPicks[pick] += 1;
     });
 
     Object.keys(analystPicks).map(key => {
