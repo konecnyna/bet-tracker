@@ -22,6 +22,10 @@ class Builder {
   }
 
   withGenes(genes) {
+    if (genes.length != 9) {
+      throw new Error("Genes length is wrong.");
+    } 
+
     this.genes = genes
     return this;
   }

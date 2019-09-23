@@ -5,7 +5,6 @@ module.exports = class Util {
   getResultData(game, confidence, keys, result) {
     const rez = {};
     const max = Math.max(confidence[keys[0]], confidence[keys[1]]);
-    
     rez["spreadTeam"] = game.spreadTeam;
     rez["spread"] = game.spread;
     rez["confidence"] = confidence;
