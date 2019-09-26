@@ -12,7 +12,7 @@ module.exports = class Picks {
   parsePicks($) {
     const data = this.parseRow($);
     data["analysts_historical"] = processor.getExpertRating($, data);
-    data["analysts_overall"] = processor.getOverallExpertRating($);    
+    data["analysts_overall"] = processor.getOverallExpertRating($);
     return data;
   }
 
@@ -26,8 +26,12 @@ module.exports = class Picks {
     let game = {
       picks: [],
     };
+    
     $('[width="60"]').each((i, item) => {
       if (i > 10 && i < 172) {
+        if (column == 0 && !$(item).text().trim().replace(/\s\s+/g, " ").includes("at")) {
+          return;
+        }
         this.parseGame($, column, item, game);
         if (column > 8) {
           column = 0;
@@ -47,9 +51,8 @@ module.exports = class Picks {
 
   parseGame($, column, item, game) {
     if (column == 0) {
-      const result = this.parseGameKey(
-        $(item).text().trim().replace(/\s\s+/g, " ")
-      );
+      const text = $(item).text().trim().replace(/\s\s+/g, " ")
+      const result = this.parseGameKey(text);
       game["result"] = result;
     } else if (column == 1) {
       const { spread, team } = this.parseSpread($(item).text().trim());
@@ -85,7 +88,7 @@ module.exports = class Picks {
   }
 
   async loadPage(week, override) {
-    const name = `./data/week_${week}_2019.html`;
+    const name = `./data/week_${week}_${(new Date()).getFullYear()}.html`;
     if (fs.existsSync(name) && !override) {
       console.log("Loading from cache...");
       return cheerio.load(fs.readFileSync(name));

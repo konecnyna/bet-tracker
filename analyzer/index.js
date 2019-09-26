@@ -29,15 +29,15 @@ main = async () => {
 predictWeek = async week => {
   const test = await picks.getPicks(week);
   const model = [
-    0.22795321983834338,
-    0.08838380734990037,
-    0.42607730498664953,
-    0.25860645770494584,
-    0.26784180782921485,
-    0.6405194225757649,
-    0.5677434188741377,
-    0.3911503691449527,
-    0.27301004489899516
+    0.29301132883122905,
+    0.05086829726387343,
+    0.6998697089686927,
+    0.5839524611222289,
+    0.012251201165289993,
+    0.8746330937852225,
+    0.47319771653626463,
+    0.12412393430184765,
+    0.09101433688987015
   ];
 
   const verify = new Verify(test, true);
@@ -62,13 +62,7 @@ switch (args[0]) {
     break;
   case "complete":
     complete(args[1] || 100);
-    break;
-  case "weather":
-    const weather = async () => {
-      console.log(await new (require('./gene-data/weather'))().getWeatherForWeek(3))
-    }
-    weather();
-    break;
+    break;  
   default:
     main();
     break;

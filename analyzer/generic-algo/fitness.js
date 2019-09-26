@@ -13,7 +13,7 @@ module.exports = class Fitness {
     const { analysts_overall } = data;    
     data.games.map(game => {
       const { result } = game;
-      const confidence = this.confidence(game, chromosome.genes, result, analysts_overall);
+      const confidence = this.calcConfidence(game, chromosome.genes, analysts_overall);
       const keys = Object.keys(confidence);
       won += this.win(confidence, result, keys);
 
@@ -35,10 +35,8 @@ module.exports = class Fitness {
     return 0;
   }
 
-  confidence(game, genes, result, analysts_overall) {
-    const confidence = {};
-    confidence[game.result.homeTeam] = 0;
-    confidence[game.result.awayTeam] = 0;
+  calcConfidence(game, genes, analysts_overall) {
+    const confidence = Confidence(game.result);
     this.addAnalystScore(game, genes, confidence, analysts_overall)
     this.addHomeFieldAdvantage(game, genes, confidence)
     return confidence;
@@ -53,12 +51,11 @@ module.exports = class Fitness {
     analystPicks[game.result.homeTeam] = 0;
     analystPicks[game.result.awayTeam] = 0;
     game.picks.map((pick, i) => {
-      if (i > Chromosome.analystEndIndex) {
+      if (i > Chromosome.analystEndIndex || !pick) {
         return;
       }
 
       const rating = genes[i];
-
       if (pick === "MIA" || pick === "NYG") {
         confidence[pick] += rating * 0.1;
       } else {
@@ -80,3 +77,11 @@ module.exports = class Fitness {
     return analystPicks;
   }
 };
+
+
+const Confidence = (result) => {
+  const confidence = {};
+  confidence[result.homeTeam] = 0;
+  confidence[result.awayTeam] = 0;
+  return confidence
+}
