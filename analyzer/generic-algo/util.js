@@ -23,15 +23,4 @@ module.exports = class Util {
     }
     return rez;
   }
-
-  printConfidence(confidencePoints, favorite) {
-    const gameConfidence = confidencePoints;
-    let color = "\x1b[32m";
-    if (gameConfidence < 80 && gameConfidence > 50) {
-      color = "\x1b[34m";
-    } else if (gameConfidence < 50) {
-      color = "\x1b[31m";
-    }
-    console.log(color, `${favorite} - ${gameConfidence}%`, "\x1b[37m");
-  }
 };

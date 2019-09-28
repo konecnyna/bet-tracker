@@ -14,7 +14,6 @@ module.exports = class GenericAlgo {
       data,
       mutationSize,
       new Builder().build(),
-      3,
       false
     );
 
@@ -52,7 +51,9 @@ module.exports = class GenericAlgo {
     console.log(`Starting...(${this.generations} gens)`);
     for (var i = 0; i < this.generations; i++) {
       if (i % 100 === 0) {
-        console.log(`Evolving ${i} generation || ${this.geneticAlgorithm.bestScore()}`);
+        console.log(
+          `Evolving ${i} generation || ${this.geneticAlgorithm.bestScore()}`
+        );
       }
 
       if (this.geneticAlgorithm.bestScore() == 1) {
@@ -71,17 +72,15 @@ module.exports = class GenericAlgo {
   async save() {
     const jsonfile = require("jsonfile");
     const path = require("path");
-    const file = path.join(__dirname, "perf-data.json");
+    const file = path.join(__dirname, "../data/perf-data.json");
 
     const cache = await jsonfile.readFileSync(file);
     const obj = {
       score: this.geneticAlgorithm.bestScore(),
-      model: this.geneticAlgorithm.best().chromosome.genes,
-      mutationSize: this.geneticAlgorithm.best().mutationSize,
-      generations: this.generations,
+      phenotype: this.geneticAlgorithm.best(),
     };
 
-    if (cache.score < obj.score) {
+    if (cache.score < obj.score || !cache.score) {
       console.log("*******************************");
       console.log("*******************************");
       console.log(
@@ -89,7 +88,7 @@ module.exports = class GenericAlgo {
       );
       console.log("*******************************");
       console.log("*******************************");
-      await jsonfile.writeFile(file, obj);
+      await jsonfile.writeFile(file, obj, { spaces: 2 });
     }
   }
 

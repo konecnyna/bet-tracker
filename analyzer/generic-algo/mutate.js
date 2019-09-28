@@ -7,11 +7,11 @@ module.exports = class Mutate {
   evolve(phenotype) {
     const { genes } = phenotype.chromosome;
     const gene1_index = Math.floor(Math.random() * genes.length);
-    genes[gene1_index] = this.generateRating();
+    genes[gene1_index] = this.generateRating(phenotype.mutationSize);
     return phenotype;
   }
 
-  generateRating() {
-    return Math.random();
+  generateRating(mutationSize) {
+    return Math.random() * mutationSize;
   }
 };

@@ -1,6 +1,7 @@
 const picks = new (require("./pick"))();
 const Verify = require("./verify");
 const GA = require("./generic-algo");
+const Phenotype = require("./generic-algo/phenotype");
 const { Builder } = require("./generic-algo/chromosome");
 
 getPicks = async () => {
@@ -13,7 +14,7 @@ getPicks = async () => {
     ...week2.games,
     ...week3.games,
     ...week4.games,
-  ];  
+  ];
   week4.games = allGames.filter(it => it.result.coveringTeam);
   return week4;
 };
@@ -46,11 +47,18 @@ predictWeek = async week => {
     0.90649979852067,
     0.7421776430427918,
     0.0012979470313194685,
-    0.03266330409260276
+    0.03266330409260276,
+    0,
   ];
 
-  const verify = new Verify(gameData, true);
-  verify.verifyModel(new Builder().withGenes(model).build());
+  const phenotype = new Phenotype(
+    gameData,
+    0.1,
+    new Builder().withGenes(model).build(),
+    false
+  );
+  const verify = new Verify();
+  verify.verifyModel(phenotype);
 };
 
 complete = async gens => {
@@ -60,8 +68,8 @@ complete = async gens => {
   const generations = gens;
   const ga = new GA(completed, generations, mutationSize);
   const algo = await ga.start();
-  const verify = new Verify(completed, true);
-  verify.verifyModel(algo.best().chromosome);
+  const verify = new Verify();
+  verify.verifyModel(algo.best());
 };
 
 const args = process.argv.slice(2);

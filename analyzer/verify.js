@@ -1,14 +1,8 @@
 const Fitness = require("./generic-algo/fitness");
-const Phenotype = require("./generic-algo/phenotype");
-module.exports = class Verify {
-  constructor(data, verbose) {
-    this.data = data;
-    this.verbose = verbose;
-  }
 
-  verifyModel(chromosome) {
-    const phenotype = new Phenotype(this.data, 0.3, chromosome, false);
-    this.fitness = new Fitness(this.verbose);
+module.exports = class Verify {
+  verifyModel(phenotype) {
+    this.fitness = new Fitness(phenotype.verbose);
     this.fitness.calcScore(phenotype);
     const { resultsArr } = this.fitness;
 
@@ -35,5 +29,18 @@ module.exports = class Verify {
 
     console.log(sorted);
     console.log(`===== ${record} / ${resultsArr.length} (${(record/resultsArr.length * 100).toFixed(2)}%) =====`);
+  }
+
+  
+
+  printConfidence(confidencePoints, favorite) {
+    const gameConfidence = confidencePoints;
+    let color = "\x1b[32m";
+    if (gameConfidence < 80 && gameConfidence > 50) {
+      color = "\x1b[34m";
+    } else if (gameConfidence < 50) {
+      color = "\x1b[31m";
+    }
+    console.log(color, `${favorite} - ${gameConfidence}%`, "\x1b[37m");
   }
 };
