@@ -62,7 +62,22 @@ switch (args[0]) {
     break;
   case "complete":
     complete(args[1] || 100);
+<<<<<<< HEAD
     break;  
+=======
+    break;
+  case "weather":
+    const weather = async () => {
+      console.log(
+        await new (require("./gene-data/weather"))().getWeatherForWeek(3)
+      );
+    };
+    weather();
+    break;
+  case "spread":
+    new (require('./spreads'))().getSpreads(); 
+    break;
+>>>>>>> updoot
   default:
     main();
     break;

@@ -1,15 +1,17 @@
 const request = require("request-promise");
 const fs = require("fs");
 const cheerio = require("cheerio");
+const spreads = new (require("./spreads"))();
 const processor = new (require("./processor"))();
 
 module.exports = class Picks {
   async getPicks(week, override = false) {
     const $ = await this.loadPage(week, override);
-    return this.parsePicks($);
+    return await this.parsePicks($, week);
   }
 
-  parsePicks($) {
+  async parsePicks($, week) {
+    this.spreadData = await spreads.getSpreads(week);
     const data = this.parseRow($);
     data["analysts_historical"] = processor.getExpertRating($, data);
     data["analysts_overall"] = processor.getOverallExpertRating($);
@@ -58,6 +60,7 @@ module.exports = class Picks {
       const { spread, team } = this.parseSpread($(item).text().trim());
       game["spread"] = spread;
       game["spreadTeam"] = team;
+      game["spreadData"] = this.spreadData[team];
     } else {
       game.picks.push($(item).text().trim());
     }
@@ -81,7 +84,8 @@ module.exports = class Picks {
     if (key.includes("RECAP")) {
       result.awayScore = parseInt(split[3]);
       result.homeScore = parseInt(split[5]);
-      result["winner"] = result.awayScore > result.homeScore ? result.awayTeam : result.homeTeam;
+      result["winner"] =
+        result.awayScore > result.homeScore ? result.awayTeam : result.homeTeam;
     }
 
     return result;
@@ -90,7 +94,7 @@ module.exports = class Picks {
   async loadPage(week, override) {
     const name = `./data/week_${week}_${(new Date()).getFullYear()}.html`;
     if (fs.existsSync(name) && !override) {
-      console.log("Loading from cache...");
+      console.log("Load ing from cache...");
       return cheerio.load(fs.readFileSync(name));
     }
 
