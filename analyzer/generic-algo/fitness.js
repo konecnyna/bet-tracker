@@ -35,11 +35,19 @@ module.exports = class Fitness {
     return 0;
   }
 
-  calcConfidence(game, genes, analysts_overall) {
+  calcConfidence(game, genes, analysts_overall) {    
     const confidence = Confidence(game.result);
     this.addAnalystScore(game, genes, confidence, analysts_overall)
     this.addHomeFieldAdvantage(game, genes, confidence)
+    this.addSpreadMovement(game, genes, confidence);
     return confidence;
+  }
+
+  addSpreadMovement(game,genes,confidence) {
+    const {homeTeam, awayTeam} = game.result;
+    const {GENE_INDEX_SPREAD_MOVE} = Chromosome.indexes;
+    confidence[homeTeam] += game.spreadData[homeTeam].spreadDiff * genes[GENE_INDEX_SPREAD_MOVE];
+    confidence[awayTeam] += game.spreadData[awayTeam].spreadDiff * genes[GENE_INDEX_SPREAD_MOVE];
   }
 
   addHomeFieldAdvantage(game, genes, confidence) {
@@ -49,7 +57,7 @@ module.exports = class Fitness {
   addAnalystScore(game, genes, confidence, analysts_overall) {
     const analystPicks = {};
     analystPicks[game.result.homeTeam] = 0;
-    analystPicks[game.result.awayTeam] = 0;
+    analystPicks[game.result.awayTeam] = 0;        
     game.picks.map((pick, i) => {
       if (i > Chromosome.analystEndIndex || !pick) {
         return;
@@ -61,9 +69,13 @@ module.exports = class Fitness {
       } else {
         confidence[pick] += rating;
       }
+
       confidence[pick] += analysts_overall[i] * .5;
-      confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex] * 0.1;
-      analystPicks[pick] += 1;
+      if (pick === game.result.homeTeam) {
+        confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex] * .2;      
+      }
+      confidence[pick]
+      analystPicks[pick] += 1;      
     });
 
     Object.keys(analystPicks).map(key => {

@@ -5,16 +5,17 @@ const { Builder } = require("./generic-algo/chromosome");
 
 getPicks = async () => {
   const week1 = await picks.getPicks(1, false);
-  // const week1 = { games: [] };
-  const week2 = await picks.getPicks(2, false);
-  const week3 = await picks.getPicks(3, false);
-
-  let allGames = [];
-  allGames = allGames.concat(week1.games);
-  allGames = allGames.concat(week2.games);
-  allGames = allGames.concat(week3.games);
-  week3.games = allGames.filter(it => it.result.coveringTeam);
-  return week3;
+  const week2 = await picks.getPicks(2, false)
+  const week3 = await picks.getPicks(3, false)
+  const week4 = await picks.getPicks(4, false)
+  const allGames = [
+    ...week1.games,
+    ...week2.games,
+    ...week3.games,
+    ...week4.games,
+  ]
+  week4.games = allGames.filter(it => it.result.coveringTeam);
+  return week4;
 };
 
 main = async () => {
@@ -27,17 +28,20 @@ main = async () => {
 };
 
 predictWeek = async week => {
+  console.log(`Predicting Week: ${week}`);
   const test = await picks.getPicks(week);
+  // test.games = test.games.filter(it => !it.result.coveringTeam);
   const model = [
-    0.29301132883122905,
-    0.05086829726387343,
-    0.6998697089686927,
-    0.5839524611222289,
-    0.012251201165289993,
-    0.8746330937852225,
-    0.47319771653626463,
-    0.12412393430184765,
-    0.09101433688987015
+    0.1271085412968258,
+    0.042047077680865685,
+    0.8408859794620731,
+    0.4346945382313858,
+    0.21675806236442163,
+    0.9330058378326922,
+    0.9570179559479206,
+    0.8235262691269698,
+    0.0005076928749638832,
+    0.0547599358677342
   ];
 
   const verify = new Verify(test, true);
@@ -58,13 +62,10 @@ complete = async gens => {
 const args = process.argv.slice(2);
 switch (args[0]) {
   case "predict":
-    predictWeek(args[1]);
+    predictWeek(args[1] || 1);
     break;
   case "complete":
     complete(args[1] || 100);
-<<<<<<< HEAD
-    break;  
-=======
     break;
   case "weather":
     const weather = async () => {
@@ -77,7 +78,6 @@ switch (args[0]) {
   case "spread":
     new (require('./spreads'))().getSpreads(); 
     break;
->>>>>>> updoot
   default:
     main();
     break;

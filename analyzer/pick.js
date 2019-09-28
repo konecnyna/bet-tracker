@@ -28,10 +28,13 @@ module.exports = class Picks {
     let game = {
       picks: [],
     };
-    
+
     $('[width="60"]').each((i, item) => {
       if (i > 10 && i < 172) {
-        if (column == 0 && !$(item).text().trim().replace(/\s\s+/g, " ").includes("at")) {
+        if (
+          column == 0 &&
+          !$(item).text().trim().replace(/\s\s+/g, " ").includes("at")
+        ) {
           return;
         }
         this.parseGame($, column, item, game);
@@ -53,14 +56,19 @@ module.exports = class Picks {
 
   parseGame($, column, item, game) {
     if (column == 0) {
-      const text = $(item).text().trim().replace(/\s\s+/g, " ")
+      const text = $(item).text().trim().replace(/\s\s+/g, " ");
       const result = this.parseGameKey(text);
       game["result"] = result;
     } else if (column == 1) {
       const { spread, team } = this.parseSpread($(item).text().trim());
       game["spread"] = spread;
       game["spreadTeam"] = team;
-      game["spreadData"] = this.spreadData[team];
+      if (game.result) {
+        const { result } = game;        
+        game.spreadData = {};
+        game.spreadData[result.awayTeam] = this.spreadData[result.awayTeam];
+        game.spreadData[result.homeTeam] = this.spreadData[result.homeTeam];        
+      }
     } else {
       game.picks.push($(item).text().trim());
     }
@@ -81,6 +89,7 @@ module.exports = class Picks {
     const split = key.split(" ");
     result.awayTeam = split[0];
     result.homeTeam = split[2];
+
     if (key.includes("RECAP")) {
       result.awayScore = parseInt(split[3]);
       result.homeScore = parseInt(split[5]);
@@ -92,7 +101,7 @@ module.exports = class Picks {
   }
 
   async loadPage(week, override) {
-    const name = `./data/week_${week}_${(new Date()).getFullYear()}.html`;
+    const name = `./data/week_${week}_${new Date().getFullYear()}.html`;
     if (fs.existsSync(name) && !override) {
       console.log("Load ing from cache...");
       return cheerio.load(fs.readFileSync(name));
