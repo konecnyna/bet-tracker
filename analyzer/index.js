@@ -5,15 +5,15 @@ const { Builder } = require("./generic-algo/chromosome");
 
 getPicks = async () => {
   const week1 = await picks.getPicks(1, false);
-  const week2 = await picks.getPicks(2, false)
-  const week3 = await picks.getPicks(3, false)
-  const week4 = await picks.getPicks(4, false)
+  const week2 = await picks.getPicks(2, false);
+  const week3 = await picks.getPicks(3, false);
+  const week4 = await picks.getPicks(4, false);
   const allGames = [
     ...week1.games,
     ...week2.games,
     ...week3.games,
     ...week4.games,
-  ]
+  ];  
   week4.games = allGames.filter(it => it.result.coveringTeam);
   return week4;
 };
@@ -28,23 +28,28 @@ main = async () => {
 };
 
 predictWeek = async week => {
-  console.log(`Predicting Week: ${week}`);
-  const test = await picks.getPicks(week);
-  // test.games = test.games.filter(it => !it.result.coveringTeam);
+  let gameData;
+  if (week) {
+    console.log(`Predicting Week: ${week}`);
+    gameData = await picks.getPicks(week);
+  } else {
+    console.log(`Predicting All`);
+    gameData = await getPicks();
+  }
   const model = [
-    0.1271085412968258,
-    0.042047077680865685,
-    0.8408859794620731,
-    0.4346945382313858,
-    0.21675806236442163,
-    0.9330058378326922,
-    0.9570179559479206,
-    0.8235262691269698,
-    0.0005076928749638832,
-    0.0547599358677342
+    0.2117039236335021,
+    0.19675175571960657,
+    0.6706709324851114,
+    0.5120877931563828,
+    0.4862895585386269,
+    0.9893719261741352,
+    0.90649979852067,
+    0.7421776430427918,
+    0.0012979470313194685,
+    0.03266330409260276
   ];
 
-  const verify = new Verify(test, true);
+  const verify = new Verify(gameData, true);
   verify.verifyModel(new Builder().withGenes(model).build());
 };
 
@@ -62,7 +67,7 @@ complete = async gens => {
 const args = process.argv.slice(2);
 switch (args[0]) {
   case "predict":
-    predictWeek(args[1] || 1);
+    predictWeek(args[1]);
     break;
   case "complete":
     complete(args[1] || 100);
@@ -76,7 +81,7 @@ switch (args[0]) {
     weather();
     break;
   case "spread":
-    new (require('./spreads'))().getSpreads(); 
+    new (require("./spreads"))().getSpreads();
     break;
   default:
     main();

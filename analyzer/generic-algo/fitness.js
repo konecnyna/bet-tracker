@@ -64,17 +64,16 @@ module.exports = class Fitness {
       }
 
       const rating = genes[i];
-      if (pick === "MIA" || pick === "NYG") {
-        confidence[pick] += rating * 0.1;
+      if (["MIA","NYG","CLE","SF"].includes(pick)) {
+        confidence[pick] += rating * 0.8;
       } else {
         confidence[pick] += rating;
       }
 
-      confidence[pick] += analysts_overall[i] * .5;
+      confidence[pick] += analysts_overall[i];
       if (pick === game.result.homeTeam) {
-        confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex] * .2;      
+        confidence[game.result.homeTeam] += genes[Chromosome.homeFieldAdvantageGeneIndex];      
       }
-      confidence[pick]
       analystPicks[pick] += 1;      
     });
 

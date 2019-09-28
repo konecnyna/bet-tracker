@@ -8,17 +8,17 @@ module.exports = class Crossover {
   }
 
   mate(a, b) {
-    const { genes } = a.chromosome
+    const { genes } = a.chromosome;
     const x = this.cloneJSON(a);
     const y = this.cloneJSON(b);
     let cross = false;
-    for (var i in a.numbers) {
+    for (var i in a.genes) {
       if (Math.random() * genes.length <= 1) {
         cross = !cross;
       }
       if (cross) {
-        x.numbers[i] = b.numbers[i];
-        y.numbers[i] = a.numbers[i];
+        x.chromosome.genes[i] = b.chromosome.genes[i];
+        y.chromosome.genes[i] = a.chromosome.genes[i];
       }
     }
     return [x, y];
