@@ -4,6 +4,18 @@ body {
   background-color: #000;
   color: white;
 }
+
+.modal {
+  background-color: #121212;
+  
+}
+.modal textarea {
+  background-color: #000;  
+}
+.modal-footer {
+  background-color: #121212 !important;
+  color: white;
+}
 textarea {
   height: 400px;
 }
@@ -98,4 +110,10 @@ textarea {
 
 .losingText {
   color: red
+}
+
+.game-divider {
+  height: 1px;
+  background-color: #efefef;
+  opacity: .25;
 }
