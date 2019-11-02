@@ -1,7 +1,10 @@
 <div class="score-card">
   <div class="row header">
-    <div class="col s12">
+    <div class="col s6">
       {{card.time_text}}
+    </div>
+    <div class="col s6" [ngClass]="{'winningText':card.covering > 0, 'losingText': card.covering <= 0}">
+      {{card.covering_text}}
     </div>
   </div>
   <div class="row">
@@ -19,8 +22,6 @@
     <div class="col s3" style="text-align: right;">{{card.vs}}</div>
   </div>
   <div class="footer">
-    {{card.q === "P" ? "" : card.q}} {{card.k}}
-    <span
-      [ngClass]="{'winningText':card.covering > 0, 'losingText': card.covering <= 0}">({{card.covering_text}})</span>
+    {{card.hnn_info || card.vnn_info}}
   </div>
 </div>
