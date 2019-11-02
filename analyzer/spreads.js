@@ -16,6 +16,9 @@ String.prototype.sanitize = function() {
 
 module.exports = class Spreads {
   async getSpreads(week) {
+    if (!week) {
+      throw new Error("No week passed to spreads");
+    }
     const $ = await this.loadPage(week);
     const lookup = objectFlip(MAP);
     const gameData = {};
@@ -39,6 +42,10 @@ module.exports = class Spreads {
         };
       });
     });
+    
+    if (JSON.stringify(gameData) === JSON.stringify({})) {
+      // throw new Error("Error parsing spreads");
+    }
     return gameData;
   }
 

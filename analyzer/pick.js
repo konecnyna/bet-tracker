@@ -10,7 +10,7 @@ module.exports = class Picks {
     return await this.parsePicks($, week);
   }
 
-  async parsePicks($, week) {
+  async parsePicks($, week) {    
     this.spreadData = await spreads.getSpreads(week);
     const data = this.parseRow($);
     data["analysts_historical"] = processor.getExpertRating($, data);

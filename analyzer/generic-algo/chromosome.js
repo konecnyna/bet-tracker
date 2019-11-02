@@ -26,9 +26,10 @@ class Chromosome {
 
 class Builder {
   constructor() {
-    this.genesLength = 11;
+    this.genesLength = 8;
     this.genes = Array.from({ length: this.genesLength }, (x, i) =>
-      Math.random()
+      // Math.random()
+      0.125
     );
   }
 

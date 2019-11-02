@@ -40,10 +40,11 @@ module.exports = class Fitness {
 
   calcConfidence(game, genes, analysts_overall) {
     const confidence = Confidence(game.result);
-    this.addAnalystScore(game, genes, confidence, analysts_overall);
-    this.addHomeFieldAdvantage(game, genes, confidence);
-    this.addSpreadMovement(game, genes, confidence);
-    this.addFavoriteAdvantage(game, genes, confidence);
+    const tst = this.getAnalystConfidence(game, genes, confidence, analysts_overall);
+    // console.log(tst);
+    // this.addHomeFieldAdvantage(game, genes, confidence);
+    // this.addSpreadMovement(game, genes, confidence);
+    // this.addFavoriteAdvantage(game, genes, confidence);
     return confidence;
   }
 
@@ -51,7 +52,7 @@ module.exports = class Fitness {
     const favorite =
       game.spread < 0 ? game.result.homeTeam : game.result.awayTeam;
     const { GENE_INDEX_FAVORITE } = Chromosome.indexes;
-    confidence[favorite] += genes[GENE_INDEX_FAVORITE] * .5;
+    confidence[favorite] += genes[GENE_INDEX_FAVORITE] * 0.5;
   }
 
   addSpreadMovement(game, genes, confidence) {
@@ -64,11 +65,12 @@ module.exports = class Fitness {
   }
 
   addHomeFieldAdvantage(game, genes, confidence) {
+    
     confidence[game.result.homeTeam] +=
       genes[Chromosome.homeFieldAdvantageGeneIndex] * 0.1;
   }
 
-  addAnalystScore(game, genes, confidence, analysts_overall) {
+  getAnalystConfidence(game, genes, confidence, analysts_overall) {
     const analystPicks = {};
     analystPicks[game.result.homeTeam] = 0;
     analystPicks[game.result.awayTeam] = 0;
@@ -78,29 +80,10 @@ module.exports = class Fitness {
       }
 
       const rating = genes[i];
-      if (["MIA", "NYG", "CLE", "SF"].includes(pick)) {
-        confidence[pick] += rating * 0.8;
-      } else {
-        confidence[pick] += rating;
-      }
-
-      confidence[pick] += analysts_overall[i];
-      if (pick === game.result.homeTeam) {
-        confidence[game.result.homeTeam] +=
-          genes[Chromosome.homeFieldAdvantageGeneIndex];
-      }
+      confidence[pick] += rating;       
       analystPicks[pick] += 1;
     });
-
-    Object.keys(analystPicks).map(key => {
-      if (analystPicks[key] === 0) {
-        return;
-      }
-
-      confidence[key] = confidence[key] / analystPicks[key];
-    });
-
-    return analystPicks;
+    return analystPicks
   }
 };
 

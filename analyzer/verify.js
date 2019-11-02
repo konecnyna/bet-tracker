@@ -7,9 +7,12 @@ module.exports = class Verify {
     const { resultsArr } = this.fitness;
 
     const sorted = resultsArr
-      .filter(it => {
-        return !it.won;
-      })
+      // .filter(it => {
+      //   return !it.final;
+      // })
+      // .filter(it => {
+      //   return !it.won;
+      // })
       .sort((a, b) => {
         if (a.confPts > b.confPts) {
           return 1;

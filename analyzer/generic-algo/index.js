@@ -3,19 +3,12 @@ const geneticAlgorithm = require("geneticAlgorithm");
 const Fitness = require("./fitness");
 const Crossover = require("./crossover");
 const Mutate = require("./mutate");
-const Phenotype = require("./phenotype");
 const logger = require("./logger");
-const { Chromosome, Builder } = require("./chromosome");
 
 module.exports = class GenericAlgo {
-  constructor(data, generations, mutationSize, verbose) {
+  constructor(phenotype, generations) {
     this.generations = generations;
-    const firstPhenotype = new Phenotype(
-      data,
-      mutationSize,
-      new Builder().build(),
-      false
-    );
+    const firstPhenotype = phenotype;
 
     this.geneticAlgorithm = geneticAlgorithm({
       mutationFunction: this.mutationFunction,
@@ -56,10 +49,10 @@ module.exports = class GenericAlgo {
         );
       }
 
-      if (this.geneticAlgorithm.bestScore() == 1) {
-        console.log("BEST SOLUTION FOUND.");
-        break;
-      }
+      // if (this.geneticAlgorithm.bestScore() == 1) {
+      //   console.log("BEST SOLUTION FOUND.");
+      //   break;
+      // }
       this.geneticAlgorithm.evolve();
       await this.pause();
     }

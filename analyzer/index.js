@@ -6,25 +6,26 @@ const { Builder } = require("./generic-algo/chromosome");
 
 getPicks = async () => {
   const week1 = await picks.getPicks(1, false);
-  const week2 = await picks.getPicks(2, false);
-  const week3 = await picks.getPicks(3, false);
-  const week4 = await picks.getPicks(4, false);
+  // const week2 = await picks.getPicks(2, false);
+  // const week3 = await picks.getPicks(3, false);
+  // const week4 = await picks.getPicks(4, false);
+  // const week5 = await picks.getPicks(5, false);
   const allGames = [
     ...week1.games,
-    ...week2.games,
-    ...week3.games,
-    ...week4.games,
+    // ...week2.games,
+    // ...week3.games,
+    // ...week4.games,
+    // ...week5.games,
   ];
-  week4.games = allGames.filter(it => it.result.coveringTeam);
-  return week4;
+  week1.games = allGames.filter(it => it.result.coveringTeam);
+  return week1;
 };
 
 main = async () => {
   const completed = await getPicks();
   const generations = 1000;
-  // This must be < 1 and > 0
-  const mutationSize = 0.17;
-  const ga = new GA(completed, generations, mutationSize);
+  const phenotype = new Phenotype(completed, 0.1, new Builder().build(), false);
+  const ga = new GA(phenotype, generations);
   const algo = await ga.start();
 };
 
@@ -32,23 +33,23 @@ predictWeek = async week => {
   let gameData;
   if (week) {
     console.log(`Predicting Week: ${week}`);
-    gameData = await picks.getPicks(week);
+    gameData = await picks.getPicks(week, true);
   } else {
     console.log(`Predicting All`);
     gameData = await getPicks();
   }
   const model = [
-    0.2117039236335021,
-    0.19675175571960657,
-    0.6706709324851114,
-    0.5120877931563828,
-    0.4862895585386269,
-    0.9893719261741352,
-    0.90649979852067,
-    0.7421776430427918,
-    0.0012979470313194685,
-    0.03266330409260276,
-    0,
+    -1.0464793567922819,
+    -2.4010791869772845,
+    0.4650016975131527,
+    0.6646991495437146,
+    0.2888468940324611,
+    1.7407059046743494,
+    -0.2335042938999865,
+    1.0119818425323128,
+    -0.6453059726557147,
+    0.039608476486313215,
+    0.2858923398482053,
   ];
 
   const phenotype = new Phenotype(
@@ -63,11 +64,24 @@ predictWeek = async week => {
 
 complete = async gens => {
   // I think just a prime number.
-  let mutationSize = 0.47;
-  const completed = await getPicks();
-  const generations = gens;
-  const ga = new GA(completed, generations, mutationSize);
-  const algo = await ga.start();
+  const gameData = await getPicks();
+  let chromosome = new Builder().build();
+  let mutation = 0.9;
+  let algo;
+  // while (mutation > 0) {
+    console.log(mutation);
+    const phenotype = new Phenotype(
+      gameData,
+      mutation,
+      new Builder().withGenes(chromosome.genes).build(),
+      false
+    );
+    const ga = new GA(phenotype, gens);
+    algo = await ga.start();
+    chromosome = ga.geneticAlgorithm.best().chromosome;
+    mutation -= 0.1;
+  // }
+
   const verify = new Verify();
   verify.verifyModel(algo.best());
 };
@@ -89,9 +103,9 @@ switch (args[0]) {
     weather();
     break;
   case "spread":
-    new (require("./spreads"))().getSpreads();
+    new (require("./spreads"))().getSpreads(5);
     break;
   default:
-    main();
+    console.log("Please choose predict, complete, weather, spread");
     break;
 }

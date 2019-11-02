@@ -1,0 +1,19 @@
+<div class="score-card" >
+  <div class="row">
+    <div class="col s9" style="height:30px">
+      <img src="{{card.home_team_icon}}" class="team-icon" align="left">
+      {{card.h}} {{card.h == card.possessionTeamAbbr ? "•" : ""}}
+    </div>
+    <div class="col s3" style="text-align: right;">{{card.hs}}</div>
+  </div>
+  <div class="row" >
+    <div class="col s9" style="height:30px">
+      <img src="{{card.away_team_icon}}" class="team-icon" align="left">
+      {{card.v}} {{card.v == card.possessionTeamAbbr ? "•" : ""}} 
+    </div>
+    <div class="col s3" style="text-align: right;">{{card.vs}}</div>
+  </div>
+  <div class="footer">
+    {{card.q}} • {{card.k}} <span [ngClass]="{'winningText':card.covering > 0, 'losingText': card.covering <= 0}">({{card.covering_text}})</span>
+  </div>
+</div>
