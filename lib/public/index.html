@@ -30,18 +30,15 @@
         </div>
 
         <div class="row">
-            <button data-target="modal1" class="btn modal-trigger">Edit Picks</button>
+            <button data-target="picks-modal" class="btn modal-btns modal-trigger">Edit Picks</button>
         </div>
 
         <!-- Modal Structure -->
-        <div id="modal1" class="modal  bottom-sheet" ng-controller="picksCtrl">
+        <div id="picks-modal" class="modal  bottom-sheet" ng-controller="picksCtrl">            
             <div class="modal-content">
-                <!-- <div id="jsoneditor" style="color:white;width: 100%; height: 400px;"></div> -->
                 <textarea id="json-picks">{{picks}}</textarea>   
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
-            </div>
+            </div>               
+            <a href="#!" class="modal-action modal-close waves-effect waves-green modal-btn btn">Done</a>                 
         </div>
 
     </div>
