@@ -76,7 +76,7 @@ textarea {
 }
 
 .bet-losing {
-  color: #CF6679;
+  color: #cf6679;
 }
 .bet-winning {
   color: #03dac6;
@@ -88,7 +88,7 @@ textarea {
   margin-right: 0px;
   margin-top: 0px;
   padding: 8px;
-  width: 170px;
+  width: 190px;
   /* border-bottom: none; */
   border: 1px solid rgba(0, 0, 0, .5);
   /* border-top: none; */
@@ -124,6 +124,7 @@ textarea {
   color: #fff;
   font-size: 8px;
   font-style: normal;
+  margin-bottom: 4px;
 }
 
 .game-divider {
