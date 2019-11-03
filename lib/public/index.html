@@ -20,28 +20,27 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/7.0.4/jsoneditor.min.css" rel="stylesheet"
         type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/7.0.4/jsoneditor.min.js"></script>
-    <link rel="stylesheet" href="app/style.css">    
+    <link rel="stylesheet" href="app/style.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div ng-include="'app/app.html'"></div>
-        </div>
 
-        <div class="row">
-            <button data-target="picks-modal" class="btn modal-btns modal-trigger">Edit Picks</button>
-        </div>
-
-        <!-- Modal Structure -->
-        <div id="picks-modal" class="modal  bottom-sheet" ng-controller="picksCtrl">            
-            <div class="modal-content">
-                <textarea id="json-picks">{{picks}}</textarea>   
-            </div>               
-            <a href="#!" class="modal-action modal-close waves-effect waves-green modal-btn btn">Done</a>                 
-        </div>
-
+    <div class="row">
+        <div ng-include="'app/app.html'"></div>
     </div>
+
+
+    <button data-target="picks-modal" class="btn modal-btn modal-trigger">Edit Picks</button>
+
+    <!-- Modal Structure -->
+    <div id="picks-modal" class="modal  bottom-sheet" ng-controller="picksCtrl">
+        <div class="modal-content">
+            <textarea id="json-picks">{{picks}}</textarea>
+        </div>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green modal-btn btn">Done</a>
+    </div>
+
+
 </body>
 
 <script>
@@ -56,7 +55,7 @@
                 const container = document.getElementById("jsoneditor")
                 const options = {
                     search: false
-                }                
+                }
                 const editor = new JSONEditor(container, options)
                 // set json
                 const initialJson = JSON.parse(angular.element(document.querySelector('[ng-controller="picksCtrl"]')).scope().picks)
