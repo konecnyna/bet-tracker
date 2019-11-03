@@ -4,6 +4,7 @@ var games = require("./lib/games.js");
 var predictions = require("./lib/predictions.js");
 var rss = require("./lib/football_rss.js");
 const request = require('request-promise');
+
 var path = require("path");
 var ROOT_NAME = "/bet-tracker";
 
