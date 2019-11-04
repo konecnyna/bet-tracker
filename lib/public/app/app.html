@@ -1,15 +1,6 @@
-<div ng-controller="cardsCtrl" class="card-container">
-  <div ng-repeat="pick in picks">
-    <div class="{{lost[$index]}}">
-      <ul class="list-inline">
-        <li ng-repeat="card in pick">
-          <div ng-include="'app/card-new.html'" />
-        </li>
-      </ul>
-    </div>
-    <div ng-if="!$last">
-      <div class="game-divider" />
-    </div>
+<div ng-controller="cardsCtrl" class="card-container">  
+  <div ng-repeat="pick in picks" class="row flat-row">      
+    <div class="game-divider" ng-show="!$first"></div>
+    <div ng-repeat="card in pick" ng-include="'app/card-new.html'" class="col s6" />
   </div>
-</div>
 </div>
