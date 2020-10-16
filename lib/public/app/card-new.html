@@ -12,7 +12,7 @@
   <div class="row">
     <div class="col s9" style="height:30px">
       <img src="{{card.home_team_icon}}" class="team-icon" align="left">
-      {{card.h}} <span class="spread" ng-show="card.homeSpread">({{ card.homeSpread }})</span>
+      {{card.hdisplay}} <span class="spread" ng-show="card.homeSpread">({{ card.homeSpread }})</span>
       {{card.h == card.possessionTeamAbbr ? "•" : ""}}
     </div>
     <div class="col s3" style="text-align: right;">{{card.hs}}</div>
@@ -20,7 +20,7 @@
   <div class="row">
     <div class="col s9" style="height:30px">
       <img src="{{card.away_team_icon}}" class="team-icon" align="left">
-      {{card.v}} <span class="spread" ng-show="card.awaySpread">({{ card.awaySpread}})</span>
+      {{card.vdisplay}} <span class="spread" ng-show="card.awaySpread">({{ card.awaySpread}})</span>
       {{card.v == card.possessionTeamAbbr ? "•" : ""}}
     </div>
     <div class="col s3" style="text-align: right;">{{card.vs}}</div>

@@ -28,19 +28,6 @@
     <div class="row">
         <div ng-include="'app/app.html'"></div>
     </div>
-
-
-    <button data-target="picks-modal" class="btn modal-btn modal-trigger">Edit Picks</button>
-
-    <!-- Modal Structure -->
-    <div id="picks-modal" class="modal bottom-sheet bottom" ng-controller="picksCtrl">
-        <div class="modal-content">
-            <textarea id="json-picks">{{picks}}</textarea>
-        </div>
-        <a href="#!" class="modal-action modal-close waves-effect waves-green modal-btn btn">Done</a>
-    </div>
-
-
 </body>
 
 <script>

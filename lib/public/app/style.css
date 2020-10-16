@@ -3,6 +3,7 @@ body {
   font-weight: bold;
   background-color: #000;
   color: white;
+  height: 100vh;
 }
 
 .row {
