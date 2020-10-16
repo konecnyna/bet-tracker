@@ -1,0 +1,606 @@
+{
+  "score": 1,
+  "phenotype": {
+    "data": {
+      "games": [
+        {
+          "picks": [
+            "GB",
+            "GB",
+            "GB",
+            "GB",
+            "GB",
+            "GB",
+            "CHI",
+            "CHI"
+          ],
+          "result": {
+            "awayTeam": "GB",
+            "homeTeam": "CHI",
+            "awayScore": 10,
+            "homeScore": 3,
+            "winner": "GB",
+            "coveredSpread": false,
+            "coveringTeam": "GB"
+          },
+          "spread": "-3",
+          "spreadTeam": "CHI",
+          "spreadData": {
+            "GB": {
+              "spreadOpen": "46",
+              "spreadClose": "47",
+              "spreadDiff": "1"
+            },
+            "CHI": {
+              "spreadOpen": "-3.5",
+              "spreadClose": "-3",
+              "spreadDiff": "0.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "PHI",
+            "PHI",
+            "PHI",
+            "PHI",
+            "WAS",
+            "PHI",
+            "PHI",
+            "PHI"
+          ],
+          "result": {
+            "awayTeam": "WAS",
+            "homeTeam": "PHI",
+            "awayScore": 27,
+            "homeScore": 32,
+            "winner": "PHI",
+            "coveredSpread": false,
+            "coveringTeam": "WAS"
+          },
+          "spread": "-8.5",
+          "spreadTeam": "PHI",
+          "spreadData": {
+            "WAS": {
+              "spreadOpen": "46.5",
+              "spreadClose": "44",
+              "spreadDiff": "-2.5"
+            },
+            "PHI": {
+              "spreadOpen": "-8.5",
+              "spreadClose": "-10",
+              "spreadDiff": "-1.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "JAC",
+            "JAC",
+            "JAC",
+            "KC",
+            "JAC",
+            "KC",
+            "KC",
+            "JAC"
+          ],
+          "result": {
+            "awayTeam": "KC",
+            "homeTeam": "JAC",
+            "awayScore": 40,
+            "homeScore": 26,
+            "winner": "KC",
+            "coveredSpread": false,
+            "coveringTeam": "KC"
+          },
+          "spread": "4",
+          "spreadTeam": "JAC",
+          "spreadData": {
+            "KC": {
+              "spreadOpen": "-5.5",
+              "spreadClose": "-3.5",
+              "spreadDiff": "2"
+            },
+            "JAC": {
+              "spreadOpen": "52",
+              "spreadClose": "48.5",
+              "spreadDiff": "-3.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "BUF",
+            "BUF",
+            "BUF",
+            "NYJ",
+            "BUF",
+            "BUF",
+            "BUF",
+            "BUF"
+          ],
+          "result": {
+            "awayTeam": "BUF",
+            "homeTeam": "NYJ",
+            "awayScore": 17,
+            "homeScore": 16,
+            "winner": "BUF",
+            "coveredSpread": false,
+            "coveringTeam": "BUF"
+          },
+          "spread": "-3",
+          "spreadTeam": "NYJ",
+          "spreadData": {
+            "BUF": {
+              "spreadOpen": "38.5",
+              "spreadClose": "41",
+              "spreadDiff": "2.5"
+            },
+            "NYJ": {
+              "spreadOpen": "-3.5",
+              "spreadClose": "-2.5",
+              "spreadDiff": "1"
+            }
+          }
+        },
+        {
+          "picks": [
+            "CAR",
+            "CAR",
+            "CAR",
+            "LAR",
+            "CAR",
+            "LAR",
+            "CAR",
+            "CAR"
+          ],
+          "result": {
+            "awayTeam": "LAR",
+            "homeTeam": "CAR",
+            "awayScore": 30,
+            "homeScore": 27,
+            "winner": "LAR",
+            "coveredSpread": false,
+            "coveringTeam": "LAR"
+          },
+          "spread": "3",
+          "spreadTeam": "CAR",
+          "spreadData": {
+            "LAR": {
+              "spreadOpen": "-2.5",
+              "spreadClose": "-1.5",
+              "spreadDiff": "1"
+            },
+            "CAR": {
+              "spreadOpen": "51",
+              "spreadClose": "49.5",
+              "spreadDiff": "-1.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "ATL",
+            "MIN",
+            "MIN",
+            "ATL",
+            "ATL",
+            "ATL",
+            "MIN",
+            "ATL"
+          ],
+          "result": {
+            "awayTeam": "ATL",
+            "homeTeam": "MIN",
+            "awayScore": 12,
+            "homeScore": 28,
+            "winner": "MIN",
+            "coveredSpread": true,
+            "coveringTeam": "MIN"
+          },
+          "spread": "-4",
+          "spreadTeam": "MIN",
+          "spreadData": {
+            "ATL": {
+              "spreadOpen": "47.5",
+              "spreadClose": "46.5",
+              "spreadDiff": "-1"
+            },
+            "MIN": {
+              "spreadOpen": "-4.5",
+              "spreadClose": "-3.5",
+              "spreadDiff": "1"
+            }
+          }
+        },
+        {
+          "picks": [
+            "BAL",
+            "BAL",
+            "MIA",
+            "BAL",
+            "BAL",
+            "BAL",
+            "BAL",
+            "BAL"
+          ],
+          "result": {
+            "awayTeam": "BAL",
+            "homeTeam": "MIA",
+            "awayScore": 59,
+            "homeScore": 10,
+            "winner": "BAL",
+            "coveredSpread": false,
+            "coveringTeam": "BAL"
+          },
+          "spread": "5.5",
+          "spreadTeam": "MIA",
+          "spreadData": {
+            "BAL": {
+              "spreadOpen": "-4",
+              "spreadClose": "-7",
+              "spreadDiff": "-3"
+            },
+            "MIA": {
+              "spreadOpen": "37",
+              "spreadClose": "40.5",
+              "spreadDiff": "3.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "TEN",
+            "CLE",
+            "TEN",
+            "CLE",
+            "TEN",
+            "TEN",
+            "CLE",
+            "TEN"
+          ],
+          "result": {
+            "awayTeam": "TEN",
+            "homeTeam": "CLE",
+            "awayScore": 43,
+            "homeScore": 13,
+            "winner": "TEN",
+            "coveredSpread": false,
+            "coveringTeam": "TEN"
+          },
+          "spread": "-5",
+          "spreadTeam": "CLE",
+          "spreadData": {
+            "TEN": {
+              "spreadOpen": "45",
+              "spreadClose": "44",
+              "spreadDiff": "-1"
+            },
+            "CLE": {
+              "spreadOpen": "-5",
+              "spreadClose": "-5.5",
+              "spreadDiff": "-0.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "LAC",
+            "IND",
+            "IND",
+            "LAC",
+            "LAC",
+            "IND",
+            "IND",
+            "IND"
+          ],
+          "result": {
+            "awayTeam": "IND",
+            "homeTeam": "LAC",
+            "awayScore": 24,
+            "homeScore": 30,
+            "winner": "LAC",
+            "coveredSpread": false,
+            "coveringTeam": "IND"
+          },
+          "spread": "-7",
+          "spreadTeam": "LAC",
+          "spreadData": {
+            "IND": {
+              "spreadOpen": "48",
+              "spreadClose": "45",
+              "spreadDiff": "-3"
+            },
+            "LAC": {
+              "spreadOpen": "-3.5",
+              "spreadClose": "-6",
+              "spreadDiff": "-2.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "CIN",
+            "SEA",
+            "SEA",
+            "SEA",
+            "SEA",
+            "CIN",
+            "SEA",
+            "SEA"
+          ],
+          "result": {
+            "awayTeam": "CIN",
+            "homeTeam": "SEA",
+            "awayScore": 20,
+            "homeScore": 21,
+            "winner": "SEA",
+            "coveredSpread": false,
+            "coveringTeam": "CIN"
+          },
+          "spread": "-9.5",
+          "spreadTeam": "SEA",
+          "spreadData": {
+            "CIN": {
+              "spreadOpen": "43.5",
+              "spreadClose": "44.5",
+              "spreadDiff": "1"
+            },
+            "SEA": {
+              "spreadOpen": "-9",
+              "spreadClose": "-9",
+              "spreadDiff": "0"
+            }
+          }
+        },
+        {
+          "picks": [
+            "DAL",
+            "DAL",
+            "NYG",
+            "DAL",
+            "NYG",
+            "NYG",
+            "DAL",
+            "NYG"
+          ],
+          "result": {
+            "awayTeam": "NYG",
+            "homeTeam": "DAL",
+            "awayScore": 17,
+            "homeScore": 35,
+            "winner": "DAL",
+            "coveredSpread": true,
+            "coveringTeam": "DAL"
+          },
+          "spread": "-7",
+          "spreadTeam": "DAL",
+          "spreadData": {
+            "NYG": {
+              "spreadOpen": "46.5",
+              "spreadClose": "44",
+              "spreadDiff": "-2.5"
+            },
+            "DAL": {
+              "spreadOpen": "-7.5",
+              "spreadClose": "-7",
+              "spreadDiff": "0.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "ARI",
+            "DET",
+            "ARI",
+            "ARI",
+            "ARI",
+            "DET",
+            "DET",
+            "DET"
+          ],
+          "result": {
+            "awayTeam": "DET",
+            "homeTeam": "ARI",
+            "awayScore": 27,
+            "homeScore": 27,
+            "winner": "ARI",
+            "coveredSpread": true,
+            "coveringTeam": "ARI"
+          },
+          "spread": "2.5",
+          "spreadTeam": "ARI",
+          "spreadData": {
+            "DET": {
+              "spreadOpen": "0",
+              "spreadClose": "-3",
+              "spreadDiff": "-3"
+            },
+            "ARI": {
+              "spreadOpen": "49",
+              "spreadClose": "45.5",
+              "spreadDiff": "-3.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "TB",
+            "TB",
+            "SF",
+            "TB",
+            "TB",
+            "TB",
+            "TB",
+            "TB"
+          ],
+          "result": {
+            "awayTeam": "SF",
+            "homeTeam": "TB",
+            "awayScore": 31,
+            "homeScore": 17,
+            "winner": "SF",
+            "coveredSpread": false,
+            "coveringTeam": "SF"
+          },
+          "spread": "-0.5",
+          "spreadTeam": "TB",
+          "spreadData": {
+            "SF": {
+              "spreadOpen": "49",
+              "spreadClose": "51",
+              "spreadDiff": "2"
+            },
+            "TB": {
+              "spreadOpen": "-2.5",
+              "spreadClose": "-1",
+              "spreadDiff": "1.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "NE",
+            "PIT",
+            "PIT",
+            "NE",
+            "NE",
+            "NE",
+            "NE",
+            "PIT"
+          ],
+          "result": {
+            "awayTeam": "PIT",
+            "homeTeam": "NE",
+            "awayScore": 3,
+            "homeScore": 33,
+            "winner": "NE",
+            "coveredSpread": true,
+            "coveringTeam": "NE"
+          },
+          "spread": "-6",
+          "spreadTeam": "NE",
+          "spreadData": {
+            "PIT": {
+              "spreadOpen": "51.5",
+              "spreadClose": "48.5",
+              "spreadDiff": "-3"
+            },
+            "NE": {
+              "spreadOpen": "-6.5",
+              "spreadClose": "-5.5",
+              "spreadDiff": "1"
+            }
+          }
+        },
+        {
+          "picks": [
+            "NO",
+            "NO",
+            "HOU",
+            "NO",
+            "NO",
+            "NO",
+            "NO",
+            "HOU"
+          ],
+          "result": {
+            "awayTeam": "HOU",
+            "homeTeam": "NO",
+            "awayScore": 28,
+            "homeScore": 30,
+            "winner": "NO",
+            "coveredSpread": false,
+            "coveringTeam": "HOU"
+          },
+          "spread": "-7",
+          "spreadTeam": "NO",
+          "spreadData": {
+            "HOU": {
+              "spreadOpen": "54",
+              "spreadClose": "51.5",
+              "spreadDiff": "-2.5"
+            },
+            "NO": {
+              "spreadOpen": "-9",
+              "spreadClose": "-6.5",
+              "spreadDiff": "2.5"
+            }
+          }
+        },
+        {
+          "picks": [
+            "DEN",
+            "OAK",
+            "DEN",
+            "DEN",
+            "DEN",
+            "DEN",
+            "DEN",
+            "DEN"
+          ],
+          "result": {
+            "awayTeam": "DEN",
+            "homeTeam": "OAK",
+            "awayScore": 16,
+            "homeScore": 24,
+            "winner": "OAK",
+            "coveredSpread": true,
+            "coveringTeam": "OAK"
+          },
+          "spread": "-0.5",
+          "spreadTeam": "OAK",
+          "spreadData": {
+            "DEN": {
+              "spreadOpen": "43",
+              "spreadClose": "-3",
+              "spreadDiff": "-46"
+            },
+            "OAK": {
+              "spreadOpen": "-3",
+              "spreadClose": "43",
+              "spreadDiff": "46"
+            }
+          }
+        }
+      ],
+      "analysts_historical": [
+        0.5,
+        0.4375,
+        0.5,
+        0.4375,
+        0.4375,
+        0.5625,
+        0.4375,
+        0.3125
+      ],
+      "analysts_overall": [
+        0.5269230769230769,
+        0.47692307692307695,
+        0.47692307692307695,
+        0.46153846153846156,
+        0.45384615384615384,
+        0.49230769230769234,
+        0.49615384615384617,
+        0.5576923076923077
+      ]
+    },
+    "mutationSize": 0.9,
+    "chromosome": {
+      "genes": [
+        0.10227162245296562,
+        0.1080674431021924,
+        0.43083637198922853,
+        0.12227838238433852,
+        0.14644090295034662,
+        0.46908262471940465,
+        0.9148254056221667,
+        0.29925702452670655,
+        0.351593731290879,
+        0.1079139771142863,
+        0.9450307713411967
+      ]
+    },
+    "verbose": true
+  }
+}

@@ -1,62 +1,77 @@
 <!DOCTYPE html>
-<html ng-app ="myApp">
-    <head>
-        <title>Bet Tracker</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <script type='text/javascript' src="lib/angular.min.js" charset="UTF-8"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-animate.js"></script>
-        
-        <script type='text/javascript' src="app.js" charset="UTF-8"></script>
-        <script type='text/javascript' src="app/cardController.js" charset="UTF-8"></script>
-        <script type='text/javascript' src="app/picksController.js" charset="UTF-8"></script>    
-        
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
-        <link rel="stylesheet" href="app/style.css">
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-              <div ng-include="'app/app.html'"></div>             
-            </div>
-            
-            <div class="row">
-                <button data-target="modal1" class="btn modal-trigger">Edit Picks</button>
-            </div>
-            
-            <!-- Modal Structure -->
-            <div id="modal1" class="modal" ng-controller="picksCtrl">
-                 <div class="modal-content">
-                    <textarea id="json-picks">{{picks}}</textarea>                    
-                 </div>
-                 <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
-                 </div>
-            </div>
+<html ng-app="myApp">
 
+<head>
+    <title>Bet Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type='text/javascript' src="lib/angular.min.js" charset="UTF-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-animate.js"></script>
+
+    <script type='text/javascript' src="app.js" charset="UTF-8"></script>
+    <script type='text/javascript' src="app/cardController.js" charset="UTF-8"></script>
+    <script type='text/javascript' src="app/picksController.js" charset="UTF-8"></script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/7.0.4/jsoneditor.min.css" rel="stylesheet"
+        type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/7.0.4/jsoneditor.min.js"></script>
+    <link rel="stylesheet" href="app/style.css">
+</head>
+
+<body>
+
+    <div class="row">
+        <div ng-include="'app/app.html'"></div>
+    </div>
+
+
+    <button data-target="picks-modal" class="btn modal-btn modal-trigger">Edit Picks</button>
+
+    <!-- Modal Structure -->
+    <div id="picks-modal" class="modal bottom-sheet bottom" ng-controller="picksCtrl">
+        <div class="modal-content">
+            <textarea id="json-picks">{{picks}}</textarea>
         </div>
-    </body>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green modal-btn btn">Done</a>
+    </div>
 
-    <script>
-       $(document).ready(function() {
+
+</body>
+
+<script>
+    $(document).ready(function () {
         $('.modal-trigger').leanModal({
-              dismissible: true, // Modal can be dismissed by clicking outside of the modal
-              opacity: .5, // Opacity of modal background
-              in_duration: 300, // Transition in duration
-              out_duration: 200, // Transition out duration
-              ready: function() {}, // Callback for Modal open
-              complete: function() {                
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: .5, // Opacity of modal background
+            in_duration: 300, // Transition in duration
+            out_duration: 200, // Transition out duration
+            ready: function () {
+                // create the editor
+                const container = document.getElementById("jsoneditor")
+                const options = {
+                    search: false
+                }
+                const editor = new JSONEditor(container, options)
+                // set json
+                const initialJson = JSON.parse(angular.element(document.querySelector('[ng-controller="picksCtrl"]')).scope().picks)
+                editor.set(initialJson)
+                // get json
+                const updatedJson = editor.get()
+            }, // Callback for Modal open
+            complete: function () {
                 //var jsonObj = JSON.parse();
                 var jsonData = encodeURIComponent($('#json-picks').val());
-                $.get("api/v1/update_picks?picks="+jsonData, function( data ) {});              
-              }        
-       });
+                $.get("api/v1/update_picks?picks=" + jsonData, function (data) { });
+            }
+        });
 
 
-       });
-    </script>
+    });
+</script>
+
 </html>
- 

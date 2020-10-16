@@ -1,12 +1,13 @@
 {
   "name": "bet-tracker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "async": "^1.4.2",
     "express": "^4.14.0",
     "fantasy-football-nerd": "^1.0.0",
+    "jsoneditor": "^7.2.1",
     "jsonfile": "^2.2.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
