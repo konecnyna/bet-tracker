@@ -101,7 +101,7 @@ const MAP = {
   HOU: "Texans",
   NO: "Saints",
   DEN: "Broncos",
-  OAK: "Raiders",
+  LV: "Raiders",
 };
 
 const objectFlip = obj => {
