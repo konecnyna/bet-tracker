@@ -26,12 +26,13 @@ function BetTracker(app) {
     const bets = body || [];
     games.getUIData(function (callback) {
       res.json(callback);
-    }, [bets.map(({ pick, spread }) => {
+    }, [bets.map(({ pick, risk, spread }) => {
       if (!pick || !spread) { return null }
       const split = pick.split(" ");
       const bet = {}
       bet[split[split.length - 1]] = {
-        spread: spread
+        spread: spread,
+        risk: risk
       }
       return bet;
     }).filter(it => it)]);
