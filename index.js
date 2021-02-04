@@ -27,7 +27,8 @@ function BetTracker(app) {
     games.getUIData(function (callback) {
       res.json(callback);
     }, [bets.map(({ pick, risk, spread }) => {
-      if (!pick || !spread) { return null }
+      if (!pick) { return null }
+      if (!spread) { spread = 0; }
       const split = pick.split(" ");
       const bet = {}
       bet[split[split.length - 1]] = {
