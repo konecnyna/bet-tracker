@@ -4,8 +4,7 @@
       {{card.time_text}}
     </div>
     <div class="col s6"
-      ng-class="{'bet-winning':card.covering > 0 && card.covering_text != 'Not in progress', 'bet-losing': card.covering <= 0 && card.covering_text != 'Not in progress'}"
-      style="text-align: end;">
+      style="text-align: end; color: {{card.card_background}}">
       {{card.covering_text}}
     </div>
   </div>
